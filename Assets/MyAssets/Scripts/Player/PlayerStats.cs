@@ -14,9 +14,6 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public float currentProjectileSpeed;
     [HideInInspector] public float currentMagnet;
 
-    //Spawned Weapon
-    public List<GameObject> spawnedWeapons;
-
     //Experience and level of the player
     [Header("Experience/Level")]
     public int experience = 0;
@@ -39,10 +36,19 @@ public class PlayerStats : MonoBehaviour
 
     public List<LevelRange> levelRanges;
 
+    InventoryManager inventory;
+    public int weaponIndex;
+    public int passiveItemIndex;
+
+    public GameObject secondWeaponTest;
+    public GameObject firstPassiveItemTest, secondPassiveItemTest;
+
     void Awake()
     {
         characterData = CharacterSelector.GetData();
         CharacterSelector.instance.DestroySingleton();
+
+        inventory = GetComponent<InventoryManager>();
         
         //Assign the variables
         currentHealth = characterData.MaxHealth;
@@ -54,6 +60,9 @@ public class PlayerStats : MonoBehaviour
 
         //Spawn the starting weapon
         SpawnWeapon(characterData.StartingWeapon);
+        SpawnWeapon(secondWeaponTest);
+        SpawnPassiveItem(firstPassiveItemTest);
+        SpawnPassiveItem(secondPassiveItemTest);
     }
 
     void Start()
@@ -157,10 +166,35 @@ public class PlayerStats : MonoBehaviour
 
     public void SpawnWeapon (GameObject weapon)
     {
+        //Checking if the slots are full, and returning if it is 
+        if (weaponIndex >= inventory.weaponSlots.Count - 1) //Must be -1 because a list starts from 0!!!
+        {
+            Debug.LogError("Inventory slots already full");
+            return;
+        }
+        
         //Spawn the starting weapon
         GameObject spawnedWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
         spawnedWeapon.transform.SetParent(transform); //Set the weapon to be child of the player
-        spawnedWeapons.Add(spawnedWeapon); //Add it to the list of spawned weapons
+        inventory.AddWeapon(weaponIndex, spawnedWeapon.GetComponent<WeaponController>()); //Add the weapon to it's inventory slot
+
+        weaponIndex++;
     }
 
+    public void SpawnPassiveItem(GameObject passiveItem)
+    {
+        //Checking if the slots are full, and returning if it is 
+        if (passiveItemIndex >= inventory.passiveItemSlots.Count - 1) //Must be -1 because a list starts from 0!!!
+        {
+            Debug.LogError("Inventory slots already full");
+            return;
+        }
+
+        //Spawn the starting passive item
+        GameObject spawnedPassiveItem = Instantiate(passiveItem, transform.position, Quaternion.identity);
+        spawnedPassiveItem.transform.SetParent(transform); //Set the weapon to be child of the player
+        inventory.AddPassiveItem(passiveItemIndex, spawnedPassiveItem.GetComponent<PassiveItem>()); //Add the weapon to it's inventory slot
+
+        passiveItemIndex++;
+    }
 }
