@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
                 {
                     isGameOver = true;
                     Time.timeScale = 0f; //Stop the game entirely
-                    Debug.Log("GAME IS OVER");
+                    //Debug.Log("GAME IS OVER");
                     DisplayResults();
                 }
                 break;

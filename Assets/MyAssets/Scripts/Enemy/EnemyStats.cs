@@ -58,10 +58,18 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         EnemySpawner es = FindAnyObjectByType<EnemySpawner>();
-        es.OnEnemyKilled();
+
+        if (es != null)
+        {
+            es.OnEnemyKilled();
+        }
+        else
+        {
+            //Debug.LogWarning("ENEMY OBJECT IS NULL");
+        }
     }
 
     void ReturnEnemy()
