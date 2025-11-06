@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("EXTRA" + this + "DELETED");
+            //Debug.LogWarning("EXTRA" + this + "DELETED");
             Destroy(gameObject);
         }
         DisableScreens();
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             default:
-                Debug.LogWarning("STATE DOES NOT EXIST");
+                //Debug.LogWarning("STATE DOES NOT EXIST");
                 break;
         }
     }
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
             ChangeState(GameState.Paused);
             Time.timeScale = 0f; //Stop the game
             pauseScreen.SetActive(true);
-            Debug.Log("Game is paused");
+            //Debug.Log("Game is paused");
         }
     }
 
@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
             ChangeState(previousState);
             Time.timeScale = 1f; //Resume the game
             pauseScreen.SetActive(false);
-            Debug.Log("Game is resumed");
+            //Debug.Log("Game is resumed");
         }
     }
 
@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour
     {
         if (chosenWeaponsData.Count != chosenWeaponsUI.Count || chosenPassiveItemsData.Count != chosenPassiveItemsUI.Count)
         {
-            Debug.Log("Chosen weapons and passive items data lists have different lengths");
+            //Debug.Log("Chosen weapons and passive items data lists have different lengths");
             return;
         }
 
@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
 
         if (stopwatchTime >= timeLimit)
         {
-            GameOver();
+            playerObject.SendMessage("Kill");
         }
     }
 
