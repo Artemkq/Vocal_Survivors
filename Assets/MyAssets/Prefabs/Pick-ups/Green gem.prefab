@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3657608599415143391}
   - component: {fileID: 6830993732910376388}
   - component: {fileID: -6533785540316646739}
+  - component: {fileID: -2438965968790039298}
   m_Layer: 0
   m_Name: Green gem
   m_TagString: Untagged
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309b49266fc071449b15064b2cf8d430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExperienceGem
-  experienceGranted: 50
+  experienceGranted: 30
 --- !u!50 &-6533785540316646739
 Rigidbody2D:
   serializedVersion: 5
@@ -190,3 +191,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2438965968790039298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182463086651591112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
+  frequency: 3
+  magnitude: 0.1
+  direction: {x: 0, y: 1, z: 0}

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4634086370791753789}
   - component: {fileID: 5373390674706817249}
   - component: {fileID: 3627675307174271379}
+  - component: {fileID: 4752484926552406929}
   m_Layer: 0
   m_Name: Red Potion
   m_TagString: Untagged
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ae40477df8e5949bfeeab0c660b545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthPoition
-  healthToRestore: 100
+  healthToRestore: 25
 --- !u!50 &3627675307174271379
 Rigidbody2D:
   serializedVersion: 5
@@ -198,3 +199,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4752484926552406929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6446746050567509442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
+  frequency: 3
+  magnitude: 0.1
+  direction: {x: 0, y: 1, z: 0}
