@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7e896568750237a428b31590c303a5dc
+guid: 780c3d1c61b424f47974b5ecf45b7e7b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -136,23 +136,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Knife_0
+      name: UI Sprite Sheet_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 0
-        width: 112
-        height: 112
+        x: 224
+        y: 270
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 7, y: 8, z: 7, w: 9}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31298afcd335e004ebaca00efafa7ded
-      internalID: 44377059
+      spriteID: 2be0ef4a429149e4d80b1ed6df47657a
+      internalID: -1467957918
       vertices: []
       indices: 
       edges: []
@@ -171,9 +171,41 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":112.0,"y":112.0},"gridSpriteOffset":{"x":42.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":16.0,"y":16.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Knife_0: 44377059
+      UI Sprite Sheet_0: -166379890
+      UI Sprite Sheet_1: -1467957918
+      UI Sprite Sheet_10: 387630910
+      UI Sprite Sheet_11: 1187639074
+      UI Sprite Sheet_12: -1367692305
+      UI Sprite Sheet_13: -1110929188
+      UI Sprite Sheet_14: 115734333
+      UI Sprite Sheet_15: 1057796114
+      UI Sprite Sheet_16: 1695888232
+      UI Sprite Sheet_17: -798016039
+      UI Sprite Sheet_18: 1943620984
+      UI Sprite Sheet_19: -569248099
+      UI Sprite Sheet_2: 2082469463
+      UI Sprite Sheet_20: -1561351990
+      UI Sprite Sheet_21: -1605701977
+      UI Sprite Sheet_22: 1552319807
+      UI Sprite Sheet_23: -606104770
+      UI Sprite Sheet_24: 638359248
+      UI Sprite Sheet_25: 621512183
+      UI Sprite Sheet_26: 344476659
+      UI Sprite Sheet_27: -841292209
+      UI Sprite Sheet_28: -1979256191
+      UI Sprite Sheet_29: 1332851198
+      UI Sprite Sheet_3: -2006626127
+      UI Sprite Sheet_30: -2018957534
+      UI Sprite Sheet_31: 1991254897
+      UI Sprite Sheet_32: -1492946746
+      UI Sprite Sheet_4: -1896237166
+      UI Sprite Sheet_5: -1158482962
+      UI Sprite Sheet_6: 1927380347
+      UI Sprite Sheet_7: -1022966746
+      UI Sprite Sheet_8: -796630420
+      UI Sprite Sheet_9: -677841545
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

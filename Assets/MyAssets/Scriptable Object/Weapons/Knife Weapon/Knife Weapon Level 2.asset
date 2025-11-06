@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4515f4ffc43a7f44e8700b28d36baba6, type: 3}
   m_Name: Knife Weapon Level 2
   m_EditorClassIdentifier: Assembly-CSharp::WeaponScriptableObject
-  prefab: {fileID: 8822636942399730869, guid: 6e10c24b8f74e7b458413c7db08864d4, type: 3}
+  prefab: {fileID: 8822636942399730869, guid: 2e0a42519e2944b45bb771c142413d61, type: 3}
   damage: 5
   speed: 15
   cooldownDuration: 1
   pierce: 1
   level: 2
   nextLevelPrefab: {fileID: 0}
+  name: "\u041A\u0438\u043D\u0436\u0430\u043B Level 2"
+  desctription: "\u041F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0435 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
+    \u043A\u0438\u043D\u0436\u0430\u043B\u0430 \u043D\u0430 5 \u0435\u0434."
   icon: {fileID: 44377059, guid: 7e896568750237a428b31590c303a5dc, type: 3}

@@ -14,6 +14,12 @@ public class PassiveItemScriptableObject : ScriptableObject
     [SerializeField] GameObject nextLevelPrefab; //The prefab of the next level i.e. what the object becomes when it levels up. Not to be confused with the prefab to be spawned at the next level
     public GameObject NextLevelPrefab { get => nextLevelPrefab; private set => nextLevelPrefab = value; }
 
+    [SerializeField] new string name;
+    public string Name { get => name; private set => name = value; }
+
+    [SerializeField] string desctription; //What is the description of this weapon? [If this weapon is and upgrade, place the description of the upgrades
+    public string Desctription { get => desctription; private set => desctription = value; }
+
     [SerializeField] Sprite icon; //Not mean to be modified in the game [Only in Editor]
     public Sprite Icon { get => icon; private set => icon = value; }
 }
