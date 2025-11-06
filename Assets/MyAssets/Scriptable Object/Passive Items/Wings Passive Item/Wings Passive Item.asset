@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d6c49d8feb63949b168b54a29f7a09, type: 3}
   m_Name: Wings Passive Item
   m_EditorClassIdentifier: Assembly-CSharp::PassiveItemScriptableObject
-  multipler: 25
+  multipler: 10
   level: 1
   nextLevelPrefab: {fileID: 4697770302496804392, guid: e4c0e1d25ded60c42a74ce3ba152a18e, type: 3}
   name: "\u041A\u0440\u044B\u043B\u044C\u044F"
   desctription: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u044E\u0442
     \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044F
-    \u043D\u0430 25%"
+    \u043D\u0430 10%"
   icon: {fileID: 21300000, guid: 5319e90cdef08eb4a90ed29d73271916, type: 3}

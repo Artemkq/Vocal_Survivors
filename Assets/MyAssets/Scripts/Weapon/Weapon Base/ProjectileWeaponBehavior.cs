@@ -53,34 +53,44 @@ public class ProjectileWeaponBehavior : MonoBehaviour
         
         else if (dirx == 0 && diry < 0) //Down
         {
-            rotation.z = 0f;
+            scale.y = scale.y * -1;
+            //rotation.z = 0f;
         }
 
         else if (dirx == 0 && diry > 0) //Up
         {
-            rotation.z = 180f;
+            scale.x = scale.x * -1;
+            //rotation.z = 180f;
         }
 
         else if (dir.x > 0 && dir.y > 0) //Right up
         {
-            rotation.z = 135f;
+            rotation.z = 0f;
+            //rotation.z = 135f;
         }
 
         else if (dir.x > 0 && dir.y < 0) //Right down
         {
-            scale.y = scale.y * -1;
-            rotation.z = -135f;
+            rotation.z = -90f;
+            //scale.y = scale.y * -1;
+            //rotation.z = -135f;
         }
 
         else if (dir.x < 0 && dir.y > 0) //Left up
         {
-            rotation.z = -135f;
+            scale.x = scale.x * -1;
+            scale.y = scale.y * -1;
+            rotation.z = -90f;
+            //rotation.z = -135f;
         }
 
         else if (dir.x < 0 && dir.y < 0) //Left down
         {
+            scale.x = scale.x * -1;
             scale.y = scale.y * -1;
-            rotation.z = 135f;
+            rotation.z = 0f;
+            //scale.y = scale.y * -1;
+            //rotation.z = 135f;
         }
 
         transform.localScale = scale;

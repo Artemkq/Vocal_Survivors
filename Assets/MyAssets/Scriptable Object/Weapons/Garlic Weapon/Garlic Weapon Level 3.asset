@@ -19,7 +19,8 @@ MonoBehaviour:
   pierce: 0
   level: 3
   nextLevelPrefab: {fileID: 0}
-  name: "\u0412\u043E\u043D\u044F\u043B\u043A\u0430 Level 3"
+  name: "\u041E\u0431\u043B\u0430\u043A\u043E \u0434\u044B\u043C\u0430 Level 3"
   desctription: "\u0423\u0440\u043E\u043D \u043F\u043E\u0432\u044B\u0448\u0430\u0435\u0442\u0441\u044F
     \u043D\u0430 2 \u0435\u0434."
-  icon: {fileID: -94241045, guid: 91c18572bc0d79340b14af00b9d597ee, type: 3}
+  icon: {fileID: 21300000, guid: 046f821c76a004e4c91b9f27ee906194, type: 3}
+  evolvedUpgradeToRemove: 0
