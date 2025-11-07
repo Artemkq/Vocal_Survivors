@@ -2442,6 +2442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c393c9c831fcf4c8a02a564e87f6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  damageEffect: {fileID: 2602508452005467074, guid: 059df48286f47b24983a8b198fa0c49f, type: 3}
   experience: 0
   level: 1
   experienceCap: 0
@@ -7791,6 +7792,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   currentState: 0
   previousState: 0
+  damageTextCanvas: {fileID: 0}
+  textFontSize: 20
+  textFont: {fileID: 0}
+  referenceCamera: {fileID: 0}
   pauseScreen: {fileID: 540392634}
   resultScreen: {fileID: 1464339573}
   levelUpScreen: {fileID: 1495420483}
