@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Knife Weapon Level 2
   m_EditorClassIdentifier: Assembly-CSharp::WeaponScriptableObject
   prefab: {fileID: 8822636942399730869, guid: 2e0a42519e2944b45bb771c142413d61, type: 3}
-  damage: 5
+  damage: 10
   speed: 15
   cooldownDuration: 1
   pierce: 1
@@ -21,7 +21,8 @@ MonoBehaviour:
   nextLevelPrefab: {fileID: 0}
   name: "\u0414\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u044B\u0439 \u043C\u0435\u0447
     Level 2"
-  desctription: "\u041F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0435 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
-    \u043C\u0435\u0447\u0430 \u043D\u0430 5 \u0435\u0434."
+  desctription: "\u041F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0435 \u0443\u0440\u043E\u043D\u0430
+    \u0438 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438 \u043C\u0435\u0447\u0430
+    \u043D\u0430 5 \u0435\u0434."
   icon: {fileID: 21300000, guid: 2ddf0348701148a4d8a7c6a0f7f146b3, type: 3}
   evolvedUpgradeToRemove: 0

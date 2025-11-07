@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Evolved Knife Weapon
   m_EditorClassIdentifier: Assembly-CSharp::WeaponScriptableObject
   prefab: {fileID: 8822636942399730869, guid: b7c7cfa9ba6d9e74b9c3c30bf2663c88, type: 3}
-  damage: 10
+  damage: 15
   speed: 20
   cooldownDuration: 0.75
   pierce: 2

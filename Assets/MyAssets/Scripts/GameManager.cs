@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Damage Text Settings")]
     public Canvas damageTextCanvas;
-    public float textFontSize = 20;
+    public float textFontSize = 40;
     public TMP_FontAsset textFont;
     public Camera referenceCamera;
 
@@ -135,10 +135,22 @@ public class GameManager : MonoBehaviour
         tmPro.verticalAlignment = VerticalAlignmentOptions.Middle;
         tmPro.fontSize = textFontSize;
         if (textFont) tmPro.font = textFont;
-        rect.position = referenceCamera.WorldToScreenPoint(target.position);
 
-        //Makes sure this is destroyed after the duration finishes
-        Destroy(textObj, duration);
+        // Проверка цели из предыдущего исправления
+        Vector3 currentWorldPosition = Vector3.zero;
+        if (target != null)
+        {
+            currentWorldPosition = target.position;
+            rect.position = referenceCamera.WorldToScreenPoint(currentWorldPosition);
+        }
+        else
+        {
+            Destroy(textObj);
+            yield break;
+        }
+
+        // !!! УДАЛИТЕ ЭТУ СТРОКУ, ОНА ВЫЗЫВАЕТ ПРОБЛЕМУ !!!
+        // Destroy(textObj, duration); 
 
         //Parent the generated text object to the canvas
         textObj.transform.SetParent(instance.damageTextCanvas.transform);
@@ -147,20 +159,47 @@ public class GameManager : MonoBehaviour
         WaitForEndOfFrame w = new WaitForEndOfFrame();
         float t = 0;
         float yOffset = 0;
+
         while (t < duration)
         {
             //Wait for a frame and update the time
             yield return w;
             t += Time.deltaTime;
 
-            //Fade the text to the right alpha value
-            tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
+            // Если цель все еще существует, обновляем позицию, иначе используем последнюю известную
+            if (target != null)
+            {
+                currentWorldPosition = target.position;
+            }
 
-            //Pan the text upwards
-            yOffset += speed * Time.deltaTime;
-            rect.position = referenceCamera.WorldToScreenPoint(target.position + new Vector3(0, yOffset));
+            // --- СТРОКА 188 ВАШЕГО СКРИПТА ---
+            // Проверяем, что textObj (и rect) еще не был уничтожен внешним вызовом (хотя мы его удалили выше, проверка не помешает)
+            if (rect != null)
+            {
+                //Fade the text to the right alpha value
+                tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
+
+                //Pan the text upwards
+                yOffset += speed * Time.deltaTime;
+
+                // Используем сохраненную (или обновленную) позицию мира для расчета позиции на экране
+                rect.position = referenceCamera.WorldToScreenPoint(currentWorldPosition + new Vector3(0, yOffset));
+            }
+            else
+            {
+                // Если объект все-таки уничтожен (например, при выходе из игры), выходим из цикла
+                break;
+            }
+        }
+
+        // --- ДОБАВЬТЕ ЭТОТ КОД В КОНЕЦ ---
+        // Когда цикл завершен и анимация окончена, уничтожаем объект
+        if (textObj != null)
+        {
+            Destroy(textObj);
         }
     }
+
 
     public static void GenerateFloatingText(string text, Transform target, float duration = 1f, float speed = 1f)
     {
