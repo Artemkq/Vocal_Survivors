@@ -4,6 +4,8 @@ using UnityEngine;
 /// Base script of all melee behaviours [To be placed on a prefab of a weapon that is melee]
 /// </summary>
 
+[System.Obsolete("This will be replaced by WeaponData class")]
+
 public class MeleeWeaponBehaviour : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;

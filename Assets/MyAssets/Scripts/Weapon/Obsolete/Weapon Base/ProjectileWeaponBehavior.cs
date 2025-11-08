@@ -4,6 +4,7 @@ using UnityEngine;
 /// Base script of all projectile behaviours [To be placed on a prefab of a weapon that is a projectile]
 /// </summary>
 
+[System.Obsolete("This will be replaced by WeaponData class")]
 public class ProjectileWeaponBehavior : MonoBehaviour
 {
     public WeaponScriptableObject weaponData;

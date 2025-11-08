@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Obsolete("This will be replaced by WeaponData class")]
 public class GarlicBehaviour : MeleeWeaponBehaviour
 {
 

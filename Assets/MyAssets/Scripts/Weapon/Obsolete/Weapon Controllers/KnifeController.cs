@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Obsolete("This will be replaced by WeaponData class")]
 public class KnifeController : WeaponController
 {
     protected override void Start()
