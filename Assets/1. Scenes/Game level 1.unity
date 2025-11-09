@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 35047086}
   - component: {fileID: 35047085}
   m_Layer: 5
-  m_Name: Slot 1 Passive Item
+  m_Name: Slot 0 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1082,7 +1082,7 @@ GameObject:
   - component: {fileID: 134719932}
   - component: {fileID: 134719931}
   m_Layer: 5
-  m_Name: Slot 5 Weapon
+  m_Name: Slot 4 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1760,7 +1760,7 @@ GameObject:
   - component: {fileID: 296426370}
   - component: {fileID: 296426369}
   m_Layer: 5
-  m_Name: Slot 2 Weapon
+  m_Name: Slot 1 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2188,6 +2188,7 @@ GameObject:
   - component: {fileID: 360838670}
   - component: {fileID: 360838672}
   - component: {fileID: 360838673}
+  - component: {fileID: 360838674}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2442,6 +2443,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c393c9c831fcf4c8a02a564e87f6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  baseStats:
+    maxHealth: 0
+    recovery: 0
+    moveSpeed: 0
+    might: 0
+    speed: 0
+    magnet: 0
+  actualStats:
+    maxHealth: 0
+    recovery: 0
+    moveSpeed: 0
+    might: 0
+    speed: 0
+    magnet: 0
   damageEffect: {fileID: 2602508452005467074, guid: 059df48286f47b24983a8b198fa0c49f, type: 3}
   experience: 0
   level: 1
@@ -2459,9 +2474,6 @@ MonoBehaviour:
   healthBar: {fileID: 825171631}
   expBar: {fileID: 1208017846}
   levelText: {fileID: 1247662725}
-  secondWeaponTest: {fileID: 892103350063581870, guid: 914bb707635576844ac7fd7028300399, type: 3}
-  firstPassiveItemTest: {fileID: 4697770302496804392, guid: e7cacc5cf5f939c44943ec0eb9d83d34, type: 3}
-  secondPassiveItemTest: {fileID: 758433695052153236, guid: 08f945ef06ceedc42b9394e01ef61ec6, type: 3}
 --- !u!114 &360838673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2469,7 +2481,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360838659}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb2cbeebea32a9c40b364617a09c3bee, type: 3}
   m_Name: 
@@ -2537,6 +2549,67 @@ MonoBehaviour:
     upgradeButton: {fileID: 496910437}
   weaponEvolutions:
   - {fileID: 11400000, guid: e5f0593c316910847b1a683d2150f50a, type: 2}
+--- !u!114 &360838674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360838659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b983353e54c01a249be8a3da2880005e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  weaponSlots:
+  - item: {fileID: 0}
+    image: {fileID: 617886356}
+  - item: {fileID: 0}
+    image: {fileID: 296426369}
+  - item: {fileID: 0}
+    image: {fileID: 1316432255}
+  - item: {fileID: 0}
+    image: {fileID: 2061536022}
+  - item: {fileID: 0}
+    image: {fileID: 134719931}
+  - item: {fileID: 0}
+    image: {fileID: 1598036086}
+  passiveSlots:
+  - item: {fileID: 0}
+    image: {fileID: 35047085}
+  - item: {fileID: 0}
+    image: {fileID: 2103570077}
+  - item: {fileID: 0}
+    image: {fileID: 1904530065}
+  - item: {fileID: 0}
+    image: {fileID: 1369544010}
+  - item: {fileID: 0}
+    image: {fileID: 1924245285}
+  - item: {fileID: 0}
+    image: {fileID: 426943361}
+  availableWeapons:
+  - {fileID: 11400000, guid: 51099d419e850fb41aa59317179005c2, type: 2}
+  availablePassives:
+  - {fileID: 11400000, guid: 577ecb3ce073ff14db09d1b34dbc2b36, type: 2}
+  - {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}
+  - {fileID: 11400000, guid: 8db75056acab5f0489ac87644bae752f, type: 2}
+  upgradeUIOptions:
+  - upgradeNameDisplay: {fileID: 357014214}
+    upgradeDescriptionDisplay: {fileID: 1341323375}
+    upgradeIcon: {fileID: 1918254078}
+    upgradeButton: {fileID: 195558754}
+  - upgradeNameDisplay: {fileID: 635392919}
+    upgradeDescriptionDisplay: {fileID: 456571985}
+    upgradeIcon: {fileID: 1649087738}
+    upgradeButton: {fileID: 1356582522}
+  - upgradeNameDisplay: {fileID: 1958416823}
+    upgradeDescriptionDisplay: {fileID: 83122436}
+    upgradeIcon: {fileID: 279016966}
+    upgradeButton: {fileID: 62538621}
+  - upgradeNameDisplay: {fileID: 1862919660}
+    upgradeDescriptionDisplay: {fileID: 1648404157}
+    upgradeIcon: {fileID: 1441100874}
+    upgradeButton: {fileID: 496910437}
 --- !u!1 &390495270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,7 +2697,7 @@ GameObject:
   - component: {fileID: 426943362}
   - component: {fileID: 426943361}
   m_Layer: 5
-  m_Name: Slot 6 Passive Item
+  m_Name: Slot 5 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3709,7 +3782,7 @@ GameObject:
   - component: {fileID: 617886357}
   - component: {fileID: 617886356}
   m_Layer: 5
-  m_Name: Slot 1 Weapon
+  m_Name: Slot 0 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6693,7 +6766,7 @@ GameObject:
   - component: {fileID: 1316432256}
   - component: {fileID: 1316432255}
   m_Layer: 5
-  m_Name: Slot 3 Weapon
+  m_Name: Slot 2 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7160,7 +7233,7 @@ GameObject:
   - component: {fileID: 1369544011}
   - component: {fileID: 1369544010}
   m_Layer: 5
-  m_Name: Slot 4 Passive Item
+  m_Name: Slot 3 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7994,7 +8067,7 @@ GameObject:
   - component: {fileID: 1598036087}
   - component: {fileID: 1598036086}
   m_Layer: 5
-  m_Name: Slot 6 Weapon
+  m_Name: Slot 5 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9439,7 +9512,7 @@ GameObject:
   - component: {fileID: 1904530066}
   - component: {fileID: 1904530065}
   m_Layer: 5
-  m_Name: Slot 3 Passive Item
+  m_Name: Slot 2 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9589,7 +9662,7 @@ GameObject:
   - component: {fileID: 1924245286}
   - component: {fileID: 1924245285}
   m_Layer: 5
-  m_Name: Slot 5 Passive Item
+  m_Name: Slot 4 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9936,7 +10009,7 @@ GameObject:
   - component: {fileID: 2061536023}
   - component: {fileID: 2061536022}
   m_Layer: 5
-  m_Name: Slot 4 Weapon
+  m_Name: Slot 3 Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10250,7 +10323,7 @@ GameObject:
   - component: {fileID: 2103570078}
   - component: {fileID: 2103570077}
   m_Layer: 5
-  m_Name: Slot 2 Passive Item
+  m_Name: Slot 1 Passive Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,10 +8,10 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon Data", menuName = "2D Top-down Rogue-like/Weapon Data")]
 
-public class WeaponData : ScriptableObject
+public class WeaponData : ItemData
 {
-    public Sprite icon;
-    public int maxLevel;
+    //public Sprite icon;
+    //public int maxLevel;
 
     [HideInInspector] public string behaviour;
     public Weapon.Stats baseStats;

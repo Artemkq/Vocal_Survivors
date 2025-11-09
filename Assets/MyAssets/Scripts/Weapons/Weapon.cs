@@ -14,7 +14,7 @@ public abstract class Weapon : Item
 
         [Header("Visuals")]
         public Projectile projectilePrefab; //If attached, a projectile will spawn every time the weapon cools down
-        //public Aura auraPrefab; //If attached, an aura will spawn when weapon is equipped
+        public Aura auraPrefab; //If attached, an aura will spawn when weapon is equipped
         public ParticleSystem hitEffect;
         public Rect spawnVariance;
 

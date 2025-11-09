@@ -12,13 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2ddf0348701148a4d8a7c6a0f7f146b3, type: 3}
   maxLevel: 8
+  evolutionData:
+  - name: Knife + Spinach
+    condition: 0
+    consumes: -1
+    evolutionLevel: 8
+    catalysts:
+    - itemType: {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}
+      level: 2
+    outcome:
+      itemType: {fileID: 11400000, guid: 577ecb3ce073ff14db09d1b34dbc2b36, type: 2}
+      level: 0
   behaviour: ProjectileWeapon
   baseStats:
     name: Knife
     description: Fires quickly in the faced direction
     projectilePrefab: {fileID: -7453766602799123570, guid: 09ab8a57e4207e948bc382e96dd9e7e3, type: 3}
+    auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -30,7 +42,7 @@ MonoBehaviour:
     damage: 6.5
     damageVariance: 2
     area: 1
-    speed: 1
+    speed: 10
     cooldown: 1
     projectileInterval: 0.1
     knockback: 0.5
@@ -41,6 +53,7 @@ MonoBehaviour:
   - name: Knife level 2
     description: Fires 1 more projectile
     projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -62,6 +75,51 @@ MonoBehaviour:
   - name: Knife level 3
     description: Fires 1 more projectile. Base Damage up by 5
     projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 5
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 1
+    piercing: 0
+    maxInstances: 0
+  - name: Knife level 4
+    description: Fires 1 more projectile. Base Damage up by 5
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 5
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 1
+    piercing: 0
+    maxInstances: 0
+  - name: Knife level 5
+    description: Fires 1 more projectile. Base Damage up by 5
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
