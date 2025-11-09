@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[System.Obsolete("This will be replaced by PassiveData class")]
+
 public class PassiveItem : MonoBehaviour
 {
 

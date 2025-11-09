@@ -2,6 +2,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
 public class ProjectileWeapon : Weapon
 {
     protected float currentAttackInterval;

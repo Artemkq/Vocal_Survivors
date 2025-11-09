@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[System.Obsolete("This will be replaced by PassiveData class")]
+
 [CreateAssetMenu(fileName ="PassiveItemScriptableObject", menuName = "ScriptableObjects/Passive Item")]
 
 public class PassiveItemScriptableObject : ScriptableObject

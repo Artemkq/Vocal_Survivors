@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CustomEditor(typeof(WeaponData))]
@@ -37,8 +37,8 @@ public class WeaponDataEditor : Editor
     {
         //Draw a dropdown in the Inspector
         selectedWeaponSubtype = EditorGUILayout.Popup("Behaviour", Math.Max(0, selectedWeaponSubtype), weaponSubtypes);
-            
-            if (selectedWeaponSubtype > 0)
+
+        if (selectedWeaponSubtype > 0)
         {
             //Updates the behaviour field
             weaponData.behaviour = weaponSubtypes[selectedWeaponSubtype].ToString();

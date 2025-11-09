@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 /// <summary>
-/// Component to be attached to all Weapon prefabs. The Weapon prefan works together with the WeaponData ScruptableObjects to manage and run the behaviours of all weapons in the game
+/// Component to be attached to all Weapon prefabs. The Weapon prefab works together with the WeaponData ScrtiptableObjects to manage and run the behaviours of all weapons in the game
 /// </summary>
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : Item
 {
     [System.Serializable]
     public struct Stats
@@ -59,9 +59,9 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public int currentLevel = 1, maxLevel = 1;
+    //public int currentLevel = 1, maxLevel = 1;
 
-    protected PlayerStats owner;
+    //protected PlayerStats owner;
 
     protected Stats currentStats;
 
@@ -74,8 +74,10 @@ public abstract class Weapon : MonoBehaviour
     //For dynamically created weapons, call initialise to set everything up
     public virtual void Initialise (WeaponData data)
     {
-        maxLevel = data.maxLevel;
-        owner = FindAnyObjectByType<PlayerStats> ();
+        base.Initialise(data);
+
+        //maxLevel = data.maxLevel;
+        //owner = FindAnyObjectByType<PlayerStats> ();
 
         this.data = data;
         currentStats = data.baseStats;
@@ -107,15 +109,17 @@ public abstract class Weapon : MonoBehaviour
         } 
     }
 
-    public virtual bool CanLevelUp()
-    {
-        return currentLevel <= maxLevel;
-    }
+    //public virtual bool CanLevelUp()
+    //{
+    //    return currentLevel <= maxLevel;
+    //}
 
     //Levels up the weapon by 1, and calculates the corresponding stats
 
-    public virtual bool DoLevelUp()
+    public override bool DoLevelUp()
     {
+        base.DoLevelUp();
+
         //Prevent level up if we are already at max level
         if (!CanLevelUp())
         {
@@ -158,8 +162,5 @@ public abstract class Weapon : MonoBehaviour
 
     //For retrieving the weapons stats
     
-    public virtual Stats GetStats()
-    {
-        return currentStats;
-    }
+    public virtual Stats GetStats() { return currentStats; }
 }
