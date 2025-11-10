@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
+  m_Name: Blue Soldier
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  icon: {fileID: 561352277, guid: deb930d0f45dabc448b1b89bc32eb9b2, type: 3}
+  controller: {fileID: 9100000, guid: a016fdc742c96e242acdcc54467fd1f3, type: 2}
+  name: Blue Soldier
+  startingWeapon: {fileID: 11400000, guid: 51099d419e850fb41aa59317179005c2, type: 2}
+  stats:
+    maxHealth: 100
+    recovery: 0
+    moveSpeed: 5
+    might: 1
+    speed: 1
+    magnet: 2

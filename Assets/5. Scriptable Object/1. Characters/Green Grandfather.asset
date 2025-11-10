@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
+  m_Name: Green Grandfather
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  icon: {fileID: 561352277, guid: a6f7500ea258814409a45ca322126f1b, type: 3}
+  controller: {fileID: 22100000, guid: a13d5757f23d4ce4999a15259b615479, type: 2}
+  name: Green Grandfather
+  startingWeapon: {fileID: 11400000, guid: 2711ecfb6133de94b8beef2c954befb9, type: 2}
+  stats:
+    maxHealth: 100
+    recovery: 0
+    moveSpeed: 5
+    might: 1
+    speed: 1
+    magnet: 2

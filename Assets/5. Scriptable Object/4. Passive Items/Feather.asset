@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86f4fa404fec5b4a920e81c1ce20b37, type: 3}
+  m_Name: Feather
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveData
+  icon: {fileID: -1637333060, guid: 5319e90cdef08eb4a90ed29d73271916, type: 3}
+  maxLevel: 5
+  evolutionData: []
+  baseStats:
+    name: Feather
+    description: Character moves 10% faster
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      moveSpeed: 0.1
+      might: 0
+      speed: 0
+      magnet: 0
+  growth:
+  - name: Feather level 2
+    description: +10% Move Speed (max +50%)
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      moveSpeed: 0.1
+      might: 0
+      speed: 0
+      magnet: 0
+  - name: Feather level 3
+    description: +10% Move Speed (max +50%)
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      moveSpeed: 0.1
+      might: 0
+      speed: 0
+      magnet: 0
+  - name: Feather level 4
+    description: +10% Move Speed (max +50%)
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      moveSpeed: 0.1
+      might: 0
+      speed: 0
+      magnet: 0
+  - name: Feather level 5
+    description: +10% Move Speed (max +50%)
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      moveSpeed: 0.1
+      might: 0
+      speed: 0
+      magnet: 0

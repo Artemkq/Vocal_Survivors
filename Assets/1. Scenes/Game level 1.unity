@@ -2179,15 +2179,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 360838663}
+  - component: {fileID: 360838669}
   - component: {fileID: 360838668}
   - component: {fileID: 360838660}
   - component: {fileID: 360838671}
   - component: {fileID: 360838665}
-  - component: {fileID: 360838669}
   - component: {fileID: 360838667}
   - component: {fileID: 360838670}
   - component: {fileID: 360838672}
-  - component: {fileID: 360838673}
   - component: {fileID: 360838674}
   m_Layer: 0
   m_Name: Player
@@ -2349,7 +2348,7 @@ SpriteRenderer:
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
   m_SortingOrder: 20
-  m_Sprite: {fileID: 561352277, guid: deb930d0f45dabc448b1b89bc32eb9b2, type: 3}
+  m_Sprite: {fileID: -2097619832946416524, guid: deb930d0f45dabc448b1b89bc32eb9b2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2474,81 +2473,6 @@ MonoBehaviour:
   healthBar: {fileID: 825171631}
   expBar: {fileID: 1208017846}
   levelText: {fileID: 1247662725}
---- !u!114 &360838673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 360838659}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb2cbeebea32a9c40b364617a09c3bee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  weaponSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  weaponLevels: 000000000000000000000000000000000000000000000000
-  weaponUISlots:
-  - {fileID: 617886356}
-  - {fileID: 296426369}
-  - {fileID: 1316432255}
-  - {fileID: 2061536022}
-  - {fileID: 134719931}
-  - {fileID: 1598036086}
-  passiveItemSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  passiveItemLevels: 000000000000000000000000000000000000000000000000
-  passiveItemUISlots:
-  - {fileID: 35047085}
-  - {fileID: 2103570077}
-  - {fileID: 1904530065}
-  - {fileID: 1369544010}
-  - {fileID: 1924245285}
-  - {fileID: 426943361}
-  weaponUpgradeOptions:
-  - weaponUpgradeIndex: 0
-    initialWeapon: {fileID: 8735350415758697279, guid: ee880a62fb755d243ac97728061e6d9f, type: 3}
-    weaponData: {fileID: 11400000, guid: 2c26369a8f4b68946b26f4b2defbb8e8, type: 2}
-  - weaponUpgradeIndex: 1
-    initialWeapon: {fileID: 892103350063581870, guid: 914bb707635576844ac7fd7028300399, type: 3}
-    weaponData: {fileID: 11400000, guid: 4f9a5adea1cada647b11ec58096f0e03, type: 2}
-  passiveItemUpgradeOptions:
-  - passiveItemUpgradeIndex: 0
-    initialPassiveItem: {fileID: 4697770302496804392, guid: e7cacc5cf5f939c44943ec0eb9d83d34, type: 3}
-    passiveItemData: {fileID: 11400000, guid: 64ece68ea46a2084aadc633e0c658c6a, type: 2}
-  - passiveItemUpgradeIndex: 1
-    initialPassiveItem: {fileID: 758433695052153236, guid: 08f945ef06ceedc42b9394e01ef61ec6, type: 3}
-    passiveItemData: {fileID: 11400000, guid: 70b28b1f6947dd34f92336ab782e617d, type: 2}
-  upgradeUIOptions:
-  - upgradeNameDisplay: {fileID: 357014214}
-    upgradeDesctiptionDisplay: {fileID: 1341323375}
-    upgradeIcon: {fileID: 1918254078}
-    upgradeButton: {fileID: 195558754}
-  - upgradeNameDisplay: {fileID: 635392919}
-    upgradeDesctiptionDisplay: {fileID: 456571985}
-    upgradeIcon: {fileID: 1649087738}
-    upgradeButton: {fileID: 1356582522}
-  - upgradeNameDisplay: {fileID: 1958416823}
-    upgradeDesctiptionDisplay: {fileID: 83122436}
-    upgradeIcon: {fileID: 279016966}
-    upgradeButton: {fileID: 62538621}
-  - upgradeNameDisplay: {fileID: 1862919660}
-    upgradeDesctiptionDisplay: {fileID: 1648404157}
-    upgradeIcon: {fileID: 1441100874}
-    upgradeButton: {fileID: 496910437}
-  weaponEvolutions:
-  - {fileID: 11400000, guid: e5f0593c316910847b1a683d2150f50a, type: 2}
 --- !u!114 &360838674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2589,8 +2513,8 @@ MonoBehaviour:
     image: {fileID: 426943361}
   availableWeapons:
   - {fileID: 11400000, guid: 51099d419e850fb41aa59317179005c2, type: 2}
+  - {fileID: 11400000, guid: 2711ecfb6133de94b8beef2c954befb9, type: 2}
   availablePassives:
-  - {fileID: 11400000, guid: 577ecb3ce073ff14db09d1b34dbc2b36, type: 2}
   - {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}
   - {fileID: 11400000, guid: 8db75056acab5f0489ac87644bae752f, type: 2}
   upgradeUIOptions:
@@ -10612,7 +10536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5995824422017661387, guid: 4fc28d9101b55254a9a59d7616108d3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.55
       objectReference: {fileID: 0}
     - target: {fileID: 5995824422017661387, guid: 4fc28d9101b55254a9a59d7616108d3a, type: 3}
       propertyPath: m_LocalPosition.z
