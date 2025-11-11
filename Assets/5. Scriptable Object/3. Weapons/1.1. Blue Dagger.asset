@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
+  m_Name: 1.1. Blue Dagger
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  icon: {fileID: 21300000, guid: 735a74768f3946d4c890a1afddc19e66, type: 2}
+  maxLevel: 1
+  evolutionData: []
+  behaviour: ProjectileWeapon
+  baseStats:
+    name: Blue Dagger
+    description: More powerfull dagger
+    projectilePrefab: {fileID: 5163011507869162351, guid: 4fa3dda44a0ad4a46a4992478e127279, type: 3}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 3
+    damage: 20
+    damageVariance: 5
+    area: 1
+    speed: 20
+    cooldown: 0.5
+    projectileInterval: 0.1
+    knockback: 0.5
+    number: 5
+    piercing: 5
+    maxInstances: 70
+  linearGrowth: []
+  randomGrowth: []
