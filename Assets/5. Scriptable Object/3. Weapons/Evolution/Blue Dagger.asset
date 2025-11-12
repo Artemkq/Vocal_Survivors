@@ -21,7 +21,8 @@ MonoBehaviour:
     description: More powerfull dagger
     projectilePrefab: {fileID: -7291327762620502836, guid: 4fa3dda44a0ad4a46a4992478e127279, type: 3}
     auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
+    hitEffect: {fileID: 372242045722072226, guid: 27a4e02d7d78d914e98d2f4bb5783e49, type: 3}
+    procEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
       x: 0
@@ -45,6 +46,7 @@ MonoBehaviour:
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
+    procEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
       x: 0

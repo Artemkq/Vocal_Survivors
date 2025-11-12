@@ -37,8 +37,14 @@ public class LightningBoltWeapon : ProjectileWeapon
             Instantiate(currentStats.hitEffect, target.transform.position, Quaternion.identity);
         }
 
+        //If there is a proc effectm play it on the player
+        if (currentStats.procEffect)
+        {
+            Destroy(Instantiate(currentStats.procEffect, owner.transform), 5f);
+        }
+
         //If we have more than 1 attack count
-        if(attackCount > 0)
+        if (attackCount > 0)
         {
             currentAttackCount = attackCount - 1;
             currentAttackInterval = currentStats.projectileInterval;

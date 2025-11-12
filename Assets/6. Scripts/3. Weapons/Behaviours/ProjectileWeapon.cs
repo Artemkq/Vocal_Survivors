@@ -41,6 +41,12 @@ public class ProjectileWeapon : Weapon
         //Otherwise, calculate the angle and offset of our spawned projectile
         float spawnAngle = GetSpawnAngle();
 
+        //If there is a proc effectm play it on the player
+        if (currentStats.procEffect)
+        {
+            Destroy(Instantiate(currentStats.procEffect, owner.transform), 5f);
+        }
+
         //And spawn a copy of the projectile
         Projectile prefab = Instantiate(
             currentStats.projectilePrefab,
