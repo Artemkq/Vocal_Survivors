@@ -22,7 +22,8 @@ public abstract class ItemData : ScriptableObject
         public Config[] catalysts;
         public Config outcome;
 
-        [System.Serializable] public struct Config
+        [System.Serializable]
+        public struct Config
         {
             public ItemData itemType;
             public int level;

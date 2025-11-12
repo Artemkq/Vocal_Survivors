@@ -14,17 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveData
   icon: {fileID: 1522955448, guid: 4461c87bad5222349b14c22b26d43b95, type: 3}
   maxLevel: 3
-  evolutionData:
-  - name: Dagger + Monster Eye
-    condition: 1
-    consumes: 2
-    evolutionLevel: 3
-    catalysts:
-    - itemType: {fileID: 11400000, guid: 51099d419e850fb41aa59317179005c2, type: 2}
-      level: 3
-    outcome:
-      itemType: {fileID: 11400000, guid: dcab49fffb75a314188edb2285f3eb7e, type: 2}
-      level: 0
+  evolutionData: []
   baseStats:
     name: Monser Eye
     description: Raises inflicted damage by 10%

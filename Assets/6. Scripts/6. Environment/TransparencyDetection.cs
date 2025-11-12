@@ -1,58 +1,58 @@
-//using System.Collections;
-//using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
-//public class TransparencyDetection : MonoBehaviour
-//{
+public class TransparencyDetection : MonoBehaviour
+{
 
-//    private const float FULL_NON_TRANSPARENT = 1.0f;
+    private const float FULL_NON_TRANSPARENT = 1.0f;
 
-//    [Range(0f, 1f)]
-//    [SerializeField] private float transparencyAmount = 0.5f;
-//    [SerializeField] private float fadetime = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float transparencyAmount = 0.5f;
+    [SerializeField] private float fadetime = 0.5f;
 
-//    SpriteRenderer _spriteRenderer;
+    SpriteRenderer _spriteRenderer;
 
-//    private void Awake()
-//    {
-//        _spriteRenderer = GetComponent<SpriteRenderer>();
-//    }
+    private void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
-//    private void OnTriggerEnter2D(Collider2D collider)
-//    {
-//        if (collider.gameObject.GetComponent<Player>())
-//        {
-//            if (collider is CapsuleCollider2D)
-//            {
-//                StartCoroutine(FadeRoutine(_spriteRenderer, fadetime, _spriteRenderer.color.a, transparencyAmount));
-//            }
-//        }
-//    }
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.GetComponent<PlayerStats>())
+        {
+            if (collider is CapsuleCollider2D)
+            {
+                StartCoroutine(FadeRoutine(_spriteRenderer, fadetime, _spriteRenderer.color.a, transparencyAmount));
+            }
+        }
+    }
 
-//    private void OnTriggerExit2D(Collider2D collider)
-//    {
-//        if (collider.gameObject.GetComponent<Player>())
-//        {
-//            if (collider is CapsuleCollider2D)
-//            {
-//                StartCoroutine(FadeRoutine(_spriteRenderer, fadetime, _spriteRenderer.color.a, FULL_NON_TRANSPARENT));
-//            }
-//        }
-//    }
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.GetComponent<PlayerStats>())
+        {
+            if (collider is CapsuleCollider2D)
+            {
+                StartCoroutine(FadeRoutine(_spriteRenderer, fadetime, _spriteRenderer.color.a, FULL_NON_TRANSPARENT));
+            }
+        }
+    }
 
-//    private IEnumerator FadeRoutine(SpriteRenderer spriteRenderer, float fadeTime, float startTransparencyAmount, float targetTransparencyAmount)
-//    {
-//        float elapsedTime = 0f;
-        
-//        while (elapsedTime < fadetime)
-//        {
-//            elapsedTime += Time.deltaTime;
-            
-//            float newAlpha = Mathf.Lerp(startTransparencyAmount, targetTransparencyAmount, elapsedTime/fadeTime);
+    private IEnumerator FadeRoutine(SpriteRenderer spriteRenderer, float fadeTime, float startTransparencyAmount, float targetTransparencyAmount)
+    {
+        float elapsedTime = 0f;
 
-//            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+        while (elapsedTime < fadetime)
+        {
+            elapsedTime += Time.deltaTime;
 
-//            yield return null;
-//        }
-//    }
+            float newAlpha = Mathf.Lerp(startTransparencyAmount, targetTransparencyAmount, elapsedTime / fadeTime);
 
-//}
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+
+            yield return null;
+        }
+    }
+
+}

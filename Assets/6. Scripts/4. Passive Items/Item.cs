@@ -33,7 +33,7 @@ public abstract class Item : MonoBehaviour
     public virtual ItemData.Evolution[] CanEvolve()
     {
         List<ItemData.Evolution> possibleEvolutions = new List<ItemData.Evolution>();
-        
+
         //Check each listed evolution and whether it is in the inventory
         foreach (ItemData.Evolution e in evolutionData)
         {
@@ -95,7 +95,7 @@ public abstract class Item : MonoBehaviour
 
         return true;
     }
-    
+
 
     public virtual bool CanLevelUp()
     {

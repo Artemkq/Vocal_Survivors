@@ -28,16 +28,14 @@ public abstract class Weapon : Item
         public static Stats operator +(Stats s1, Stats s2)
         {
             Stats result = new Stats();
-
             result.name = s2.name ?? s1.name;
             result.description = s2.description ?? s1.description;
-            //result.projectilePrefab = s2.projectilePrefab ?? s1.projectilePrefab;
+            
+            result.projectilePrefab = s2.projectilePrefab ?? s1.projectilePrefab;
             //result.auraPrefab = s2.auraPrefab ?? s1.auraPrefab;
-
+            
             result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
-
             result.spawnVariance = s2.spawnVariance;
-
             result.lifespan = s1.lifespan + s2.lifespan;
             result.damage = s1.damage + s2.damage;
             result.damageVariance = s1.damageVariance + s2.damageVariance;
@@ -59,10 +57,6 @@ public abstract class Weapon : Item
         }
     }
 
-    //public int currentLevel = 1, maxLevel = 1;
-
-    //protected PlayerStats owner;
-
     protected Stats currentStats;
 
     public WeaponData data;
@@ -76,12 +70,9 @@ public abstract class Weapon : Item
     {
         base.Initialise(data);
 
-        //maxLevel = data.maxLevel;
-        //owner = FindAnyObjectByType<PlayerStats> ();
-
         this.data = data;
         currentStats = data.baseStats;
-        movement = GetComponentInParent<PlayerMovement> ();
+        movement = GetComponentInParent<PlayerMovement>();
         currentCooldown = currentStats.cooldown;
     }
 
@@ -108,11 +99,6 @@ public abstract class Weapon : Item
             Attack(currentStats.number);
         } 
     }
-
-    //public virtual bool CanLevelUp()
-    //{
-    //    return currentLevel <= maxLevel;
-    //}
 
     //Levels up the weapon by 1, and calculates the corresponding stats
 

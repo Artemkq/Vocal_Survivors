@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
-  m_Name: 1.1. Blue Dagger
+  m_Name: Blue Dagger
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   icon: {fileID: 21300000, guid: 735a74768f3946d4c890a1afddc19e66, type: 2}
-  maxLevel: 1
+  maxLevel: 2
   evolutionData: []
   behaviour: ProjectileWeapon
   baseStats:
     name: Blue Dagger
     description: More powerfull dagger
-    projectilePrefab: {fileID: 5163011507869162351, guid: 4fa3dda44a0ad4a46a4992478e127279, type: 3}
+    projectilePrefab: {fileID: -7291327762620502836, guid: 4fa3dda44a0ad4a46a4992478e127279, type: 3}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
       x: 0
-      y: 0
+      y: -0.2
       width: 0
-      height: 0
+      height: 0.4
     lifespan: 3
     damage: 20
     damageVariance: 5
@@ -39,5 +39,27 @@ MonoBehaviour:
     number: 5
     piercing: 5
     maxInstances: 70
-  linearGrowth: []
+  linearGrowth:
+  - name: Blue Dagger level 2
+    description: Base Damage up by 15.
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 15
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstances: 0
   randomGrowth: []

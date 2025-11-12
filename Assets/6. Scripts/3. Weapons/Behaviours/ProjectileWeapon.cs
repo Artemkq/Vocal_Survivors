@@ -1,6 +1,5 @@
 using Unity.Mathematics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 
 public class ProjectileWeapon : Weapon
@@ -80,8 +79,8 @@ public class ProjectileWeapon : Weapon
     protected virtual Vector2 GetSpawnOffset(float spawnAngle = 0)
     {
         return Quaternion.Euler(0, 0, spawnAngle) * new Vector2(
-            Random.Range(currentStats.spawnVariance.xMin, currentStats.spawnVariance.xMax),
-            Random.Range(currentStats.spawnVariance.yMin, currentStats.spawnVariance.yMax)
+            UnityEngine.Random.Range(currentStats.spawnVariance.xMin, currentStats.spawnVariance.xMax),
+            UnityEngine.Random.Range(currentStats.spawnVariance.yMin, currentStats.spawnVariance.yMax)
             );
     }
 }

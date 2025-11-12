@@ -29,6 +29,9 @@ public class AuraWeapon : Weapon
     {
         if (!base.DoLevelUp()) return false;
 
+        //Ensure that the aura is refreshed if a different aura is assigned for a higher level.
+        OnEquip(); 
+
         //If there is and aura attached to this weapon, we update the aura
         if (currentAura)
         {

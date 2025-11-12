@@ -2369,7 +2369,7 @@ Animator:
   m_GameObject: {fileID: 360838659}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a016fdc742c96e242acdcc54467fd1f3, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2512,8 +2512,11 @@ MonoBehaviour:
   - item: {fileID: 0}
     image: {fileID: 426943361}
   availableWeapons:
-  - {fileID: 11400000, guid: 51099d419e850fb41aa59317179005c2, type: 2}
+  - {fileID: 11400000, guid: 2ed6befa0faf40f44983e928c19e85aa, type: 2}
   - {fileID: 11400000, guid: 2711ecfb6133de94b8beef2c954befb9, type: 2}
+  - {fileID: 11400000, guid: f77cd59ec2cfcd24da93acf38bba890c, type: 2}
+  - {fileID: 11400000, guid: f4c3f66fe287f9941ae51c8ef66ceabc, type: 2}
+  - {fileID: 11400000, guid: 9a2055e31ab1e28438955500e33149a3, type: 2}
   availablePassives:
   - {fileID: 11400000, guid: 8db75056acab5f0489ac87644bae752f, type: 2}
   - {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}

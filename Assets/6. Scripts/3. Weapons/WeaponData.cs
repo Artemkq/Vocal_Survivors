@@ -10,9 +10,6 @@ using UnityEngine;
 
 public class WeaponData : ItemData
 {
-    //public Sprite icon;
-    //public int maxLevel;
-
     [HideInInspector] public string behaviour;
     public Weapon.Stats baseStats;
     public Weapon.Stats[] linearGrowth;

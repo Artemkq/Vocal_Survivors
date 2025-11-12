@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 929723312468395146}
   - component: {fileID: 5305259272347041357}
-  - component: {fileID: -8034882566295865311}
   - component: {fileID: 5959516909858732672}
+  - component: {fileID: -8034882566295865311}
   - component: {fileID: 4509219821054320575}
   m_Layer: 0
   m_Name: Pentagram
@@ -4758,20 +4758,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &-8034882566295865311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2087776372770119820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd00a2daeea40f44e8bcde97e1d67191, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Aura
-  owner: {fileID: 0}
-  weapon: {fileID: 0}
 --- !u!58 &5959516909858732672
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4808,6 +4794,20 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1
+--- !u!114 &-8034882566295865311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087776372770119820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd00a2daeea40f44e8bcde97e1d67191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aura
+  owner: {fileID: 0}
+  weapon: {fileID: 0}
 --- !u!199 &4509219821054320575
 ParticleSystemRenderer:
   serializedVersion: 6
