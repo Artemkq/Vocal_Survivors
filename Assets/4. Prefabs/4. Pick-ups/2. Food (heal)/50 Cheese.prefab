@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 2195013850554389502}
   - component: {fileID: 4634086370791753789}
   - component: {fileID: 3627675307174271379}
-  - component: {fileID: 5373390674706817249}
-  - component: {fileID: 4752484926552406929}
+  - component: {fileID: 4068923303180930217}
   m_Layer: 0
   m_Name: 50 Cheese
   m_TagString: Untagged
@@ -178,7 +177,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5373390674706817249
+--- !u!114 &4068923303180930217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,23 +186,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6446746050567509442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9ae40477df8e5949bfeeab0c660b545, type: 3}
+  m_Script: {fileID: 11500000, guid: cde32400cdc8d964aab8077cba62a644, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthPoition
-  hasBeenCollected: 0
-  healthToRestore: 50
---- !u!114 &4752484926552406929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6446746050567509442}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
-  frequency: 3
-  magnitude: 0.1
-  direction: {x: 0, y: 1, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  lifespan: 0.5
+  bobbingAnimation:
+    frequency: 2
+    direction: {x: 0, y: 0.3}
+  experience: 0
+  health: 50

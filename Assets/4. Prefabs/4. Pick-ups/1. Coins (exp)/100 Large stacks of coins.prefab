@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 4341653817652201171}
   - component: {fileID: 7827969575099121649}
   - component: {fileID: -2699016497766313944}
-  - component: {fileID: -5490922813756799365}
-  - component: {fileID: 1210288285626704803}
+  - component: {fileID: -8830620744288880015}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: 100 Large stacks of coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d054e5bc88d58004d965f6cac1984728, type: 2}
+  m_Sprite: {fileID: 21300000, guid: 97d7dcb8a3376854ba201ab4960e3f53, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -140,14 +139,28 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.13650936, y: -0.06337474}
-      - {x: -0.12666371, y: -0.06051539}
-      - {x: -0.18799998, y: -0.12528647}
-      - {x: -0.18622133, y: -0.3050643}
-      - {x: -0.11564969, y: -0.37688747}
-      - {x: 0.14157613, y: -0.37803814}
-      - {x: 0.19565263, y: -0.31721708}
-      - {x: 0.18958537, y: -0.13326897}
+    - - {x: 0.5630186, y: 0.001004085}
+      - {x: 0.3151647, y: 0.014301751}
+      - {x: 0.3161114, y: 0.3797148}
+      - {x: 0.2507406, y: 0.44069558}
+      - {x: 0.004240855, y: 0.44150344}
+      - {x: -0.06764986, y: 0.37404126}
+      - {x: -0.1887836, y: 0.30911577}
+      - {x: -0.2550612, y: 0.26366848}
+      - {x: -0.26275286, y: 0.0011645108}
+      - {x: -0.43768278, y: -0.0059520304}
+      - {x: -0.50307333, y: -0.06377207}
+      - {x: -0.49662077, y: -0.38019323}
+      - {x: -0.44373628, y: -0.43918672}
+      - {x: -0.18271089, y: -0.4412663}
+      - {x: -0.116168946, y: -0.3753736}
+      - {x: 0.0047713667, y: -0.37535578}
+      - {x: 0.23588933, y: -0.38159585}
+      - {x: 0.24538866, y: -0.5059934}
+      - {x: 0.31186903, y: -0.5685494}
+      - {x: 0.56770265, y: -0.5644584}
+      - {x: 0.6302206, y: -0.49461678}
+      - {x: 0.6241421, y: -0.06620777}
   m_UseDelaunayMesh: 0
 --- !u!50 &-2699016497766313944
 Rigidbody2D:
@@ -176,7 +189,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-5490922813756799365
+--- !u!114 &-8830620744288880015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,23 +198,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6572816827611164919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309b49266fc071449b15064b2cf8d430, type: 3}
+  m_Script: {fileID: 11500000, guid: cde32400cdc8d964aab8077cba62a644, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExperienceGem
-  hasBeenCollected: 0
-  experienceGranted: 100
---- !u!114 &1210288285626704803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6572816827611164919}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
-  frequency: 3
-  magnitude: 0.1
-  direction: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  lifespan: 0.5
+  bobbingAnimation:
+    frequency: 2
+    direction: {x: 0, y: 0.3}
+  experience: 100
+  health: 0

@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 4341653817652201171}
   - component: {fileID: 7827969575099121649}
   - component: {fileID: -2699016497766313944}
-  - component: {fileID: -5490922813756799365}
-  - component: {fileID: 1210288285626704803}
+  - component: {fileID: -7128369838658744715}
   m_Layer: 0
-  m_Name: Small stacks of coins
+  m_Name: 10 Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7c1c916906a3a934d82d9b9cb9bd9b85, type: 2}
+  m_Sprite: {fileID: 21300000, guid: d054e5bc88d58004d965f6cac1984728, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -140,19 +139,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.07471476, y: -0.06056598}
-      - {x: 0.06896187, y: 0.19392037}
-      - {x: -0.0009423271, y: 0.25627184}
-      - {x: -0.2530618, y: 0.25407535}
-      - {x: -0.31881225, y: 0.18686822}
-      - {x: -0.31720698, y: -0.2516846}
-      - {x: -0.24801597, y: -0.31349066}
-      - {x: 0.0023219287, y: -0.4358734}
-      - {x: 0.057310723, y: -0.4960098}
-      - {x: 0.31362417, y: -0.4969833}
-      - {x: 0.37177798, y: -0.44045988}
-      - {x: 0.37875193, y: -0.12795648}
-      - {x: 0.31317466, y: -0.057430133}
+    - - {x: 0.13650936, y: -0.06337474}
+      - {x: -0.12666371, y: -0.06051539}
+      - {x: -0.18799998, y: -0.12528647}
+      - {x: -0.18622133, y: -0.3050643}
+      - {x: -0.11564969, y: -0.37688747}
+      - {x: 0.14157613, y: -0.37803814}
+      - {x: 0.19565263, y: -0.31721708}
+      - {x: 0.18958537, y: -0.13326897}
   m_UseDelaunayMesh: 0
 --- !u!50 &-2699016497766313944
 Rigidbody2D:
@@ -181,7 +175,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-5490922813756799365
+--- !u!114 &-7128369838658744715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,23 +184,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6572816827611164919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309b49266fc071449b15064b2cf8d430, type: 3}
+  m_Script: {fileID: 11500000, guid: cde32400cdc8d964aab8077cba62a644, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExperienceGem
-  hasBeenCollected: 0
-  experienceGranted: 50
---- !u!114 &1210288285626704803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6572816827611164919}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
-  frequency: 3
-  magnitude: 0.1
-  direction: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  lifespan: 0.5
+  bobbingAnimation:
+    frequency: 2
+    direction: {x: 0, y: 0.3}
+  experience: 10
+  health: 0

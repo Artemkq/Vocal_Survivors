@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 4341653817652201171}
   - component: {fileID: 7827969575099121649}
   - component: {fileID: -2699016497766313944}
-  - component: {fileID: -5490922813756799365}
-  - component: {fileID: 1210288285626704803}
+  - component: {fileID: -7898452940564783015}
   m_Layer: 0
-  m_Name: Coin purse
+  m_Name: 250 Coin purse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +183,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-5490922813756799365
+--- !u!114 &-7898452940564783015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,23 +192,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6572816827611164919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309b49266fc071449b15064b2cf8d430, type: 3}
+  m_Script: {fileID: 11500000, guid: cde32400cdc8d964aab8077cba62a644, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExperienceGem
-  hasBeenCollected: 0
-  experienceGranted: 250
---- !u!114 &1210288285626704803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6572816827611164919}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77be9ce6e6934f1479cbb792e2d55b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BobbingAnimation
-  frequency: 3
-  magnitude: 0.1
-  direction: {x: 0, y: 0, z: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Pickup
+  lifespan: 0.5
+  bobbingAnimation:
+    frequency: 2
+    direction: {x: 0, y: 0.3}
+  experience: 250
+  health: 0

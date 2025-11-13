@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   icon: {fileID: 21300000, guid: 735a74768f3946d4c890a1afddc19e66, type: 2}
   maxLevel: 8
-  evolutionData: []
+  evolutionData:
+  - name: Blue Dagger
+    condition: 1
+    consumes: 2
+    evolutionLevel: 0
+    catalysts:
+    - itemType: {fileID: 11400000, guid: 8db75056acab5f0489ac87644bae752f, type: 2}
+      level: 1
+    outcome:
+      itemType: {fileID: 11400000, guid: dcab49fffb75a314188edb2285f3eb7e, type: 2}
+      level: 1
   behaviour: ProjectileWeapon
   baseStats:
     name: Dagger

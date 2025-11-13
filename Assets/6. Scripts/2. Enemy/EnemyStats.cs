@@ -129,7 +129,7 @@ public class EnemyStats : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("ENEMY OBJECT IS NULL");
+            Debug.LogWarning("ENEMY OBJECT IS NULL");
         }
     }
 

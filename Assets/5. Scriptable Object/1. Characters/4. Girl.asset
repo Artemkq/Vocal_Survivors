@@ -15,7 +15,7 @@ MonoBehaviour:
   icon: {fileID: -2097619832946416524, guid: 2bcf81c510145e541b1d08a31084e369, type: 3}
   controller: {fileID: 22100000, guid: f487a07f9f41f7d45ad7a0cf10ba8319, type: 2}
   name: Girl
-  startingWeapon: {fileID: 11400000, guid: 9a2055e31ab1e28438955500e33149a3, type: 2}
+  startingWeapon: {fileID: 11400000, guid: f4c3f66fe287f9941ae51c8ef66ceabc, type: 2}
   stats:
     maxHealth: 100
     recovery: 0
