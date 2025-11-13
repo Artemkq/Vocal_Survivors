@@ -4,6 +4,7 @@ using Terresquall;
 public class PlayerMovement : MonoBehaviour
 
 {
+    public const float DEFAULT_MOVESPEED = 5f;
 
     //Movement
     [HideInInspector] public float lastHorizontalVector;
@@ -78,6 +79,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = new Vector2 (moveDir.x * player.CurrentMoveSpeed, moveDir.y * player.CurrentMoveSpeed);
+        rb.linearVelocity = moveDir * DEFAULT_MOVESPEED * player.Stats.moveSpeed;
     }
 }
