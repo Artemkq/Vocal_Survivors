@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4341653817652201171}
   - component: {fileID: 7827969575099121649}
   - component: {fileID: -2699016497766313944}
-  - component: {fileID: -7898452940564783015}
+  - component: {fileID: -7128369838658744715}
   m_Layer: 0
-  m_Name: 250 Coin purse
+  m_Name: 5 Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c77555e407bb36d43a5e305becea8b51, type: 2}
+  m_Sprite: {fileID: 21300000, guid: d054e5bc88d58004d965f6cac1984728, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -139,22 +139,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.19455759, y: -0.0021013618}
-      - {x: 0.13440518, y: 0.05233972}
-      - {x: 0.1327647, y: 0.24586226}
-      - {x: 0.14018184, y: 0.3782962}
-      - {x: 0.05429518, y: 0.4464258}
-      - {x: -0.18347284, y: 0.44699672}
-      - {x: -0.37901217, y: 0.25301063}
-      - {x: -0.37320244, y: 0.11876765}
-      - {x: -0.30403385, y: 0.058806345}
-      - {x: -0.32344627, y: -0.06401324}
-      - {x: -0.382484, y: -0.12433945}
-      - {x: -0.38294107, y: -0.4372857}
-      - {x: -0.31559423, y: -0.49620932}
-      - {x: 0.19639982, y: -0.5070346}
-      - {x: 0.25370103, y: -0.4365386}
-      - {x: 0.25730854, y: -0.11069459}
+    - - {x: 0.13650936, y: -0.06337474}
+      - {x: -0.12666371, y: -0.06051539}
+      - {x: -0.18799998, y: -0.12528647}
+      - {x: -0.18622133, y: -0.3050643}
+      - {x: -0.11564969, y: -0.37688747}
+      - {x: 0.14157613, y: -0.37803814}
+      - {x: 0.19565263, y: -0.31721708}
+      - {x: 0.18958537, y: -0.13326897}
   m_UseDelaunayMesh: 0
 --- !u!50 &-2699016497766313944
 Rigidbody2D:
@@ -183,7 +175,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-7898452940564783015
+--- !u!114 &-7128369838658744715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,5 +191,5 @@ MonoBehaviour:
   bobbingAnimation:
     frequency: 2
     direction: {x: 0, y: 0.3}
-  experience: 250
+  experience: 5
   health: 0

@@ -10,17 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
-  m_Name: 3. Sword Slash
+  m_Name: Pentagram
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  icon: {fileID: 1724179656, guid: 7a2a340db85c9ff4cba702ce4a0e0fe7, type: 3}
+  icon: {fileID: 21300000, guid: 7babb14528fc40949b7db0254ec54b27, type: 2}
   maxLevel: 8
-  evolutionData: []
-  behaviour: SwordSlashWeapon
+  evolutionData:
+  - name: Soul Eater
+    condition: 1
+    consumes: 2
+    evolutionLevel: 1
+    catalysts:
+    - itemType: {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}
+      level: 1
+    outcome:
+      itemType: {fileID: 11400000, guid: 4f0b373287ab9ff4aa9f67b6494afaf1, type: 2}
+      level: 1
+  behaviour: AuraWeapon
   baseStats:
-    name: Sword Slash
-    description: Attacks horizontally, passes through enemies
-    projectilePrefab: {fileID: 6696205618121510374, guid: 93576ccb3fea7c844b4c9a2c373f1c57, type: 3}
-    auraPrefab: {fileID: 0}
+    name: Pentagram
+    description: Damages nearby enemies. Reduces resistance to knockback and freeze
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: -8034882566295865311, guid: 92796c60f64afb94b9b7e90ee75a31cc, type: 3}
     hitEffect: {fileID: 0}
     procEffect: {fileID: 0}
     spawnVariance:
@@ -29,20 +39,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0.1
-    damage: 10
-    damageVariance: 2
-    area: 1
+    lifespan: 0
+    damage: 5
+    damageVariance: 1
+    area: 1.5
     speed: 0
-    cooldown: 1
-    projectileInterval: 0.1
+    cooldown: 1.3
+    projectileInterval: 0
     knockback: 1
     number: 1
-    piercing: 99
-    maxInstances: 99
+    piercing: 0
+    maxInstances: 50
   linearGrowth:
-  - name: Sword Slash level 2
-    description: 'Fires 1 more projectile. '
+  - name: Level 2
+    description: Base Area up by 40%. Base Damage up by 2.
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -54,32 +64,9 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 0
+    damage: 2
     damageVariance: 0
-    area: 0
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
-  - name: Sword Slash level 3
-    description: 'Base Damage up by 5. '
-    projectilePrefab: {fileID: 0}
-    auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
-    procEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 5
-    damageVariance: 0
-    area: 0
+    area: 0.4
     speed: 0
     cooldown: 0
     projectileInterval: 0
@@ -87,8 +74,8 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Sword Slash level 4
-    description: 'Base Area up by 10%. Base Damage up by 5. '
+  - name: Level 3
+    description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 1. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -100,41 +87,18 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 5
-    damageVariance: 0
-    area: 0.1
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
-  - name: Sword Slash level 5
-    description: 'Base Damage up by 5. '
-    projectilePrefab: {fileID: 0}
-    auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
-    procEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 5
+    damage: 1
     damageVariance: 0
     area: 0
     speed: 0
-    cooldown: 0
+    cooldown: 0.1
     projectileInterval: 0
     knockback: 0
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Sword Slash level 6
-    description: 'Base Area up by 10%. Base Damage up by 5. '
+  - name: Level 4
+    description: 'Base Area up by 20%. Base Damage up by 1. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -146,9 +110,9 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 5
+    damage: 1
     damageVariance: 0
-    area: 0.1
+    area: 0.2
     speed: 0
     cooldown: 0
     projectileInterval: 0
@@ -156,8 +120,8 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Sword Slash level 7
-    description: 'Base Damage up by 5. '
+  - name: Level 5
+    description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 2. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -169,9 +133,32 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 5
+    damage: 2
     damageVariance: 0
     area: 0
+    speed: 0
+    cooldown: 0.1
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstances: 0
+  - name: Level 6
+    description: 'Base Area up by 20%. Base Damage up by 1. '
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    procEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 1
+    damageVariance: 0
+    area: 0.2
     speed: 0
     cooldown: 0
     projectileInterval: 0
@@ -179,8 +166,8 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Sword Slash level 8
-    description: 'Base Damage up by 5. '
+  - name: Level 7
+    description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 1. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -192,9 +179,32 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 5
+    damage: 1
     damageVariance: 0
     area: 0
+    speed: 0
+    cooldown: 0.1
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstances: 0
+  - name: Level 8
+    description: 'Base Area up by 20%. Base Damage up by 2. '
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    procEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 2
+    damageVariance: 0
+    area: 0.2
     speed: 0
     cooldown: 0
     projectileInterval: 0

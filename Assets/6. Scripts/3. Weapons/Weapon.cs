@@ -8,10 +8,8 @@ using UnityEngine.Rendering;
 public abstract class Weapon : Item
 {
     [System.Serializable]
-    public struct Stats
+    public class Stats : LevelData
     {
-        public string name, description;
-
         [Header("Visuals")]
         public Projectile projectilePrefab; //If attached, a projectile will spawn every time the weapon cools down
         public Aura auraPrefab; //If attached, an aura will spawn when weapon is equipped
@@ -69,7 +67,7 @@ public abstract class Weapon : Item
 
     //For dynamically created weapons, call initialise to set everything up
     public virtual void Initialise (WeaponData data)
-    {       
+    {
         base.Initialise(data);
         this.data = data;
         currentStats = data.baseStats;
@@ -100,7 +98,7 @@ public abstract class Weapon : Item
         }
 
         //Otherwise, add stats of the next level to our weapon
-        currentStats += data.GetLevelData(++currentLevel);
+        currentStats += (Stats)data.GetLevelData(++currentLevel);
         return true;
     }
 

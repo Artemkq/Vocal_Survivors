@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c86f4fa404fec5b4a920e81c1ce20b37, type: 3}
-  m_Name: 1. Feather
+  m_Name: Feather
   m_EditorClassIdentifier: Assembly-CSharp::PassiveData
   icon: {fileID: -1637333060, guid: 5319e90cdef08eb4a90ed29d73271916, type: 3}
   maxLevel: 5

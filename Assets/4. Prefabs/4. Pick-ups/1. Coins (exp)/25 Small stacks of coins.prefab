@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2699016497766313944}
   - component: {fileID: 4074248526698859409}
   m_Layer: 0
-  m_Name: 50 Small stacks of coins
+  m_Name: 25 Small stacks of coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,5 +196,5 @@ MonoBehaviour:
   bobbingAnimation:
     frequency: 2
     direction: {x: 0, y: 0.3}
-  experience: 50
+  experience: 25
   health: 0

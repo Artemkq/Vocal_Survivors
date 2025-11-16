@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c86f4fa404fec5b4a920e81c1ce20b37, type: 3}
-  m_Name: 2. Monster Eye
+  m_Name: Monster Eye
   m_EditorClassIdentifier: Assembly-CSharp::PassiveData
   icon: {fileID: 1522955448, guid: 4461c87bad5222349b14c22b26d43b95, type: 3}
   maxLevel: 3

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
-  m_Name: 5. Axe
+  m_Name: Axe
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   icon: {fileID: 21300000, guid: b3505f1a2eb6ad04bbe712cac2a41dec, type: 2}
   maxLevel: 8
@@ -41,7 +41,7 @@ MonoBehaviour:
     piercing: 3
     maxInstances: 70
   linearGrowth:
-  - name: Axe Level 2
+  - name: Level 2
     description: 'Fires 1 more projectile. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
     number: 1
     piercing: 0
     maxInstances: 0
-  - name: Axe Level 3
+  - name: Level 3
     description: 'Base Damage up by 20. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Axe Level 4
+  - name: Level 4
     description: 'Passes through 2 more enemies. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
     number: 0
     piercing: 2
     maxInstances: 0
-  - name: Axe Level 5
+  - name: Level 5
     description: 'Fires 1 more projectile. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
     number: 1
     piercing: 0
     maxInstances: 0
-  - name: Axe Level 6
+  - name: Level 6
     description: 'Base Damage up by 20. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -156,7 +156,7 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
-  - name: Axe Level 7
+  - name: Level 7
     description: 'Passes through 2 more enemies. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
     number: 0
     piercing: 2
     maxInstances: 0
-  - name: Axe Level 8
+  - name: Level 8
     description: 'Base Damage up by 20. '
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}

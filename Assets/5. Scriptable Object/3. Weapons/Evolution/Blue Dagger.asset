@@ -41,7 +41,7 @@ MonoBehaviour:
     piercing: 5
     maxInstances: 70
   linearGrowth:
-  - name: Blue Dagger level 2
+  - name: Level 2
     description: Base Damage up by 15.
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 0}
