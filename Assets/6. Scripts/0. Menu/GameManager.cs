@@ -48,8 +48,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text chosenCharacterName;
     public TMP_Text levelReachedDisplay;
     public TMP_Text timeSurvivedDisplay;
-    public List<Image> chosenWeaponsUI = new List<Image>(6);
-    public List<Image> chosenPassiveItemsUI = new List<Image>(6);
 
     [Header("Stopwatch")]
     public float timeLimit; //The time limit in seconds
@@ -241,49 +239,6 @@ public class GameManager : MonoBehaviour
     public void AssignLevelReachedUI(int levelReachedData)
     {
         levelReachedDisplay.text = levelReachedData.ToString();
-    }
-
-    public void AssignChosenWeaponsAndPassiveItemsUI(List<PlayerInventory.Slot> chosenWeaponsData, List<PlayerInventory.Slot> chosenPassiveItemsData)
-    {
-        if (chosenWeaponsData.Count != chosenWeaponsUI.Count || chosenPassiveItemsData.Count != chosenPassiveItemsUI.Count)
-        {
-            Debug.Log("Chosen weapons and passive items data lists have different lengths");
-            return;
-        }
-
-        //Assign chosen weapons data to chosenWeaponsUI
-        for (int i = 0; i < chosenWeaponsUI.Count; i++)
-        {
-            //Check that the sprite of the corresponding element in chosenWeaponsData is not null
-            if (chosenWeaponsData[i].image.sprite)
-            {
-                //Enable the corresponding element in chosenWeaponsUI and set its sprite to the corresponding sprite in chosenWeaponsData
-                chosenWeaponsUI[i].enabled = true;
-                chosenWeaponsUI[i].sprite = chosenWeaponsData[i].image.sprite;
-            }
-            else
-            {
-                //If the sprite is null, disable the corresponding element in chosenWeaponsUI
-                chosenWeaponsUI[i].enabled = false;
-            }
-        }
-
-        //Assign chosen Passive Items data to chosenPassiveItemsUI
-        for (int i = 0; i < chosenPassiveItemsUI.Count; i++)
-        {
-            //Check that the sprite of the corresponding element in ChosenPassiveItemsData is not null
-            if (chosenPassiveItemsData[i].image.sprite)
-            {
-                //Enable the corresponding element in chosenPassiveItemsUI and set its sprite to the corresponding sprite in ChosenPassiveItemsData
-                chosenPassiveItemsUI[i].enabled = true;
-                chosenPassiveItemsUI[i].sprite = chosenPassiveItemsData[i].image.sprite;
-            }
-            else
-            {
-                //If the sprite is null, disable the corresponding element in chosenPassiveItemsUI
-                chosenPassiveItemsUI[i].enabled = false;
-            }
-        }
     }
 
     void UpdateStopwatch()
