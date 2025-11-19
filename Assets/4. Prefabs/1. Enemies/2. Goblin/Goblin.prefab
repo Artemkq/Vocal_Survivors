@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5256c4df537fb48a909ef95169c0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  outOffFrameAction: 1
 --- !u!114 &-8389116677048107095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,11 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d052635edee8342b6a435654406feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  enemyData: {fileID: 11400000, guid: 780fc6f8cf3b0584fbb519fe8dc39cc1, type: 2}
-  currentMoveSpeed: 0
-  currentHealth: 0
-  currentDamage: 0
-  despawnDistance: 30
+  currentMoveSpeed: 4
+  currentHealth: 5
+  currentDamage: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.2
@@ -207,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20e2096c74de294893a521d7b3c03c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropRateManager
+  active: 0
   drops:
   - name: Coin
     itemPrefab: {fileID: 6572816827611164919, guid: bfdfd459a0a64c44e96662229360b1af, type: 3}

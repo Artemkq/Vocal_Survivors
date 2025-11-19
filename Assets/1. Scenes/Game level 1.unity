@@ -4060,7 +4060,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -11561,6 +11561,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1864655308}
   - component: {fileID: 1864655307}
+  - component: {fileID: 1864655309}
+  - component: {fileID: 1864655310}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
@@ -11575,7 +11577,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864655306}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5793ff43b8130bd46925f950a94cec00, type: 3}
   m_Name: 
@@ -11683,6 +11685,41 @@ Transform:
   - {fileID: 1490944609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1864655309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864655306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b247d98bb6caa5d4f9626daf02e0a5d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
+  data:
+  - {fileID: 11400000, guid: 7339ee137713cfd4d90ed72843a314a4, type: 2}
+  - {fileID: 11400000, guid: 7fc2503c662e4844480ded836328e804, type: 2}
+  - {fileID: 11400000, guid: 6198c4ad02f926a429c90048e40fc02f, type: 2}
+  referenceCamera: {fileID: 519420031}
+  maximumEnemyCount: 300
+--- !u!114 &1864655310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864655306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5aa0d10779a9e4eb6a4dafb3ce2da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventManager
+  events:
+  - {fileID: 11400000, guid: f5960fa365b049e44a1b8da11cb0a928, type: 2}
+  - {fileID: 11400000, guid: cb3fd1a3608576f4ab7b7726cc2dc65c, type: 2}
+  firstTriggerDelay: 10
+  triggerInterval: 10
 --- !u!1 &1879921048
 GameObject:
   m_ObjectHideFlags: 0

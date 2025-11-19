@@ -12,11 +12,13 @@ public class DropRateManager : MonoBehaviour
         public float dropRate;
     }
 
+    public bool active = false;
     public List<Drops> drops;
 
     void OnDestroy()
     {
 
+        if (!active) return; //Prevents spawns from happening if inactive
         if (!gameObject.scene.isLoaded) //Stops the spawning error from appearing when stopping play mode
         {
             return;

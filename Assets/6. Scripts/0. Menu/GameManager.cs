@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
     public bool isGameOver { get { return currentState == GameState.GameOver; } }
     public bool choosingUpgrade { get { return currentState == GameState.LevelUp; } }
 
+    public float GetElapsedTime() { return stopwatchTime; }
+
     void Awake()
     {
         //Warning check to see if there is another singleton of this kind in the game

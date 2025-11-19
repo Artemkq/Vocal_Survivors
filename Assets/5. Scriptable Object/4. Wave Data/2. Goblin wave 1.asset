@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
+  m_Name: 2. Goblin wave 1
+  m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  possibleSpawnPrefabs:
+  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
+  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
+  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
+  - {fileID: 7060775958896916355, guid: 2e4dadeb31c38444796575b2b8f06743, type: 3}
+  spawnInterval: {x: 1.5, y: 2.5}
+  spawnsPerTick: {x: 3, y: 4}
+  duration: 30
+  startingCount: 0
+  totalSpawns: 100
+  exitConditions: 1
+  mustKillAll: 0
+  spawnCount: 0

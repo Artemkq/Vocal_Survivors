@@ -6,15 +6,11 @@ using UnityEngine.Rendering;
 
 public class EnemyStats : MonoBehaviour
 {
-    
-    public EnemyScriptableObject enemyData;
-
     //Current stats
-    [HideInInspector] public float currentMoveSpeed;
-    [HideInInspector] public float currentHealth;
-    [HideInInspector] public float currentDamage;
+    public float currentMoveSpeed;
+    public float currentHealth;
+    public float currentDamage;
 
-    public float despawnDistance = 30f;
     Transform player;
 
     [Header("Damage Feedback")]
@@ -25,11 +21,11 @@ public class EnemyStats : MonoBehaviour
     SpriteRenderer sr;
     EnemyMovement movement;
 
+    public static int count;
+
     void Awake()
     {
-        currentMoveSpeed = enemyData.MoveSpeed;
-        currentHealth = enemyData.MaxHealth;
-        currentDamage = enemyData.Damage;
+        count++;
     }
 
     void Start()
@@ -39,14 +35,6 @@ public class EnemyStats : MonoBehaviour
         originalColor = sr.color;
 
         movement = GetComponent<EnemyMovement>();
-    }
-
-    void Update()
-    {
-        if (Vector2.Distance(transform.position, player.position) >= despawnDistance)
-        {
-            ReturnEnemy();
-        }
     }
 
     //This function always needs at least 2 values, the amount of damage dealt <dmg>, as well as where the damage is
@@ -87,6 +75,11 @@ public class EnemyStats : MonoBehaviour
 
     public void Kill()
     {
+        //Enable drops if the enemy is killed,
+        //since drops are disabled by default
+        DropRateManager drops = GetComponent<DropRateManager>();
+        if (drops) drops.active = true;
+        
         StartCoroutine(KillFade());
     }
 
@@ -121,21 +114,6 @@ public class EnemyStats : MonoBehaviour
 
     void OnDestroy()
     {
-        EnemySpawner es = FindAnyObjectByType<EnemySpawner>();
-
-        if (es != null)
-        {
-            es.OnEnemyKilled();
-        }
-        else
-        {
-            Debug.LogWarning("ENEMY OBJECT IS NULL");
-        }
-    }
-
-    void ReturnEnemy()
-    {
-        EnemySpawner es = FindAnyObjectByType<EnemySpawner>();
-        transform.position = player.position + es.relativeSpawnPoints[Random.Range(0, es.relativeSpawnPoints.Count)].position;
+        count--;
     }
 }
