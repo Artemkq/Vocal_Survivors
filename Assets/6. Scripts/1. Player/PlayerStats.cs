@@ -1,12 +1,13 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using static EnemyStats;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : EntityStats
 {
     CharacterData characterData;
     public CharacterData.Stats baseStats;
@@ -18,7 +19,10 @@ public class PlayerStats : MonoBehaviour
         set { actualStats = value; }
     }
 
-    float health;
+    public CharacterData.Stats Actual
+    {
+        get { return actualStats; }
+    }
 
     #region Current Stats Properties
 
@@ -69,11 +73,8 @@ public class PlayerStats : MonoBehaviour
 
     public List<LevelRange> levelRanges;
 
-    PlayerCollector collector;
-
     PlayerInventory inventory;
-    public int weaponIndex;
-    public int passiveItemIndex;
+    PlayerCollector collector;
 
     [Header("UI")]
     public Image healthBar;
@@ -102,8 +103,10 @@ public class PlayerStats : MonoBehaviour
             playerAnimator.SetAnimatorController(characterData.controller); 
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         //Spawn the starting weapon
         inventory.Add(characterData.StartingWeapon);
         
@@ -117,8 +120,9 @@ public class PlayerStats : MonoBehaviour
         UpdateLevelText();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (invincibilityTimer > 0)
         {
             invincibilityTimer -= Time.deltaTime;
@@ -133,7 +137,7 @@ public class PlayerStats : MonoBehaviour
 
     }
 
-    public void RecalculateStats()
+    public override void RecalculateStats()
     {
         actualStats = baseStats;
         foreach (PlayerInventory.Slot s in inventory.passiveSlots)
@@ -144,6 +148,44 @@ public class PlayerStats : MonoBehaviour
                 actualStats += p.GetBoosts();
             }
         }
+
+        //Create a variable to store all the cumulative multiplier values
+        CharacterData.Stats multiplier = new CharacterData.Stats
+        {
+            maxHealth = 1f,
+            recovery = 1f,
+            armor = 1f,
+            moveSpeed = 1f,
+            might = 1f,
+            area = 1f,
+            speed = 1f,
+            duration = 1f,
+            amount = 1,
+            cooldown = 1f,
+            luck = 1f,
+            growth = 1f,
+            greed = 1f,
+            curse = 1f,
+            magnet = 1f,
+            revival = 1
+        };
+
+        foreach (Buff b in activeBuffs)
+        {
+            BuffData.Stats bd = b.GetData();
+            switch (bd.modifierType)
+            {
+                case BuffData.ModifierType.additive:
+                    actualStats += bd.playerModifier;
+                    break;
+                case BuffData.ModifierType.multiplicative:
+                    multiplier *= bd.playerModifier;
+                    break;
+            }
+        }
+        actualStats *= multiplier;
+        
+        //Update the PlayerCollectors radius
         collector.SetRadius(actualStats.magnet);
     }
 
@@ -194,7 +236,7 @@ public class PlayerStats : MonoBehaviour
         levelText.text = "Level " + level.ToString();
     }
 
-    public void TakeDamage (float dmg)
+    public override void TakeDamage (float dmg)
     {
         //If the player is not currently invincible, reduce health and start invincibility
         if (!isInvincible)
@@ -233,7 +275,7 @@ public class PlayerStats : MonoBehaviour
         healthBar.fillAmount = CurrentHealth / actualStats.maxHealth;
     }
 
-    public void Kill()
+    public override void Kill()
     {
         if (!GameManager.instance.isGameOver)
         {
@@ -242,7 +284,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void RestoreHealth(float amount)
+    public override void RestoreHealth(float amount)
     {
         //Only heal the player if their current health is less than their max health
         if (CurrentHealth < actualStats.maxHealth)

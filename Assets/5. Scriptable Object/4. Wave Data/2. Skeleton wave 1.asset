@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
-  m_Name: 2. Goblin wave 1
+  m_Name: 2. Skeleton wave 1
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   possibleSpawnPrefabs:
-  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
-  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
-  - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
-  - {fileID: 7060775958896916355, guid: 2e4dadeb31c38444796575b2b8f06743, type: 3}
+  - {fileID: 7060775958896916355, guid: 25d57ffe0b189fa41827f0583329c0b8, type: 3}
+  - {fileID: 7060775958896916355, guid: 25d57ffe0b189fa41827f0583329c0b8, type: 3}
+  - {fileID: 7060775958896916355, guid: 25d57ffe0b189fa41827f0583329c0b8, type: 3}
+  - {fileID: 7060775958896916355, guid: 76eefff8d6af4ab4f96efcdc50a2f5ff, type: 3}
   spawnInterval: {x: 1.5, y: 2.5}
   spawnsPerTick: {x: 3, y: 4}
   duration: 30

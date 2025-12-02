@@ -21,6 +21,8 @@ public abstract class Weapon : Item
         public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
         public int number, piercing, maxInstances;
 
+        public EntityStats.BuffInfo[] appliedBuffs;
+
         //Allows us to use the + operator to add 2 Stats together
         //Very important later when we want to increase our weapon stats
         public static Stats operator +(Stats s1, Stats s2)
@@ -46,6 +48,7 @@ public abstract class Weapon : Item
             result.piercing = s1.piercing + s2.piercing;
             result.projectileInterval = s1.projectileInterval + s2.projectileInterval;
             result.knockback = s1.knockback + s2.knockback;
+            result.appliedBuffs = s2.appliedBuffs == null || s2.appliedBuffs.Length <= 0 ? s1.appliedBuffs : s2.appliedBuffs;
 
             return result;
         }
@@ -103,6 +106,7 @@ public abstract class Weapon : Item
     //Lets us check whether this weapon can attack at this current moment
     public virtual bool CanAttack()
     {
+        if (Mathf.Approximately(owner.Stats.might, 0)) return false;
         return currentCooldown <= 0;
     }
 
@@ -155,5 +159,13 @@ public abstract class Weapon : Item
         //multiple times
         currentCooldown = Mathf.Min(actualCooldown, currentCooldown + actualCooldown);
         return true;
+    }
+
+    //Makes the weapon apply its buff to a target EntityStats object
+    public void ApplyBuffs(EntityStats e)
+    {
+        //Apply all assigned buffs to the target
+        foreach (EntityStats.BuffInfo b in GetStats().appliedBuffs)
+            e.ApplyBuff(b, owner.Actual.duration);
     }
 }

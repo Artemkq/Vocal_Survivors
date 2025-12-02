@@ -188,10 +188,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d052635edee8342b6a435654406feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  currentMoveSpeed: 4
-  currentHealth: 40
-  currentDamage: 60
-  damageColor: {r: 1, g: 1, b: 1, a: 1}
+  baseStats:
+    maxHealth: 500
+    moveSpeed: 1
+    damage: 20
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.2
 --- !u!114 &7383762143165801561

@@ -37,6 +37,8 @@ public class Aura : WeaponEffect
                     affectedTargets[pair.Key] = stats.cooldown * Owner.Stats.cooldown;
                     pair.Key.TakeDamage(GetDamage(), transform.position, stats.knockback);
 
+                    weapon.ApplyBuffs(pair.Key); //Apply all assigned buffs to the target
+
                     //Play the hit effect if it is assigned
                     if (stats.hitEffect)
                     {

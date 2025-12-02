@@ -1,9 +1,11 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : Sortable
 {
-    protected EnemyStats enemy;
+    protected EnemyStats stats;
     protected Transform player;
+    protected Rigidbody2D rb; //For checking if enemy has a rigidbody
 
     protected Vector2 knockbackVelocity;
     protected float knockbackDuration;
@@ -11,12 +13,18 @@ public class EnemyMovement : MonoBehaviour
     public enum OutOffFrameAction { none, respawnAtEdge, despawn }
     public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
 
+    [System.Flags] 
+    public enum KnockbackVariance { duration = 1, velocity = 2 }
+    public KnockbackVariance knockbackVariance = KnockbackVariance.velocity;
+
     protected bool spawnedOutOffFrame = false;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+        rb = GetComponent<Rigidbody2D>();
         spawnedOutOffFrame = !SpawnManager.IsWithinBoundaries(transform);
-        enemy = GetComponent<EnemyStats>();
+        stats = GetComponent<EnemyStats>();
 
         //Picks a random player on the screen, instead of always picking the 1st player
         PlayerMovement[] allPlayers = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
@@ -71,14 +79,44 @@ public class EnemyMovement : MonoBehaviour
         //Ignore the knockback if the duration is greater than 0
         if (knockbackDuration > 0) return;
 
-        //Begins the knockback
-        knockbackVelocity = velocity;
-        knockbackDuration = duration;
+        //Ignore knockback if the knockback type is set to nont
+        if (knockbackVariance == 0) return;
+
+        //Only change the factor is the multiplier is not 0 or 1
+        float pow = 1;
+        bool reducesVelocity = (knockbackVariance & KnockbackVariance.velocity) > 0,
+             reducesDuration = (knockbackVariance & KnockbackVariance.duration) > 0;
+
+        if (reducesVelocity && reducesDuration) pow = 0.5f;
+
+        //Check which knockback values to affect
+        knockbackVelocity = velocity * (reducesVelocity ? Mathf.Pow(stats.Actual.knockbackMultiplier, pow) : 1);
+        knockbackDuration = duration * (reducesDuration ? Mathf.Pow(stats.Actual.knockbackMultiplier, pow) : 1);
     }
 
     public virtual void Move()
     {
-        //Constantly move the enemy towards the player
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemy.currentMoveSpeed  * Time.deltaTime);
+        //If there is a rigidbody, use it to move instead of moving the position directly
+        //This optimises performance
+        if (rb)
+        {
+            rb.MovePosition(Vector2.MoveTowards
+                (
+                rb.position,
+                player.transform.position,
+                stats.Actual.moveSpeed * Time.deltaTime
+                )
+            );
+        }
+        else
+        {
+            //Constatnly move the enemy towards the player
+            transform.position = Vector2.MoveTowards
+                (
+                transform.position,
+                player.transform.position,
+                stats.Actual.moveSpeed * Time.deltaTime
+                );
+        }
     }
 }

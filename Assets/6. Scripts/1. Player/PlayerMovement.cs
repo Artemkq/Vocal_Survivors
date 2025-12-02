@@ -1,7 +1,7 @@
 using UnityEngine;
 using Terresquall;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Sortable
 
 {
     public const float DEFAULT_MOVESPEED = 5f;
@@ -16,8 +16,9 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     PlayerStats player;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = new Vector2(1, 0f); //If we dont do this and game starts up and the player doesnt move, the projectile weapon will have no momentum
