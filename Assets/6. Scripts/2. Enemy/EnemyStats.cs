@@ -114,9 +114,14 @@ public class EnemyStats : EntityStats
     {
         base.Start();
 
-        RecalculateStats();
-        health = actualStats.maxHealth;
+        //Adds the global buff there is any
+        if (UILevelSelector.globalBuff && !UILevelSelector.globalBuffAffectsEnemies)
+            ApplyBuff(UILevelSelector.globalBuff);
 
+        RecalculateStats();
+
+        //Calculate the health and check for level boosts
+        health = actualStats.maxHealth;
         movement = GetComponent<EnemyMovement>();
     }
 

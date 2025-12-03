@@ -15,11 +15,13 @@ MonoBehaviour:
   icon: {fileID: -2097619832946416524, guid: 3869ee206e4750b4a93c79fe460a2f62, type: 3}
   controller: {fileID: 22100000, guid: 707c6539057e7d445b0d3bbdae380f5f, type: 2}
   name: Lady
+  fullName: Antonio Belpaese
+  characterDescription: Gains 10% more Damage every 10 levels (max +50%).
   startingWeapon: {fileID: 11400000, guid: f77cd59ec2cfcd24da93acf38bba890c, type: 2}
   stats:
-    maxHealth: 100
+    maxHealth: 120
     recovery: 0
-    armor: 1
+    armor: 2
     moveSpeed: 1
     might: 1
     area: 1

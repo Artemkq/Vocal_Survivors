@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Obsolete("This is an obsolete class, and will be replaced by UILevelSelect")]
+
 public class SceneController : MonoBehaviour
 {
     public void SceneChange (string name)

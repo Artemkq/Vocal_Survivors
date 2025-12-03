@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     float stopwatchTime; //The current time elapsed since the stopwatch started
     public TMP_Text stopwatchDisplay;
 
+    bool levelEnded = false; //Has the time limit been reached?
+    public GameObject evilWizardPrefab; //Spawns after time limit has been reached
+
     PlayerStats[] players; //Track all players
 
     public bool isGameOver { get { return currentState == GameState.GameOver; } }
@@ -90,6 +93,9 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
+
+        //Set the levels Time Limit
+        timeLimit = UILevelSelector.currentLevel.timeLimit;
         
         //Warning check to see if there is another singleton of this kind in the game
         if (instance == null)
@@ -270,17 +276,32 @@ public class GameManager : MonoBehaviour
         levelReachedDisplay.text = levelReachedData.ToString();
     }
 
+    public Vector2 GetRandomPlayerLocation()
+    {
+        int chosenPlayer = Random.Range(0, players.Length);
+        return new Vector2(players[chosenPlayer].transform.position.x,
+                           players[chosenPlayer].transform.position.y);
+    }
+
     void UpdateStopwatch()
     {
-        stopwatchTime += Time.deltaTime;
-
+        stopwatchTime += Time.deltaTime * UILevelSelector.currentLevel.clockSpeed;
         UpdateStopwatchDisplay();
 
-        if (stopwatchTime >= timeLimit)
+        if (stopwatchTime >= timeLimit && !levelEnded)
         {
-            foreach (PlayerStats p in players)
-                p.SendMessage("Kill");
-        }
+            levelEnded = true;
+
+            //Set the enemy/event spawner GameObject inactive to stop enemies from spawning and kill the remaining enemies onscreen
+            FindAnyObjectByType<SpawnManager>().gameObject.SetActive(false);
+            foreach (EnemyStats e in FindObjectsByType<EnemyStats>(FindObjectsSortMode.None))
+                e.SendMessage("Kill");
+
+            //Spawn the EvilWizard off-camera
+            Vector2 evilWizardOffset = Random.insideUnitCircle * 50f;
+            Vector2 spawnPosition = GetRandomPlayerLocation() + evilWizardOffset;
+            Instantiate (evilWizardPrefab, spawnPosition, Quaternion.identity);
+        }        
     }
 
     void UpdateStopwatchDisplay()

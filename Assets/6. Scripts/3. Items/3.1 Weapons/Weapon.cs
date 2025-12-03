@@ -164,8 +164,25 @@ public abstract class Weapon : Item
     //Makes the weapon apply its buff to a target EntityStats object
     public void ApplyBuffs(EntityStats e)
     {
+        if (e == null) // <-- Добавлена проверка на null
+        {
+            Debug.LogWarning("ApplyBuffs called with null EntityStats target.");
+            return;
+        }
+
+        // Также неплохо проверить, что appliedBuffs не null, хотя это менее вероятно
+        if (GetStats().appliedBuffs == null)
+        {
+            return;
+        }
+
         //Apply all assigned buffs to the target
         foreach (EntityStats.BuffInfo b in GetStats().appliedBuffs)
-            e.ApplyBuff(b, owner.Actual.duration);
+        {
+            if (owner != null)
+            {
+                e.ApplyBuff(b, owner.Actual.duration);
+            }
+        }
     }
 }

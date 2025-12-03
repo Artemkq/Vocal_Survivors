@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -85,10 +83,7 @@ public class PlayerStats : EntityStats
 
     void Awake()
     {
-        characterData = CharacterSelector.GetData();
-
-        if(CharacterSelector.instance)
-            CharacterSelector.instance.DestroySingleton();
+        characterData = UICharacterSelector.GetData();
 
         inventory = GetComponent<PlayerInventory>();
         collector = GetComponentInChildren<PlayerCollector>();
@@ -100,12 +95,16 @@ public class PlayerStats : EntityStats
 
         playerAnimator = GetComponent<PlayerAnimator>();
         if (characterData.controller)
-            playerAnimator.SetAnimatorController(characterData.controller); 
+            playerAnimator.SetAnimatorController(characterData.controller);
     }
 
     protected override void Start()
     {
         base.Start();
+
+        //Adds the global buff there is any
+        if (UILevelSelector.globalBuff && !UILevelSelector.globalBuffAffectsPlayer)
+            ApplyBuff(UILevelSelector.globalBuff);
 
         //Spawn the starting weapon
         inventory.Add(characterData.StartingWeapon);

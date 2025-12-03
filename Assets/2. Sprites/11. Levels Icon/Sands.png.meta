@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 86d333ca103259d47992f972375991b0
+guid: dc5d82c0f2d579046ba76f0bd714dca0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump_0
+      name: Screenshot_1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 500
-        height: 250
+        width: 342
+        height: 243
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6444fd1fdcb5cf14e896127f2d1c7c29
-      internalID: -1279712249
+      spriteID: 0a58644386333914db60c272226dc2b4
+      internalID: 79232435
       vertices: []
       indices: 
       edges: []
@@ -136,7 +136,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":40.0,"y":40.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Jump_0: -1279712249
+      Screenshot_1_0: 79232435
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

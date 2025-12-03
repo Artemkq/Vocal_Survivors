@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
-  m_Name: 1. Soldier
+  m_Name: 4. Grandfather
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  icon: {fileID: -2097619832946416524, guid: 949aa72d738c9dd4c92091037bf390d9, type: 3}
-  controller: {fileID: 9100000, guid: a016fdc742c96e242acdcc54467fd1f3, type: 2}
-  name: Soldier
-  startingWeapon: {fileID: 11400000, guid: 2ed6befa0faf40f44983e928c19e85aa, type: 2}
+  icon: {fileID: -2097619832946416524, guid: 475fc466022eb6a418896e4ce7557d26, type: 3}
+  controller: {fileID: 22100000, guid: a13d5757f23d4ce4999a15259b615479, type: 2}
+  name: Grandfather
+  fullName: Poe Ratcho
+  characterDescription: 'Permanent +25% Pickup range and -30 Max Health.
+
+'
+  startingWeapon: {fileID: 11400000, guid: 2711ecfb6133de94b8beef2c954befb9, type: 2}
   stats:
-    maxHealth: 100
+    maxHealth: 70
     recovery: 0
     armor: 1
     moveSpeed: 1
@@ -31,5 +35,5 @@ MonoBehaviour:
     growth: 1
     greed: 1
     curse: 1
-    magnet: 2
+    magnet: 2.25
     revival: 0

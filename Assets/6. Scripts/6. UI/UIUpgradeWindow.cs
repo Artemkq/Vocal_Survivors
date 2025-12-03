@@ -165,7 +165,7 @@ public class UIUpgradeWindow : MonoBehaviour
             optionHeight /= maxOptions;
 
         //Recalculates the height of the tooltip as well if it is currently active
-        if (tooltipTemplate.gameObject.activeSelf)
+        if (tooltipTemplate != null && tooltipTemplate.gameObject.activeSelf)
         {
             RectTransform tooltipRect = (RectTransform)tooltipTemplate.transform;
             tooltipTemplate.gameObject.SetActive(true);
@@ -176,7 +176,7 @@ public class UIUpgradeWindow : MonoBehaviour
         //Sets the height of every active Upgrade Option button
         foreach (RectTransform r in upgradeOptions)
         {
-            if (!r.gameObject.activeSelf) continue;
+            if (r == null || !r.gameObject.activeSelf) continue;
             r.sizeDelta = new Vector2 (r.sizeDelta.x, optionHeight);    
         }
     }
