@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
         Gameplay,
         Paused,
         GameOver,
-        LevelUp
+        LevelUp,
+        TreasureChest
     }
 
     // Store the current state of the game
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviour
     public TMP_Text chosenCharacterName;
     public TMP_Text levelReachedDisplay;
     public TMP_Text timeSurvivedDisplay;
+
+    const float DEFAULT_TIME_LIMIT = 1800f;
+    const float DEFAULT_CLOCK_SPEED = 1f;
+    float ClockSpeed => UILevelSelector.currentLevel?.clockSpeed ?? DEFAULT_CLOCK_SPEED;
+    float TimeLimit => UILevelSelector.currentLevel?.timeLimit ?? DEFAULT_TIME_LIMIT;
 
     [Header("Stopwatch")]
     public float timeLimit; //The time limit in seconds
@@ -95,7 +101,7 @@ public class GameManager : MonoBehaviour
         players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
 
         //Set the levels Time Limit
-        timeLimit = UILevelSelector.currentLevel.timeLimit;
+        timeLimit = TimeLimit;
         
         //Warning check to see if there is another singleton of this kind in the game
         if (instance == null)
@@ -253,11 +259,26 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         timeSurvivedDisplay.text = stopwatchDisplay.text;
-        
+
         //Set the Game Over variables here
         ChangeState(GameState.GameOver);
         Time.timeScale = 0f; //Stop the game entirely
         DisplayResults();
+
+        // Save all the diamonds of all the players to the save file.
+        foreach (PlayerStats p in players)
+        {
+            p.GetComponentInChildren<PlayerCollector>().SaveDiamondsToStash();
+        }
+
+        // Add all players' coins to their save file, since the game has ended.
+        foreach (PlayerStats p in players)
+        {
+            if (p.TryGetComponent(out PlayerCollector c))
+            {
+                c.SaveDiamondsToStash();
+            }
+        }
     }
 
     void DisplayResults()
@@ -285,7 +306,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateStopwatch()
     {
-        stopwatchTime += Time.deltaTime * UILevelSelector.currentLevel.clockSpeed;
+        stopwatchTime += Time.deltaTime * ClockSpeed;
         UpdateStopwatchDisplay();
 
         if (stopwatchTime >= timeLimit && !levelEnded)

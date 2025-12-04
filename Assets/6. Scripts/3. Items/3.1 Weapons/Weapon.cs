@@ -87,9 +87,9 @@ public abstract class Weapon : Item
 
     //Levels up the weapon by 1, and calculates the corresponding stats
 
-    public override bool DoLevelUp()
+    public override bool DoLevelUp(bool updateUI = true)
     {
-        base.DoLevelUp();
+        base.DoLevelUp(updateUI);
 
         //Prevent level up if we are already at max level
         if (!CanLevelUp())

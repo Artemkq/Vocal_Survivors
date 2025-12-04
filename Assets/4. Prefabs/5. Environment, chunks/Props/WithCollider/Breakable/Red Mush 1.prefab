@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20e2096c74de294893a521d7b3c03c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropRateManager
+  active: 1
   drops:
   - name: Apple
     itemPrefab: {fileID: 6446746050567509442, guid: b6b4fbb9a53798a47ac38fd7e68960ad, type: 3}

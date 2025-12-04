@@ -4993,7 +4993,7 @@ MonoBehaviour:
         debuff: 0
       curseBoosts: 0
       levelBoosts: 0
-    timeLimit: 5
+    timeLimit: 1800
     clockSpeed: 1
     extraNotes: --
   - scene: {fileID: 102900000, guid: efb4c988295bf4944abdf664e5980701, type: 3}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4918953846911869745}
   - component: {fileID: -5352478565071903318}
   - component: {fileID: -2214794920289255366}
+  - component: {fileID: 1040791326036402134}
   m_Layer: 0
   m_Name: AutumnDecorations_82
   m_TagString: Prop
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -53648350, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.18679237, g: 0.5542055, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -151,3 +152,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
   health: 1
+--- !u!114 &1040791326036402134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459249270514026687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20e2096c74de294893a521d7b3c03c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropRateManager
+  active: 1
+  drops:
+  - name: Blue Diamond
+    itemPrefab: {fileID: 85880298717456950, guid: d728755fb4a26c1498c246f83b124532, type: 3}
+    dropRate: 100

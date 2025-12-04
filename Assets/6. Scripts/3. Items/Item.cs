@@ -38,14 +38,14 @@ public abstract class Item : MonoBehaviour
     //Call this function to get all the evolutions that the weapon
     //can currently evolve to
 
-    public virtual ItemData.Evolution[] CanEvolve()
+    public virtual ItemData.Evolution[] CanEvolve(int levelUpAmount = 1)
     {
         List<ItemData.Evolution> possibleEvolutions = new List<ItemData.Evolution>();
 
         //Check each listed evolution and whether it is in the inventory
         foreach (ItemData.Evolution e in evolutionData)
         {
-            if (CanEvolve(e)) possibleEvolutions.Add(e);
+            if (CanEvolve(e, levelUpAmount)) possibleEvolutions.Add(e);
         }
         return possibleEvolutions.ToArray();
     }
@@ -111,7 +111,7 @@ public abstract class Item : MonoBehaviour
     }
 
     //Whenever an item levels up, attempt to make it evolve
-    public virtual bool DoLevelUp()
+    public virtual bool DoLevelUp(bool updateUI = true)
     {
         if (evolutionData == null) return true;
 
