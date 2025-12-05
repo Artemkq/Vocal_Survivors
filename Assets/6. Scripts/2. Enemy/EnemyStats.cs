@@ -41,7 +41,7 @@ public class EnemyStats : EntityStats
     [System.Serializable]
     public struct Stats
     {
-        public float maxHealth, moveSpeed, damage, knockbackMultiplier;
+        public float maxHealth, damage, moveSpeed, knockbackMultiplier;
         public Resistances resistances;
 
         [System.Flags]
