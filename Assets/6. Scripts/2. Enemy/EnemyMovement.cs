@@ -1,4 +1,4 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using System.Collections; // ДОБАВИТЬ ЭТУ СТРОКУ
 using UnityEngine;
 
 public class EnemyMovement : Sortable
@@ -13,11 +13,13 @@ public class EnemyMovement : Sortable
     public enum OutOffFrameAction { none, respawnAtEdge, despawn }
     public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
 
-    [System.Flags] 
+    [System.Flags]
     public enum KnockbackVariance { duration = 1, velocity = 2 }
     public KnockbackVariance knockbackVariance = KnockbackVariance.velocity;
 
     protected bool spawnedOutOffFrame = false;
+    // ДОБАВИТЬ ЭТУ СТРОКУ:
+    [HideInInspector] public bool giveExperienceOnDeath = true;
 
     protected override void Start()
     {
@@ -55,7 +57,8 @@ public class EnemyMovement : Sortable
         {
             switch (outOffFrameAction)
             {
-                case OutOffFrameAction.none: default:
+                case OutOffFrameAction.none:
+                default:
                     break;
                 case OutOffFrameAction.respawnAtEdge:
                     //If the enemy is outside the camera frame, teleport it back to the edge of the frame
@@ -65,12 +68,35 @@ public class EnemyMovement : Sortable
                     //Dont destroy if it is spawned outside the frame
                     if (!spawnedOutOffFrame)
                     {
-                        Destroy(gameObject);
+                        // ИЗМЕНЕНИЕ: Вызываем новую функцию Despawn() вместо Destroy(gameObject)
+                        Despawn();
                     }
                     break;
             }
         }
         else spawnedOutOffFrame = false;
+    }
+
+    // ДОБАВИТЬ ЭТИ ДВА НОВЫХ МЕТОДА:
+
+    public void Despawn()
+    {
+        // Устанавливаем флаг, что опыт давать не нужно при этом убийстве
+        giveExperienceOnDeath = false;
+
+        // Запускаем корутину с задержкой в 3 секунды
+        StartCoroutine(DelayedKill(3.0f));
+    }
+
+    IEnumerator DelayedKill(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Повторно проверяем, что объект еще существует и вызываем Kill через EnemyStats
+        if (this != null && gameObject != null)
+        {
+            GetComponent<EnemyStats>()?.Kill();
+        }
     }
 
     //This is meant to be called from other scripts to create knockback

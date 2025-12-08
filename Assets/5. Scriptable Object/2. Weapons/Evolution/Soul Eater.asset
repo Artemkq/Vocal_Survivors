@@ -18,7 +18,7 @@ MonoBehaviour:
   behaviour: AuraWeapon
   baseStats:
     name: Soul Eater
-    description: Garlic on steroids
+    description: Evolved Garlic. Steals hearts. Power increases when recovering HP.
     projectilePrefab: {fileID: 0}
     auraPrefab: {fileID: 3387613106869484478, guid: 4259148826c030641ae425d5f381d1a9, type: 3}
     hitEffect: {fileID: 0}
@@ -29,41 +29,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 20
-    damageVariance: 5
-    area: 8
+    area: 3
     speed: 0
+    amount: 0
+    duration: 1.3
+    pierce: 0
     cooldown: 1
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 50
+    poolLimit: 50
+    damageVariance: 5
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
-  linearGrowth:
-  - name: Level 2
-    description: More area
-    projectilePrefab: {fileID: 0}
-    auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
-    procEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 0
-    damageVariance: 0
-    area: 2
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
-    appliedBuffs: []
+  linearGrowth: []
   randomGrowth: []

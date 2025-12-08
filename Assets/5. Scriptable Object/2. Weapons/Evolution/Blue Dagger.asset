@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Blue Dagger
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   icon: {fileID: 21300000, guid: 735a74768f3946d4c890a1afddc19e66, type: 2}
-  maxLevel: 2
+  maxLevel: 1
   evolutionData: []
   behaviour: ProjectileWeapon
   baseStats:
     name: Blue Dagger
-    description: More powerfull dagger
+    description: Evolved Knife. Fires with no delay.
     projectilePrefab: {fileID: -7291327762620502836, guid: 4fa3dda44a0ad4a46a4992478e127279, type: 3}
     auraPrefab: {fileID: 0}
     hitEffect: {fileID: 372242045722072226, guid: 27a4e02d7d78d914e98d2f4bb5783e49, type: 3}
@@ -29,41 +29,20 @@ MonoBehaviour:
       y: -0.2
       width: 0
       height: 0.4
-    lifespan: 3
-    damage: 20
-    damageVariance: 5
+    damage: 16.5
     area: 1
-    speed: 20
-    cooldown: 0.5
-    projectileInterval: 0.1
+    speed: 15
+    amount: 6
+    duration: 0
+    pierce: 3
+    cooldown: 0.35
+    projectileInterval: 0.05
     knockback: 0.5
-    number: 5
-    piercing: 5
-    maxInstances: 70
+    poolLimit: 70
+    damageVariance: 3
+    chance: 0.3
+    criticalMultiplier: 3
+    blockedByWalls: 1
     appliedBuffs: []
-  linearGrowth:
-  - name: Level 2
-    description: Base Damage up by 15.
-    projectilePrefab: {fileID: 0}
-    auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
-    procEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 15
-    damageVariance: 0
-    area: 0
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
-    appliedBuffs: []
+  linearGrowth: []
   randomGrowth: []

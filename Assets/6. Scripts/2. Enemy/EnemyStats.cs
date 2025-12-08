@@ -101,19 +101,33 @@ public class EnemyStats : EntityStats
     public Color damageColor = new Color(1, 0, 0, 1); //What the color of the damage flash should be.
     public float damageFlashDuration = 0.2f; //How long the flash should last.
     public float deathFadeTime = 0.6f; //How much time it takes for the enemy to fade.
+
+    // ДОБАВИТЬ ЭТУ СТРОКУ:
+    Collider2D enemyCollider;
+
     EnemyMovement movement;
 
     public static int count;
 
     protected override void Awake()
     {
-        base.Awake(); // < --������������ ����� ������� �������������
+        base.Awake(); // < --������������ ����� ������� �������������
 
         count++;
         movement = GetComponent<EnemyMovement>();
+
+        // ДОБАВИТЬ ЭТУ СТРОКУ:
+        enemyCollider = GetComponent<Collider2D>();
+
         if (movement == null)
         {
             Debug.LogWarning("EnemyMovement component not found on " + gameObject.name, this);
+        }
+
+        // ДОБАВИТЬ ЭТИ СТРОКИ:
+        if (enemyCollider == null)
+        {
+            Debug.LogWarning("Collider2D component not found on " + gameObject.name, this);
         }
     }
 
@@ -129,7 +143,7 @@ public class EnemyStats : EntityStats
 
         //Calculate the health and check for level boosts
         health = actualStats.maxHealth;
-        // movement = GetComponent<EnemyMovement>(); // <-- ������� ��� ������ ������
+        // movement = GetComponent<EnemyMovement>(); // <-- ������� ��� ������ ������
     }
 
     public override bool ApplyBuff(BuffData data, int variant = 0, float durationMultiplier = 1f)
@@ -184,6 +198,13 @@ public class EnemyStats : EntityStats
 
     public override void TakeDamage(float dmg)
     {
+        // ДОБАВИТЬ ЭТИ СТРОКИ:
+        // Если враг уже мертв (у него отключен коллайдер), игнорируем урон
+        if (enemyCollider != null && !enemyCollider.enabled)
+        {
+            return;
+        }
+
         health -= dmg;
 
         //If damage is exactly equal to maximum health, we assume it is an insta-kill and
@@ -223,7 +244,7 @@ public class EnemyStats : EntityStats
 
         if (movement == null || health <= 0)
         {
-            // ���� ������ ��� ���� ��� ���������� ���, ������ �������.
+            // ���� ������ ��� ���� ��� ���������� ���, ������ �������.
             return;
         }
 
@@ -259,10 +280,38 @@ public class EnemyStats : EntityStats
 
     public override void Kill()
     {
-        //Enable drops if the enemy is killed,
-        //since drops are disabled by default
+        // Enable drops if the enemy is killed,
+        // since drops are disabled by default
         DropRateManager drops = GetComponent<DropRateManager>();
-        if (drops) drops.active = true;
+
+        // *** ВОТ ГЛАВНОЕ ИЗМЕНЕНИЕ/ПРОВЕРКА ***
+
+        // 1. Получаем ссылку на EnemyMovement, если ее еще нет
+        if (movement == null)
+        {
+            movement = GetComponent<EnemyMovement>();
+        }
+
+        // 2. Если у врага есть компонент дропов
+        if (drops)
+        {
+            // 3. Устанавливаем активность дропов в зависимости от флага giveExperienceOnDeath
+            // Если флаг TRUE, active будет TRUE. Если флаг FALSE (деспавн за экраном), active будет FALSE.
+            drops.active = (movement != null && movement.giveExperienceOnDeath);
+        }
+
+        // ***************************************
+
+        // Отключаем коллайдер и движение (как мы делали ранее)
+        if (enemyCollider != null)
+        {
+            enemyCollider.enabled = false;
+        }
+        // Проверка movement != null добавлена ранее
+        if (movement != null)
+        {
+            movement.enabled = false;
+        }
 
         StartCoroutine(KillFade());
     }
@@ -286,15 +335,22 @@ public class EnemyStats : EntityStats
         Destroy(gameObject);
     }
 
-    void OnCollisionStay2D(Collision2D col)
+    // Замените OnCollisionStay2D на OnTriggerStay2D
+    void OnTriggerStay2D(Collider2D col)
     {
+        // *** ИСПРАВЛЕНИЕ: Используем col (Collider2D), а не col.collider ***
+
+        // Проверка, чтобы мертвый (затухающий) враг не мог наносить урон игроку
+        if (enemyCollider == null || !enemyCollider.enabled) return;
+
         if (Mathf.Approximately(Actual.damage, 0)) return;
 
         //Check for whether there is a PlayerStats object we can damage
-        if (col.collider.TryGetComponent(out PlayerStats p))
+        // Пытаемся получить компонент PlayerStats с того коллайдера, с которым столкнулись (BoxCollider2D)
+        if (col.TryGetComponent(out PlayerStats p))
         {
             p.TakeDamage(Actual.damage);
-            foreach(BuffInfo b in attackEffects)
+            foreach (BuffInfo b in attackEffects)
                 p.ApplyBuff(b);
         }
     }

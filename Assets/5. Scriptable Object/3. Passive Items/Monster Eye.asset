@@ -37,7 +37,7 @@ MonoBehaviour:
       revival: 0
   growth:
   - name: Level 2
-    description: +10% Might (max +50%)
+    description: Base damage up by 10%
     boosts:
       maxHealth: 0
       recovery: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
       magnet: 0
       revival: 0
   - name: Level 3
-    description: +10% Might (max +50%)
+    description: Base damage up by 10%
     boosts:
       maxHealth: 0
       recovery: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
       magnet: 0
       revival: 0
   - name: Level 4
-    description: +10% Might (max +50%)
+    description: Base damage up by 10%
     boosts:
       maxHealth: 0
       recovery: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
       magnet: 0
       revival: 0
   - name: Level 5
-    description: +10% Might (max +50%)
+    description: Base damage up by 10%
     boosts:
       maxHealth: 0
       recovery: 0

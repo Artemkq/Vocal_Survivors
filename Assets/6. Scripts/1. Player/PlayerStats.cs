@@ -83,7 +83,7 @@ public class PlayerStats : EntityStats
 
     protected override void Awake()
     {
-        base.Awake(); // < --������������ ����� ������� �������������
+        base.Awake(); // < --������������ ����� ������� �������������
 
         characterData = UICharacterSelector.GetData();
 
@@ -227,12 +227,28 @@ public class PlayerStats : EntityStats
     
     void UpdateExpBar()
     {
+        // *** ИСПРАВЛЕНИЕ: Добавляем проверку, существует ли еще UI-элемент ***
+        if (expBar == null)
+        {
+            // Если панель опыта отсутствует, просто выходим из функции.
+            // Возможно, UI был уничтожен, потому что игра закончилась.
+            Debug.LogWarning("expBar reference is missing or destroyed. Cannot update UI.");
+            return;
+        }
+        
         //Update exp bar fill amount
         expBar.fillAmount = (float)experience / experienceCap;
     }
 
     void UpdateLevelText()
     {
+        // *** ИСПРАВЛЕНИЕ: Добавляем проверку для уровня тоже, на всякий случай ***
+        if (levelText == null)
+        {
+            Debug.LogWarning("levelText reference is missing or destroyed. Cannot update UI.");
+            return;
+        }
+        
         //Update level text
         levelText.text = "Level " + level.ToString();
     }
@@ -272,6 +288,13 @@ public class PlayerStats : EntityStats
 
     void UpdateHealthBar()
     {
+        // *** ИСПРАВЛЕНИЕ: И для полоски здоровья тоже ***
+        if (healthBar == null)
+        {
+            Debug.LogWarning("healthBar reference is missing or destroyed. Cannot update UI.");
+            return;
+        }
+        
         //Update the health bar
         healthBar.fillAmount = CurrentHealth / actualStats.maxHealth;
     }

@@ -37,10 +37,10 @@ public class Projectile : WeaponEffect
         );
 
         //Set how much piercing this object has
-        piercing = stats.piercing;
+        piercing = stats.pierce;
 
         //Destroy the projectile after its lifespan expires
-        if (stats.lifespan > 0) Destroy(gameObject, stats.lifespan);
+        if (stats.duration > 0) Destroy(gameObject, stats.duration);
 
         //If the projectile is auto-aiming, automatically find a suitable enemy
         if (hasAutoAim) AcquireAutoAimFacing();

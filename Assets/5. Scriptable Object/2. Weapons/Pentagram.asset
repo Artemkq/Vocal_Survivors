@@ -18,7 +18,7 @@ MonoBehaviour:
   - name: Soul Eater
     condition: 1
     consumes: 2
-    evolutionLevel: 1
+    evolutionLevel: 8
     catalysts:
     - itemType: {fileID: 11400000, guid: 294d3955eee555f4e9a207cf43cbf074, type: 2}
       level: 1
@@ -39,17 +39,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 5
-    damageVariance: 1
-    area: 1.5
+    area: 1
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 1.3
     projectileInterval: 0
-    knockback: 1
-    number: 1
-    piercing: 0
-    maxInstances: 50
+    knockback: 0
+    poolLimit: 50
+    damageVariance: 1
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   linearGrowth:
   - name: Level 2
@@ -64,17 +67,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 2
-    damageVariance: 0
     area: 0.4
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 3
     description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 1. '
@@ -88,17 +94,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 1
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0.1
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 4
     description: 'Base Area up by 20%. Base Damage up by 1. '
@@ -112,17 +121,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 1
-    damageVariance: 0
     area: 0.2
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 5
     description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 2. '
@@ -136,17 +148,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 2
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0.1
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 6
     description: 'Base Area up by 20%. Base Damage up by 1. '
@@ -160,17 +175,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 1
-    damageVariance: 0
     area: 0.2
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 7
     description: 'Cooldown reduced by 0.1 seconds. Base Damage up by 1. '
@@ -184,17 +202,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 1
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0.1
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 8
     description: 'Base Area up by 20%. Base Damage up by 2. '
@@ -208,16 +229,19 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 2
-    damageVariance: 0
     area: 0.2
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   randomGrowth: []

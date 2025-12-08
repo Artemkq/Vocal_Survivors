@@ -18,7 +18,7 @@ MonoBehaviour:
   - name: Blue Dagger
     condition: 1
     consumes: 2
-    evolutionLevel: 0
+    evolutionLevel: 8
     catalysts:
     - itemType: {fileID: 11400000, guid: 8db75056acab5f0489ac87644bae752f, type: 2}
       level: 1
@@ -39,17 +39,20 @@ MonoBehaviour:
       y: -0.2
       width: 0
       height: 0.4
-    lifespan: 5
     damage: 6.5
-    damageVariance: 2
     area: 1
-    speed: 10
+    speed: 1
+    amount: 1
+    duration: 5
+    pierce: 1
     cooldown: 1
     projectileInterval: 0.1
     knockback: 0.5
-    number: 1
-    piercing: 1
-    maxInstances: 70
+    poolLimit: 70
+    damageVariance: 2
+    chance: 0.3
+    criticalMultiplier: 3
+    blockedByWalls: 1
     appliedBuffs: []
   linearGrowth:
   - name: Level 2
@@ -64,17 +67,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 0
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 1
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 3
     description: 'Fires 1 more projectile. Base Damage up by 5. '
@@ -88,17 +94,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 5
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 1
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 4
     description: 'Fires 1 more projectile. '
@@ -112,17 +121,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 0
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 1
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 5
     description: 'Passes through 1 more enemy. '
@@ -136,17 +148,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 0
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 1
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 1
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 6
     description: 'Fires 1 more projectile. '
@@ -160,17 +175,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 0
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 1
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 7
     description: 'Fires 1 more projectile. Base Damage up by 5. '
@@ -184,17 +202,20 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 5
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 1
+    duration: 0
+    pierce: 0
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   - name: Level 8
     description: 'Passes through 1 more enemy. '
@@ -208,16 +229,19 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 0
     damage: 5
-    damageVariance: 0
     area: 0
     speed: 0
+    amount: 0
+    duration: 0
+    pierce: 1
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 0
-    piercing: 1
-    maxInstances: 0
+    poolLimit: 0
+    damageVariance: 0
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
     appliedBuffs: []
   randomGrowth: []

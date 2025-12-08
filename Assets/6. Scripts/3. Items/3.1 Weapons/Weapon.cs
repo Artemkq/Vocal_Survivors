@@ -17,9 +17,24 @@ public abstract class Weapon : Item
         public Rect spawnVariance;
 
         [Header("Values")]
-        public float lifespan; //if 0, it will last forever
-        public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
-        public int number, piercing, maxInstances;
+        public float damage;
+        public float area;
+        public float speed;
+        public int amount;
+        public float duration; //if duration = 0, it will last forever
+        public int pierce;
+        public float cooldown;
+        public float projectileInterval;
+        public float knockback;
+        public int poolLimit;
+
+        [Header("Other Values")]
+        public float damageVariance;
+
+        [Header("Dont USE FOR NOW Values")] //РќСѓР¶РЅРѕ РїСЂРёРґСѓРјР°С‚СЊ РїСЂРёРјРµРЅРµРЅРёРµ
+        public float chance; 
+        public float criticalMultiplier; 
+        public bool blockedByWalls;
 
         public EntityStats.BuffInfo[] appliedBuffs;
 
@@ -30,22 +45,22 @@ public abstract class Weapon : Item
             Stats result = new Stats();
             result.name = s2.name ?? s1.name;
             result.description = s2.description ?? s1.description;
-            
+
             result.projectilePrefab = s2.projectilePrefab ?? s1.projectilePrefab;
             //result.auraPrefab = s2.auraPrefab ?? s1.auraPrefab;
-            
+
             result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
             result.procEffect = s2.procEffect == null ? s1.procEffect : s2.procEffect;
 
             result.spawnVariance = s2.spawnVariance;
-            result.lifespan = s1.lifespan + s2.lifespan;
+            result.duration = s1.duration + s2.duration;
             result.damage = s1.damage + s2.damage;
             result.damageVariance = s1.damageVariance + s2.damageVariance;
             result.area = s1.area + s2.area;
             result.speed = s1.speed + s2.speed;
             result.cooldown = s1.cooldown + s2.cooldown;
-            result.number = s1.number + s2.number;
-            result.piercing = s1.piercing + s2.piercing;
+            result.amount = s1.amount + s2.amount;
+            result.pierce = s1.pierce + s2.pierce;
             result.projectileInterval = s1.projectileInterval + s2.projectileInterval;
             result.knockback = s1.knockback + s2.knockback;
             result.appliedBuffs = s2.appliedBuffs == null || s2.appliedBuffs.Length <= 0 ? s1.appliedBuffs : s2.appliedBuffs;
@@ -67,7 +82,7 @@ public abstract class Weapon : Item
     protected PlayerMovement movement; //Reference to the players movement
 
     //For dynamically created weapons, call initialise to set everything up
-    public virtual void Initialise (WeaponData data)
+    public virtual void Initialise(WeaponData data)
     {
         base.Initialise(data);
         this.data = data;
@@ -81,8 +96,8 @@ public abstract class Weapon : Item
         currentCooldown -= Time.deltaTime;
         if (currentCooldown <= 0f) //Once the cooldown becomes 0, attack
         {
-            Attack(currentStats.number + owner.Stats.amount);
-        } 
+            Attack(currentStats.amount + owner.Stats.amount);
+        }
     }
 
     //Levels up the weapon by 1, and calculates the corresponding stats
@@ -144,7 +159,7 @@ public abstract class Weapon : Item
 
     //Refreshes the cooldown of the weapon
     //If <strict> is true, refreshes only when currentCooldown < 0
-    public virtual bool ActivateCooldown (bool strict = false)
+    public virtual bool ActivateCooldown(bool strict = false)
     {
         //When <strict> is enabled and the cooldown is not yet finished,
         //do not refresh the cooldown
@@ -164,13 +179,13 @@ public abstract class Weapon : Item
     //Makes the weapon apply its buff to a target EntityStats object
     public void ApplyBuffs(EntityStats e)
     {
-        if (e == null) // <-- Добавлена проверка на null
+        if (e == null) // <-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ null
         {
             Debug.LogWarning("ApplyBuffs called with null EntityStats target.");
             return;
         }
 
-        // Также неплохо проверить, что appliedBuffs не null, хотя это менее вероятно
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ appliedBuffs пїЅпїЅ null, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (GetStats().appliedBuffs == null)
         {
             return;

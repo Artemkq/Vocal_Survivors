@@ -99,31 +99,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7060775958896916355, guid: 97317fed6d50f12429413b897618f811, type: 3}
       insertIndex: 3
-      addedObject: {fileID: -1642208232319726494}
-    - targetCorrespondingSourceObject: {fileID: 7060775958896916355, guid: 97317fed6d50f12429413b897618f811, type: 3}
-      insertIndex: 4
       addedObject: {fileID: 3060761373010813990}
+    - targetCorrespondingSourceObject: {fileID: 7060775958896916355, guid: 97317fed6d50f12429413b897618f811, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: -1642208232319726494}
   m_SourcePrefab: {fileID: 100100000, guid: 97317fed6d50f12429413b897618f811, type: 3}
 --- !u!1 &7482861473054071616 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7060775958896916355, guid: 97317fed6d50f12429413b897618f811, type: 3}
   m_PrefabInstance: {fileID: 442650797364423875}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-1642208232319726494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7482861473054071616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b464d56af6219d46818c560a7453f31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChargingEnemyMovement
-  sortingActive: 1
-  outOffFrameAction: 2
-  knockbackVariance: 2
 --- !u!50 &3060761373010813990
 Rigidbody2D:
   serializedVersion: 5
@@ -151,3 +136,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-1642208232319726494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7482861473054071616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b464d56af6219d46818c560a7453f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChargingEnemyMovement
+  sortingActive: 1
+  outOffFrameAction: 2
+  knockbackVariance: 2
