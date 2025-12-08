@@ -81,8 +81,10 @@ public class PlayerStats : EntityStats
 
     PlayerAnimator playerAnimator;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake(); // < --Обязательный вызов базовой инициализации
+
         characterData = UICharacterSelector.GetData();
 
         inventory = GetComponent<PlayerInventory>();

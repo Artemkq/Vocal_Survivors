@@ -40,6 +40,7 @@ MonoBehaviour:
     number: 5
     piercing: 5
     maxInstances: 70
+    appliedBuffs: []
   linearGrowth:
   - name: Level 2
     description: Base Damage up by 15.
@@ -64,4 +65,5 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
+    appliedBuffs: []
   randomGrowth: []

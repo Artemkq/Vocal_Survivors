@@ -19,7 +19,7 @@ public class TransparencyDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.GetComponent<PlayerStats>())
+        if (collider.CompareTag("Player"))
         {
             if (collider is CapsuleCollider2D)
             {
@@ -30,7 +30,7 @@ public class TransparencyDetection : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.GetComponent<PlayerStats>())
+        if (collider.CompareTag("Player"))
         {
             if (collider is CapsuleCollider2D)
             {

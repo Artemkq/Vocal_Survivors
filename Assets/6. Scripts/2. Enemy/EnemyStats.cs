@@ -105,9 +105,16 @@ public class EnemyStats : EntityStats
 
     public static int count;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake(); // < --Обязательный вызов базовой инициализации
+
         count++;
+        movement = GetComponent<EnemyMovement>();
+        if (movement == null)
+        {
+            Debug.LogWarning("EnemyMovement component not found on " + gameObject.name, this);
+        }
     }
 
     protected override void Start()
@@ -122,7 +129,7 @@ public class EnemyStats : EntityStats
 
         //Calculate the health and check for level boosts
         health = actualStats.maxHealth;
-        movement = GetComponent<EnemyMovement>();
+        // movement = GetComponent<EnemyMovement>(); // <-- Удаляем эту строку отсюда
     }
 
     public override bool ApplyBuff(BuffData data, int variant = 0, float durationMultiplier = 1f)
@@ -213,6 +220,12 @@ public class EnemyStats : EntityStats
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
         TakeDamage(dmg);
+
+        if (movement == null || health <= 0)
+        {
+            // Если объект был убит или компонента нет, просто выходим.
+            return;
+        }
 
         //Aply knockback if it is not zero
         if (knockbackForce > 0)

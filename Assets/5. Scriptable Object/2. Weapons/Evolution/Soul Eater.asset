@@ -40,6 +40,7 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 50
+    appliedBuffs: []
   linearGrowth:
   - name: Level 2
     description: More area
@@ -64,4 +65,5 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstances: 0
+    appliedBuffs: []
   randomGrowth: []

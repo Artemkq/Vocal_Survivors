@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   possibleSpawnPrefabs:
   - {fileID: 7060775958896916355, guid: 78f105632f2b1f14bbb60592c6da003e, type: 3}
-  spawnInterval: {x: 0, y: 0}
-  spawnsPerTick: {x: 0, y: 0}
-  duration: 1
-  startingCount: 1
+  spawnInterval: {x: 1, y: 1}
+  spawnsPerTick: {x: 1, y: 1}
+  duration: 0.1
+  startingCount: 0
   totalSpawns: 1
   exitConditions: 2
-  mustKillAll: 1
+  mustKillAll: 0
   spawnCount: 0

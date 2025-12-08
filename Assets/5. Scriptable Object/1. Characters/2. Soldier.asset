@@ -22,7 +22,7 @@ MonoBehaviour:
     maxHealth: 120
     recovery: 0
     armor: 1
-    moveSpeed: 1
+    moveSpeed: 0.5
     might: 1
     area: 1
     speed: 1
@@ -33,5 +33,5 @@ MonoBehaviour:
     growth: 1
     greed: 1
     curse: 1
-    magnet: 2
+    magnet: 5000
     revival: 0

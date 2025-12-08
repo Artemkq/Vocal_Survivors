@@ -64,11 +64,25 @@ public abstract class EntityStats : MonoBehaviour
         [Range(0f, 1f)] public float probability = 1f;
     }
 
-    protected virtual void Start()
+    protected virtual void Awake() // Используем Awake() вместо Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        originalColor = sprite.color;
         animator = GetComponent<Animator>();
+
+        // Если не удалось найти спрайт, выдаем предупреждение
+        if (sprite == null)
+        {
+            Debug.LogWarning("SpriteRenderer не найден на объекте " + gameObject.name + "! Тинтование работать не будет.", this);
+            return; // Выходим, если компонента нет
+        }
+        originalColor = sprite.color;
+    }
+
+    // Удалите или оставьте пустым метод Start(), так как Awake() теперь делает всю работу
+    protected virtual void Start()
+    {
+        // Этот метод теперь можно оставить пустым или удалить, 
+        // если в дочерних классах (PlayerStats, EnemyStats) нет других нужных операций Start
     }
 
     public virtual void ApplyAnimationMultiplier(float factor)
@@ -96,6 +110,13 @@ public abstract class EntityStats : MonoBehaviour
 
     protected virtual void UpdateColor()
     {
+        // *** ГЛАВНОЕ ИСПРАВЛЕНИЕ ***
+        // Проверяем, существует ли sprite перед попыткой изменить его цвет.
+        if (sprite == null)
+        {
+            return; // Если sprite не найден, просто выходим из метода, предотвращая ошибку.
+        }
+
         //Computes the target color
         Color targetColor = originalColor;
         float totalWeight = 1f;

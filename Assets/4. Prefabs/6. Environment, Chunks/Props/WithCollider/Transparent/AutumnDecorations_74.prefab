@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 383872613933209452}
   - component: {fileID: 754990565713312331}
   - component: {fileID: 4015816886287045199}
+  - component: {fileID: 2106387043118840014}
   m_Layer: 0
   m_Name: AutumnDecorations_74
   m_TagString: Prop
@@ -166,3 +167,17 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0013319594, y: 0.7158449}
   m_Size: {x: 1.0109946, y: 1.0109946}
   m_Direction: 1
+--- !u!114 &2106387043118840014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4556923698788070963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbea79a011cd1dc4ea7b6bee3ea04a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TransparencyDetection
+  transparencyAmount: 0.8
+  fadetime: 0.5
