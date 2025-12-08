@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
     // Define the different states of the game
     public enum GameState
     {
-        Gameplay,
-        Paused,
-        GameOver,
-        LevelUp,
-        TreasureChest
+        // Gameplay,
+        // Paused,
+        // GameOver,
+        // LevelUp,
+        // TreasureChest
     }
 
     // Store the current state of the game
