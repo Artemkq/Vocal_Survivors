@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
             totalLevel += p.level;
         }
         return Mathf.Max(1, totalLevel);
+
     }
 
     void Awake()
@@ -115,7 +116,6 @@ public class GameManager : MonoBehaviour
         }
         DisableScreens();
     }
-
 
     void Update()
     {
