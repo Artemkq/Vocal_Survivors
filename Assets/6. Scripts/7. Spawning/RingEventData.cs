@@ -34,11 +34,25 @@ public class RingEventData : EventData
                 GameObject s = Instantiate(g, spawnPosition, Quaternion.identity);
 
                 //If there is a lifespan on the mob, set them to be destroyed
-                if (lifespan > 0) Destroy(s, lifespan);
+                if (lifespan > 0)
+                {
+                    // Получаем компонент EnemyMovement у созданного врага
+                    EnemyMovement enemyMovement = s.GetComponent<EnemyMovement>();
+
+                    if (enemyMovement != null)
+                    {
+                        // ИЗМЕНЕНО: Передаем lifespan в метод Despawn()
+                        enemyMovement.Despawn(lifespan);
+                    }
+                    else
+                    {
+                        // Запасной вариант, если по какой-то причине нет EnemyMovement
+                        Destroy(s, lifespan);
+                    }
+                }
                 currentAngle += angleOffset;
             }
         }
-
         return false;
     }
 }

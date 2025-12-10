@@ -76,7 +76,7 @@ public class CharacterData : ScriptableObject
 
     public Stats stats = new Stats
     {
-        maxHealth = 100, moveSpeed = 1, might = 1, amount = 0,
+        maxHealth = 100, moveSpeed = 0.5f, might = 1, amount = 0,
         area = 1, speed = 1, duration = 1, cooldown = 1,
         luck = 1, greed = 1, growth = 1, curse = 1
     };

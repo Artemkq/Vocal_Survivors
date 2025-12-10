@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
+  m_Name: 5. Zena
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  icon: {fileID: -2097619832946416524, guid: 3c4ce6030f880df47ba569e07c8a0a97, type: 3}
+  controller: {fileID: 22100000, guid: ff2ce6df0fdff3d4f9f9c7a6535996ac, type: 2}
+  name: Zena
+  fullName: Lama Ladonna
+  characterDescription: Gains +5% Might, Move Speed, and Curse every 10 levels (max
+    +20%)
+  startingWeapon: {fileID: 11400000, guid: 9a2055e31ab1e28438955500e33149a3, type: 2}
+  stats:
+    maxHealth: 110
+    recovery: 0
+    armor: 0
+    moveSpeed: 0.6
+    might: 1.1
+    area: 1
+    speed: 1
+    duration: 1
+    amount: 0
+    cooldown: 1
+    luck: 1
+    growth: 1
+    greed: 1
+    curse: 1.1
+    magnet: 1
+    revival: 0

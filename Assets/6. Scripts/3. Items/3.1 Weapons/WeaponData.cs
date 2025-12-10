@@ -12,6 +12,7 @@ public class WeaponData : ItemData
 {
     [HideInInspector] public string behaviour;
     public Weapon.Stats baseStats;
+    
     public Weapon.Stats[] linearGrowth;
     public Weapon.Stats[] randomGrowth;
 

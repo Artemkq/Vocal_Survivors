@@ -88,7 +88,7 @@ public class SpawnManager : MonoBehaviour
         if (instance.currentWaveSpawnCount > instance.data[instance.currentWaveIndex].totalSpawns) return false;
 
         //Dont spawn if we exceeded the waves duration
-        if (instance.currentWaveDuration > instance.data[instance.currentWaveIndex].duration) return false;
+        if (instance.currentWaveDuration > instance.data[instance.currentWaveIndex].timeElapsed) return false;
 
         return true;
     }
@@ -108,7 +108,7 @@ public class SpawnManager : MonoBehaviour
         //If waveDuration is one of the exit conditions, check how long the wave has been running
         //If current wave durations is not greater than wave duration, do not exit yet
         if ((currentWave.exitConditions & WaveData.ExitCondition.waveDuration) > 0)
-            if (currentWaveDuration < currentWave.duration) return false;
+            if (currentWaveDuration < currentWave.timeElapsed) return false;
 
         //If rechedTotalSpawns is one of the exit conditions, check if we have spawned enough
         //enemies. If not, return false

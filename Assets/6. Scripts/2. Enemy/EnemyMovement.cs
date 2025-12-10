@@ -1,4 +1,4 @@
-using System.Collections; // ДОБАВИТЬ ЭТУ СТРОКУ
+using System.Collections;
 using UnityEngine;
 
 public class EnemyMovement : Sortable
@@ -18,7 +18,9 @@ public class EnemyMovement : Sortable
     public KnockbackVariance knockbackVariance = KnockbackVariance.velocity;
 
     protected bool spawnedOutOffFrame = false;
-    // ДОБАВИТЬ ЭТУ СТРОКУ:
+
+    // --- ДОБАВЛЕНО/ИЗМЕНЕНО ---
+    // По умолчанию TRUE (обычная смерть врага дает опыт)
     [HideInInspector] public bool giveExperienceOnDeath = true;
 
     protected override void Start()
@@ -68,7 +70,8 @@ public class EnemyMovement : Sortable
                     //Dont destroy if it is spawned outside the frame
                     if (!spawnedOutOffFrame)
                     {
-                        // ИЗМЕНЕНИЕ: Вызываем новую функцию Despawn() вместо Destroy(gameObject)
+                        // --- ИЗМЕНЕНО ---
+                        // Вызываем наш новый метод деспавна без опыта
                         Despawn();
                     }
                     break;
@@ -77,24 +80,29 @@ public class EnemyMovement : Sortable
         else spawnedOutOffFrame = false;
     }
 
-    // ДОБАВИТЬ ЭТИ ДВА НОВЫХ МЕТОДА:
-
-    public void Despawn()
+    // Используется RingEventData и HandleOutOffFrameAction для удаления врага без опыта
+    // Этот метод только ЗАПУСКАЕТ процесс деспавна по таймеру.
+    public void Despawn(float delay = 3.0f)
     {
-        // Устанавливаем флаг, что опыт давать не нужно при этом убийстве
-        giveExperienceOnDeath = false;
+        // Мы НЕ устанавливаем giveExperienceOnDeath = false ЗДЕСЬ. 
+        // Если игрок убьет врага до истечения таймера, опыт выпадет.
 
-        // Запускаем корутину с задержкой в 3 секунды
-        StartCoroutine(DelayedKill(3.0f));
+        // Запускаем корутину с задержкой, используя переданное значение 'delay'
+        StartCoroutine(DelayedKill(delay));
     }
 
     IEnumerator DelayedKill(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        // Повторно проверяем, что объект еще существует и вызываем Kill через EnemyStats
+        // *** ВОТ ГДЕ МЫ УСТАНАВЛИВАЕМ ФЛАГ ***
+        // Если объект дожил до этого момента (не был убит игроком), 
+        // значит, он умирает от истечения lifespan'а, и опыт давать не нужно.
         if (this != null && gameObject != null)
         {
+            giveExperienceOnDeath = false; // <-- Перемещено сюда
+
+            // Повторно проверяем, что объект еще существует и вызываем Kill через EnemyStats
             GetComponent<EnemyStats>()?.Kill();
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 /// Component to be attached to all Weapon prefabs. The Weapon prefab works together with the WeaponData ScrtiptableObjects to manage and run the behaviours of all weapons in the game
 /// </summary>
 
+
 public abstract class Weapon : Item
 {
     [System.Serializable]
@@ -19,7 +20,7 @@ public abstract class Weapon : Item
         [Header("Values")]
         public float damage;
         public float area;
-        public float speed;
+        public float speed; //Нужно устанавливать 10 по умолчанию
         public int amount;
         public float duration; //if duration = 0, it will last forever
         public int pierce;
@@ -51,8 +52,11 @@ public abstract class Weapon : Item
 
             result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
             result.procEffect = s2.procEffect == null ? s1.procEffect : s2.procEffect;
+            
+            // Проверяем, имеет ли s2.spawnVariance ненулевые параметры.
+            // Если да, используем его. Если нет (оно пустое), используем s1.
+            result.spawnVariance = (s2.spawnVariance.width != 0 || s2.spawnVariance.height != 0 || s2.spawnVariance.x != 0 || s2.spawnVariance.y != 0) ? s2.spawnVariance : s1.spawnVariance;
 
-            result.spawnVariance = s2.spawnVariance;
             result.duration = s1.duration + s2.duration;
             result.damage = s1.damage + s2.damage;
             result.damageVariance = s1.damageVariance + s2.damageVariance;

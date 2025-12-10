@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
+  m_Name: 12. Werewolf + Ghost + Skeleton
+  m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  timeElapsed: 60
+  enemies:
+  - {fileID: 7060775958896916355, guid: 2ca224dc20edbcd4487bd3c14f2dd3d9, type: 3}
+  - {fileID: 7060775958896916355, guid: 5b75a4a2430c9ca41b0d502bac26ccd3, type: 3}
+  - {fileID: 7060775958896916355, guid: 76eefff8d6af4ab4f96efcdc50a2f5ff, type: 3}
+  spawnInterval: {x: 0.25, y: 0.25}
+  spawnsPerTick: {x: 1, y: 1}
+  enemyMinimum: 20
+  totalSpawns: 1000000
+  exitConditions: 1
+  mustKillAll: 0
+  spawnCount: 0

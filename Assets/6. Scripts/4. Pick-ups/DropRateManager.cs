@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +16,7 @@ public class DropRateManager : MonoBehaviour
 
     void OnDestroy()
     {
+        // *** РљР›Р®Р§Р•Р’РђРЇ РџР РћР’Р•Р РљРђ: Р•СЃР»Рё active == false, РјС‹ РІС‹С…РѕРґРёРј Рё РѕРїС‹С‚ РЅРµ СЃРїР°РІРЅРёС‚СЃСЏ ***
 
         if (!active) return; //Prevents spawns from happening if inactive
         if (!gameObject.scene.isLoaded) //Stops the spawning error from appearing when stopping play mode
@@ -29,7 +29,6 @@ public class DropRateManager : MonoBehaviour
 
         foreach (Drops rate in drops)
         {
-            // Также можно добавить проверку здесь, чтобы не добавлять null-элементы в список
             if (randomNumber <= rate.dropRate && rate.itemPrefab != null)
             {
                 possibleDrops.Add(rate);
@@ -40,7 +39,6 @@ public class DropRateManager : MonoBehaviour
         {
             Drops drops = possibleDrops[UnityEngine.Random.Range(0, possibleDrops.Count)];
 
-            // >>> ГЛАВНОЕ ИСПРАВЛЕНИЕ: Добавить проверку на null перед Instantiate
             if (drops.itemPrefab != null)
             {
                 Instantiate(drops.itemPrefab, transform.position, Quaternion.identity);

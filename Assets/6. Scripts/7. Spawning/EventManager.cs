@@ -8,10 +8,10 @@ public class EventManager : MonoBehaviour
 
     public EventData[] events;
 
-    [Tooltip("How long to wait before this becomes active")]
+    [Tooltip("Сколько времени нужно подождать, чтобы стало активным")]
     public float firstTriggerDelay = 180f;
 
-    [Tooltip("How long to wait between each event")]
+    [Tooltip("Сколько времени должно пройти между событиями")]
     public float triggerInterval = 30f;
 
     public static EventManager instance;
@@ -49,7 +49,7 @@ public class EventManager : MonoBehaviour
                 runningEvents.Add(new Event
                 {
                     data = e,
-                    duration = e.duration
+                    duration = e.timeElapsed
                 });
 
             //Set the cooldown for the event

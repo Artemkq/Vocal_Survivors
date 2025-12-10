@@ -28,7 +28,7 @@ MonoBehaviour:
     speed: 1
     duration: 1
     amount: 0
-    cooldown: 0.1
+    cooldown: 0.9
     luck: 1
     growth: 1
     greed: 1

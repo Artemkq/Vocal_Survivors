@@ -1,29 +1,29 @@
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "Wave Data", menuName = "2D Top-down Rogue-like/Wave Data")]
+[CreateAssetMenu(fileName = "Wave Data", menuName = "2D Top-down Rogue-like/Wave Data")]
 
 public class WaveData : SpawnData
 {
     [Header("Wave Data")]
 
-    [Tooltip("If there are less then this number of enemies, we will keep spawning until we get there")]
-    [Min(0)] public int startingCount = 0;
+    [Tooltip("Если врагов будет меньше указанного количества, то они будут продолжать появляться, пока не достигнут цели")]
+    [Min(0)] public int enemyMinimum = 0;
 
-    [Tooltip("How many enemies can this wave spawn at maximum?")]
+    [Tooltip("Сколько максимельно врагов может появиться в этой волне?")]
     [Min(1)] public uint totalSpawns = uint.MaxValue;
 
     [System.Flags] public enum ExitCondition { waveDuration = 1, reachedTotalSpawns = 2 }
-    [Tooltip("Set the things that can trigger the end of this wave")]
+    [Tooltip("Определите факторы, которые могут привести к завершению этой волны")]
     public ExitCondition exitConditions = (ExitCondition)1;
 
-    [Tooltip("All enemies must be dead for the wave to advance")]
+    [Tooltip("Чтобы волна продвинулась дальше, все враги должны быть мертвы")]
     public bool mustKillAll = false;
 
     [HideInInspector] public uint spawnCount; //The number of enemies already spawned in this wave
 
     //Returns an array of prefabs that this wave can spawn
     //Takes an optional parameter of how many enemies are on the screen at the moment
-    public override GameObject[] GetSpawns (int totalEnemies = 0)
+    public override GameObject[] GetSpawns(int totalEnemies = 0)
     {
         //Determinate how many enemies to spawn
         int count = Random.Range(spawnsPerTick.x, spawnsPerTick.y);
@@ -31,8 +31,8 @@ public class WaveData : SpawnData
         //If we have less than <minimumEnemies> on the screen, we will
         //set the count to be equals to the number of enemies to spawn to
         //populate the screen untill it have <minimumEnemies> within
-        if (totalEnemies + count < startingCount)
-            count = startingCount - totalEnemies;
+        if (totalEnemies + count < enemyMinimum)
+            count = enemyMinimum - totalEnemies;
 
         //Generate the result
         GameObject[] result = new GameObject[count];
@@ -40,7 +40,7 @@ public class WaveData : SpawnData
         {
             //Randomly picks one of the possible spawns and insers it
             //intro the result array
-            result[i] = possibleSpawnPrefabs[Random.Range(0, possibleSpawnPrefabs.Length)];
+            result[i] = enemies[Random.Range(0, enemies.Length)];
         }
 
         return result;

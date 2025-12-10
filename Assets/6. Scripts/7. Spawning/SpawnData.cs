@@ -2,17 +2,17 @@ using UnityEngine;
 
 public abstract class SpawnData : ScriptableObject
 {
-    [Tooltip("A list of all possible GameObjects that can be spawned")]
-    public GameObject[] possibleSpawnPrefabs = new GameObject[1];
+    [Tooltip("Как долго (в секундах) будут появляться враги.")]
+    [Min(0.1f)] public float timeElapsed = 60;
+    
+    [Tooltip("Список всех возможных игровых объектов, которые можно создать")]
+    public GameObject[] enemies = new GameObject[1];
 
-    [Tooltip("Time between each spawn (in seconds). Will take a random number between X and Y")]
+    [Tooltip("Время между появлениями (в секундах).  Выберет случайное число от X до Y")]
     public Vector2 spawnInterval = new Vector2(2, 3);
 
-    [Tooltip("How many enemies are spawned per interval?")]
+    [Tooltip("Сколько врагов появляется за один интервал?")]
     public Vector2Int spawnsPerTick = new Vector2Int(1, 1);
-
-    [Tooltip("How long (in seconds) this will spawn enemies for.")]
-    [Min(0.1f)] public float duration = 60;
 
     //Returns an array of prefabs that we should spawn
     //Takes an optional parameter of how many enemies are on the screen at the moment
@@ -27,7 +27,7 @@ public abstract class SpawnData : ScriptableObject
         {
             //Randomly picks one of the possible spawns and inserts it
             //intro the result array
-            result[i] = possibleSpawnPrefabs[Random.Range(0, possibleSpawnPrefabs.Length)];
+            result[i] = enemies[Random.Range(0, enemies.Length)];
         }
 
         return result;

@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(SpriteRenderer))]
-
 public class EnemyStats : EntityStats
 {
     [System.Serializable]
@@ -102,21 +100,18 @@ public class EnemyStats : EntityStats
     public float damageFlashDuration = 0.2f; //How long the flash should last.
     public float deathFadeTime = 0.6f; //How much time it takes for the enemy to fade.
 
-    // ДОБАВИТЬ ЭТУ СТРОКУ:
+    // --- ДОБАВЛЕНО ---
     Collider2D enemyCollider;
-
+    // Ссылка на компонент движения
     EnemyMovement movement;
 
     public static int count;
 
     protected override void Awake()
     {
-        base.Awake(); // < --������������ ����� ������� �������������
-
+        base.Awake();
         count++;
         movement = GetComponent<EnemyMovement>();
-
-        // ДОБАВИТЬ ЭТУ СТРОКУ:
         enemyCollider = GetComponent<Collider2D>();
 
         if (movement == null)
@@ -140,10 +135,9 @@ public class EnemyStats : EntityStats
             ApplyBuff(UILevelSelector.globalBuff);
 
         RecalculateStats();
-
         //Calculate the health and check for level boosts
         health = actualStats.maxHealth;
-        // movement = GetComponent<EnemyMovement>(); // <-- ������� ��� ������ ������
+        // movement = GetComponent<EnemyMovement>();
     }
 
     public override bool ApplyBuff(BuffData data, int variant = 0, float durationMultiplier = 1f)
@@ -200,10 +194,7 @@ public class EnemyStats : EntityStats
     {
         // ДОБАВИТЬ ЭТИ СТРОКИ:
         // Если враг уже мертв (у него отключен коллайдер), игнорируем урон
-        if (enemyCollider != null && !enemyCollider.enabled)
-        {
-            return;
-        }
+        if (enemyCollider != null && !enemyCollider.enabled) return;
 
         health -= dmg;
 
@@ -280,38 +271,28 @@ public class EnemyStats : EntityStats
 
     public override void Kill()
     {
-        // Enable drops if the enemy is killed,
-        // since drops are disabled by default
         DropRateManager drops = GetComponent<DropRateManager>();
 
-        // *** ВОТ ГЛАВНОЕ ИЗМЕНЕНИЕ/ПРОВЕРКА ***
+        // *** ИСПРАВЛЕНИЕ ЛОГИКИ: ВОССТАНАВЛИВАЕМ ПРОВЕРКУ ФЛАГА ***
 
-        // 1. Получаем ссылку на EnemyMovement, если ее еще нет
-        if (movement == null)
+        // Убеждаемся, что у нас есть ссылка на компонент движения (на всякий случай)
+        if (movement == null) movement = GetComponent<EnemyMovement>();
+
+        if (drops != null && movement != null)
         {
-            movement = GetComponent<EnemyMovement>();
+            // Мы активируем дропы ТОЛЬКО если giveExperienceOnDeath равен true.
+            drops.active = movement.giveExperienceOnDeath;
+        }
+        else if (drops != null && movement == null)
+        {
+             // Если компонент движения отсутствует (что плохо, т.к. мы на EnemyStats),
+             // предполагаем, что это обычное убийство и опыт должен выпасть.
+             drops.active = true; 
         }
 
-        // 2. Если у врага есть компонент дропов
-        if (drops)
-        {
-            // 3. Устанавливаем активность дропов в зависимости от флага giveExperienceOnDeath
-            // Если флаг TRUE, active будет TRUE. Если флаг FALSE (деспавн за экраном), active будет FALSE.
-            drops.active = (movement != null && movement.giveExperienceOnDeath);
-        }
-
-        // ***************************************
-
-        // Отключаем коллайдер и движение (как мы делали ранее)
-        if (enemyCollider != null)
-        {
-            enemyCollider.enabled = false;
-        }
-        // Проверка movement != null добавлена ранее
-        if (movement != null)
-        {
-            movement.enabled = false;
-        }
+        // Отключаем коллайдер и движение (это правильно)
+        if (enemyCollider != null) enemyCollider.enabled = false;
+        if (movement != null) movement.enabled = false;
 
         StartCoroutine(KillFade());
     }

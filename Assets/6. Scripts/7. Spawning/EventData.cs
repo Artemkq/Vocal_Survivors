@@ -3,11 +3,14 @@ using UnityEngine;
 public abstract class EventData : SpawnData
 {
     [Header("Event Data")]
-    [Range(0f, 1f)] public float probability = 1f; //Whether this event occurs
-    [Range(0f, 1f)] public float luckFactor = 1f; //How much luck affects the probability of this event
+    [Tooltip("Произойдет ли это событие?")]
+    [Range(0f, 1f)] public float probability = 1f;
 
-    [Tooltip("If a value is specified, this event will only occur after the level runs for this number of seconds")]
-    public float activeAfter = 0;
+    [Tooltip("Насколько удача влияет на вероятность этого события")]
+    [Range(0f, 1f)] public float luckFactor = 1f;
+
+    [Tooltip("Если указано значение, это событие произойдёт только после того, как уровень проработает указанное количество секунд")]
+    public float delay = 0;
 
     public abstract bool Activate (PlayerStats player = null);
 
@@ -15,7 +18,7 @@ public abstract class EventData : SpawnData
     public bool IsActive()
     {
         if (!GameManager.instance) return false;
-        if (GameManager.instance.GetElapsedTime() > activeAfter) return true;
+        if (GameManager.instance.GetElapsedTime() > delay) return true;
         return false;
     }
 

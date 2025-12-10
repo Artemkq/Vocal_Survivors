@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR // Добавляем эту строку
+using UnityEditor; // Оборачиваем импорт редактора
+#endif // Добавляем эту строку
 
 public class UILevelSelector : MonoBehaviour
 {
@@ -36,11 +39,13 @@ public class UILevelSelector : MonoBehaviour
     // This is the regex which is used to identify which maps are level maps.
     public const string MAP_NAME_FORMAT = "^(Level .*?) ?- ?(.*)$";
 
-    [System.Serializable] public class SceneData
+    [System.Serializable]
+    public class SceneData
     {
-        public SceneAsset scene;
+        // public SceneAsset scene; // <-- Эту строку нужно удалить или закомментировать
+        public string sceneName; // <-- Добавляем строку для хранения имени сцены (безопасно для билда)
 
-        [Header("UI Display")] 
+        [Header("UI Display")]
         public string displayName;
         public string label;
         [TextArea] public string description;
@@ -53,12 +58,13 @@ public class UILevelSelector : MonoBehaviour
         [TextArea] public string extraNotes = "--";
     }
 
+    // Оборачиваем весь метод в UNITY_EDITOR
+#if UNITY_EDITOR
     public static SceneAsset[] GetAllMaps()
     {
         List<SceneAsset> maps = new List<SceneAsset>();
 
         // Populate the list with all Scenes starting with "Level -" (Editor only).
-#if UNITY_EDITOR
         string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
         foreach (string assetPath in allAssetPaths)
         {
@@ -71,12 +77,10 @@ public class UILevelSelector : MonoBehaviour
                 }
             }
         }
-#else
-        Debug.LogWarning("This function cannot be called on builds.");
-#endif
         maps.Reverse();
         return maps.ToArray();
     }
+#endif // Закрываем директиву
 
     // For normal scene changes.          
     public void SceneChange(string name)
@@ -91,7 +95,9 @@ public class UILevelSelector : MonoBehaviour
     {
         if (selectedLevel >= 0)
         {
-            SceneManager.LoadScene(levels[selectedLevel].scene.name); currentLevel = levels[selectedLevel];
+            // Используем новое поле sceneName
+            SceneManager.LoadScene(levels[selectedLevel].sceneName);
+            currentLevel = levels[selectedLevel];
             selectedLevel = -1;
             Time.timeScale = 1f;
         }
