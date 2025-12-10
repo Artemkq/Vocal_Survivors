@@ -1,112 +1,137 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // Понадобится для сортировки
 
 public class EventManager : MonoBehaviour
 {
-    float currentEventCooldown = 0;
+    // float currentEventCooldown = 0;
 
-    public EventData[] events;
-
-    [Tooltip("Сколько времени нужно подождать, чтобы стало активным")]
-    public float firstTriggerDelay = 180f;
-
-    [Tooltip("Сколько времени должно пройти между событиями")]
-    public float triggerInterval = 30f;
+    public EventData[] events; // Теперь это наш таймлайн событий
 
     public static EventManager instance;
 
+    // Мы используем эту структуру только для отслеживания *запущенных* событий
     [System.Serializable]
-    public class Event
+    public class RunningEventState
     {
         public EventData data;
-        public float duration, cooldown = 0;
+        public float durationLeft; // Оставшееся время работы события (из EventData.timeElapsed)
+        public float currentCooldown; // Кулдаун внутри самого события (например, между спавнами мобов)
     }
 
-    List<Event> runningEvents = new List<Event>(); //These are events that have been activated, and are running
+    List<RunningEventState> runningEvents = new List<RunningEventState>();
+    // Список событий, которые еще не произошли, отсортированный по времени
+    List<EventData> plannedEvents;
 
     PlayerStats[] allPlayers;
+    float gameTimer = 0f; // Новый таймер игры, отсчитывающий время с начала сцены
 
     //Start is called before the first frame update
     void Start()
     {
         if (instance) Debug.LogWarning("There is more than 1 Spawn Manager in the Scene! Please remove the extras");
         instance = this;
-        currentEventCooldown = firstTriggerDelay > 0 ? firstTriggerDelay : triggerInterval;
+
+        // Находим всех игроков на старте сцены
         allPlayers = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
+
+        // 1. Инициализируем и сортируем события по triggerTime
+        if (events != null && events.Length > 0)
+        {
+            // Копируем события в список и сортируем по triggerTime по возрастанию
+            plannedEvents = events.OrderBy(e => e.triggerMinutes).ToList();
+        }
+        else
+        {
+            plannedEvents = new List<EventData>();
+        }
+
+        // currentEventCooldown = firstTriggerDelay > 0 ? firstTriggerDelay : triggerInterval;
+        // allPlayers = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
     }
 
     //Update is called once per frame
     void Update()
     {
-        //Cooldown for adding another event to the slate
-        currentEventCooldown -= Time.deltaTime;
-        if (currentEventCooldown <= 0)
+        // Убедимся, что игроки существуют
+        if (allPlayers == null || allPlayers.Length == 0) return;
+
+        // Обновляем таймер игры
+        gameTimer += Time.deltaTime;
+
+        // --- Логика Планировщика (Timeline Logic) ---
+        CheckTimelineEvents();
+
+        // --- Логика Активных Событий (Running Events Logic) ---
+        UpdateRunningEvents();
+    }
+
+    /// <summary>
+    /// Проверяет список запланированных событий и запускает те, чье время пришло.
+    /// </summary>
+    private void CheckTimelineEvents()
+    {
+        // Итерируемся в обратном порядке, чтобы безопасно удалять из списка plannedEvents при необходимости
+        for (int i = plannedEvents.Count - 1; i >= 0; i--)
         {
-            //Get an event and try to execute it
-            EventData e = GetRandomEvent();
-            if (e && e.CheckIfWillHappen(allPlayers[Random.Range(0, allPlayers.Length)]))
-                runningEvents.Add(new Event
-                {
-                    data = e,
-                    duration = e.timeElapsed
-                });
+            EventData e = plannedEvents[i];
 
-            //Set the cooldown for the event
-            currentEventCooldown = triggerInterval;
-        }
-
-        //Events that we want to remove
-        List <Event> toRemove = new List<Event>();
-
-        //Cooldown for existing event to see if they should continue running
-        foreach (Event e in runningEvents)
-        {
-            //Reduce the current duration
-            e.duration -= Time.deltaTime;
-            if (e.duration <= 0)
+            // Если текущее время игры достигло или превысило время триггера события
+            if (gameTimer >= e.triggerMinutes * 60f)
             {
-                toRemove.Add(e);
+                // Если событие активно и проходит проверку шанса (ваша старая логика)
+                // (e.IsActive() использует ваш старый 'delay', e.CheckIfWillHappen использует 'chance' и 'luckFactor')
+                if (e.IsActive() && e.CheckIfWillHappen(allPlayers[Random.Range(0, allPlayers.Length)]))
+                {
+                    // Запускаем событие, добавляя его в список активных
+                    runningEvents.Add(new RunningEventState
+                    {
+                        data = e,
+                        durationLeft = e.timeElapsed, // Длительность взята из SpawnData/EventData
+                        currentCooldown = 0 // Начнем внутренний кулдаун сразу
+                    });
+                }
+
+                // В любом случае (запустилось или пропущено по шансу), 
+                // удаляем событие из списка ожидания, чтобы оно не сработало повторно.
+                plannedEvents.RemoveAt(i);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Обновляет состояние всех запущенных в данный момент событий.
+    /// </summary>
+    private void UpdateRunningEvents()
+    {
+        List<RunningEventState> toRemove = new List<RunningEventState>();
+
+        foreach (RunningEventState e in runningEvents)
+        {
+            // 1. Уменьшаем общую длительность события
+            e.durationLeft -= Time.deltaTime;
+            if (e.durationLeft <= 0)
+            {
+                toRemove.Add(e); // Событие истекло, помечаем на удаление
                 continue;
             }
 
-            //Reduce the current cooldown
-            e.cooldown -= Time.deltaTime;
-            if (e.cooldown <= 0)
+            // 2. Уменьшаем внутренний интервал спавна/активации (cooldown между тиками спавна)
+            e.currentCooldown -= Time.deltaTime;
+            if (e.currentCooldown <= 0)
             {
-                //Pick a random player to sic this mob on,
-                //then reset the cooldown
+                // Выбираем случайного игрока и активируем эффект/спавн
                 e.data.Activate(allPlayers[Random.Range(0, allPlayers.Length)]);
-                e.cooldown = e.data.GetSpawnInterval();
+
+                // Сбрасываем внутренний кулдаун (получаем его из GetSpawnInterval в SpawnData)
+                e.currentCooldown = e.data.GetSpawnInterval();
             }
         }
 
-        //Remove all the events that have expired
-        foreach (Event e in toRemove) runningEvents.Remove(e);
-    }
-
-    public EventData GetRandomEvent()
-    {
-        //If no events are assigned, dont return anything
-        if (events.Length <= 0) return null;
-
-        //Get a list of all possible events
-        List<EventData> possibleEvents = new List<EventData>();
-
-        //Add the events in event to the possible events only if the event is active
-        foreach (EventData e in events)
+        // Удаляем все завершившиеся события из основного списка
+        foreach (RunningEventState e in toRemove)
         {
-            if (e.IsActive())
-            {
-                possibleEvents.Add(e);
-            }
+            runningEvents.Remove(e);
         }
-        //Randomly pick an event from the possible events to play
-        if (possibleEvents.Count > 0)
-        {
-            EventData result = possibleEvents[Random.Range(0, possibleEvents.Count)];
-            return result;
-        }
-        return null;
     }
 }

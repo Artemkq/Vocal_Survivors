@@ -7,7 +7,7 @@ public class RingEventData : EventData
     [Header("Mob Data")]
     public ParticleSystem spawnEffectPrefab;
     public Vector2 scale = new Vector2 (1, 1);
-    [Min(0)] public float spawnRadius = 10f, lifespan = 15f;
+    [Min(0)] public float spawnRadius = 10f, duration = 15f;
 
     public override bool Activate (PlayerStats player = null)
     {
@@ -34,7 +34,7 @@ public class RingEventData : EventData
                 GameObject s = Instantiate(g, spawnPosition, Quaternion.identity);
 
                 //If there is a lifespan on the mob, set them to be destroyed
-                if (lifespan > 0)
+                if (duration > 0)
                 {
                     // Получаем компонент EnemyMovement у созданного врага
                     EnemyMovement enemyMovement = s.GetComponent<EnemyMovement>();
@@ -42,12 +42,12 @@ public class RingEventData : EventData
                     if (enemyMovement != null)
                     {
                         // ИЗМЕНЕНО: Передаем lifespan в метод Despawn()
-                        enemyMovement.Despawn(lifespan);
+                        enemyMovement.Despawn(duration);
                     }
                     else
                     {
                         // Запасной вариант, если по какой-то причине нет EnemyMovement
-                        Destroy(s, lifespan);
+                        Destroy(s, duration);
                     }
                 }
                 currentAngle += angleOffset;

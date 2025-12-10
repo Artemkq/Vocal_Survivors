@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4b773f7f52d1ab45802ce223d8cc4c3, type: 3}
-  m_Name: 3. Bat Swarm
+  m_Name: 13 min - Ghost Swarm x21
   m_EditorClassIdentifier: Assembly-CSharp::MobEventData
-  timeElapsed: 10
+  timeElapsed: 21
   enemies:
-  - {fileID: 7482861473054071616, guid: c57f6ab12da14174ba73526d51215b6f, type: 3}
-  spawnInterval: {x: 5, y: 5}
-  spawnsPerTick: {x: 50, y: 50}
-  probability: 1
+  - {fileID: 7010182344529314516, guid: cb424a6f3ffe13a4a8624ba5983cff25, type: 3}
+  spawnInterval: {x: 1, y: 1}
+  spawnsPerTick: {x: 20, y: 20}
+  triggerMinutes: 13
+  chance: 0.7
   luckFactor: 0
-  delay: 5
+  delay: 1.2
   possibleAngles: 360
   spawnRadius: 3
   spawnDistance: 30
