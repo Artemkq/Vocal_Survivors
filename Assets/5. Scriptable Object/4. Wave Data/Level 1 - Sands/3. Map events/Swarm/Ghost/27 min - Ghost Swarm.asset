@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4b773f7f52d1ab45802ce223d8cc4c3, type: 3}
-  m_Name: 27 min - Ghost Swarm x20
+  m_Name: 27 min - Ghost Swarm
   m_EditorClassIdentifier: Assembly-CSharp::MobEventData
-  timeElapsed: 60
+  spawnInterval: 0
+  timeElapsed: 0.1
+  spawnsPerTick: {x: 20, y: 20}
   enemies:
   - {fileID: 7010182344529314516, guid: cb424a6f3ffe13a4a8624ba5983cff25, type: 3}
-  spawnInterval: {x: 3, y: 3}
-  spawnsPerTick: {x: 20, y: 20}
   triggerMinutes: 27
+  delayPlusSpawnInterval: 0
   chance: 1
+  maxRepeats: 1
   luckFactor: 0
-  delay: 3
   possibleAngles: 360
-  spawnRadius: 3
-  spawnDistance: 30
+  spawnRadius: 5
+  spawnDistance: 20

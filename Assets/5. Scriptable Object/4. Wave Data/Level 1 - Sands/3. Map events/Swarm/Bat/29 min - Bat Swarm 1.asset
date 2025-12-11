@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4b773f7f52d1ab45802ce223d8cc4c3, type: 3}
-  m_Name: 3 min - Bat Swarm x2
+  m_Name: 29 min - Bat Swarm 1
   m_EditorClassIdentifier: Assembly-CSharp::MobEventData
-  timeElapsed: 10
+  spawnInterval: 0
+  timeElapsed: 0.1
+  spawnsPerTick: {x: 50, y: 50}
   enemies:
   - {fileID: 7482861473054071616, guid: c57f6ab12da14174ba73526d51215b6f, type: 3}
-  spawnInterval: {x: 5, y: 5}
-  spawnsPerTick: {x: 50, y: 50}
-  triggerMinutes: 3
+  triggerMinutes: 29
+  delayPlusSpawnInterval: 0
   chance: 1
+  maxRepeats: 1
   luckFactor: 0
-  delay: 5
   possibleAngles: 360
   spawnRadius: 3
-  spawnDistance: 30
+  spawnDistance: 20

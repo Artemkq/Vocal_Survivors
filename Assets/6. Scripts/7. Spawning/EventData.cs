@@ -4,17 +4,20 @@ public abstract class EventData : SpawnData
 {
     [Header("Event Data")]
 
-    [Tooltip("Время в МИНУТАХ (от 0 до 30), когда это событие должно быть активировано")]
-    [Range(0f, 30f)] public int triggerMinutes;
+    [Tooltip("Время в минутах (от 0 до 30), когда это событие должно быть активировано")]
+    [Range(0f, 30f)] public float triggerMinutes;
 
-    [Tooltip("Произойдет ли это событие?")]
+    [Tooltip("Задержка в секундах с которой это событие произойдёт, а также частота спавна")]
+    public float delayPlusSpawnInterval = 0;
+
+    [Tooltip("Вероятность срабатывания этого события в процентах, где 0,1 = 10%")]
     [Range(0f, 1f)] public float chance = 1f;
 
-    [Tooltip("Насколько удача влияет на вероятность этого события")]
-    [Range(0f, 1f)] public float luckFactor = 1f;
+    [Tooltip("Количество повторений. 0 означает бесконечное повторение")]
+    [Min(0)] public int maxRepeats = 1;
 
-    [Tooltip("Если указано значение, это событие произойдёт только после того, как уровень проработает указанное количество секунд")]
-    public float delay = 0;
+    [Tooltip("Влияние удачи на вероятность этого события")]
+    [Range(0f, 1f)] public float luckFactor = 1f;
 
     public abstract bool Activate(PlayerStats player = null);
 
@@ -22,7 +25,7 @@ public abstract class EventData : SpawnData
     public bool IsActive()
     {
         if (!GameManager.instance) return false;
-        if (GameManager.instance.GetElapsedTime() > delay) return true;
+        if (GameManager.instance.GetElapsedTime() > delayPlusSpawnInterval) return true;
         return false;
     }
 

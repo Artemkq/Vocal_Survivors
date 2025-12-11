@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acfc7fce0b2725f498ad3003e4b81531, type: 3}
-  m_Name: 15 min - Flower Wall
+  m_Name: 10 min - Flower Wall
   m_EditorClassIdentifier: Assembly-CSharp::RingEventData
-  timeElapsed: 15
+  spawnInterval: 0
+  timeElapsed: 0.1
+  spawnsPerTick: {x: 50, y: 50}
   enemies:
   - {fileID: 1688658195713744783, guid: 1b61d9f4361f29e469166d9087239447, type: 3}
-  spawnInterval: {x: 30, y: 30}
-  spawnsPerTick: {x: 50, y: 50}
-  triggerMinutes: 15
-  chance: 0.8
+  triggerMinutes: 10
+  delayPlusSpawnInterval: 0
+  chance: 1
+  maxRepeats: 1
   luckFactor: 0
-  delay: 0
   spawnEffectPrefab: {fileID: 0}
   scale: {x: 1, y: 1}
   spawnRadius: 10

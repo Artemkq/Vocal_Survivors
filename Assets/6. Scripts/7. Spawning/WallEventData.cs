@@ -1,10 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Ring Event Data", menuName = "2D Top-down Rogue-like/Event Data/Ring")]
+[CreateAssetMenu(fileName = "Ring Event Data", menuName = "2D Top-down Rogue-like/Event Data/Wall")]
 
-public class RingEventData : EventData
+public class WallEventData : EventData
 {
-    [Header("Mob Data")]
+    [Header("Wall Data")]
     public ParticleSystem spawnEffectPrefab;
     public Vector2 scale = new Vector2 (1, 1);
     [Min(0)] public float spawnRadius = 10f, duration = 15f;

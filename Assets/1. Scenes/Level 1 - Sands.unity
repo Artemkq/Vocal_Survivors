@@ -4410,27 +4410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventManager
   events:
-  - {fileID: 11400000, guid: f5960fa365b049e44a1b8da11cb0a928, type: 2}
-  - {fileID: 11400000, guid: 3c597bf39ac162e4eaa863f20c84f42d, type: 2}
-  - {fileID: 11400000, guid: 57a56f7711aaa6a48a3e368e3e54ec3b, type: 2}
-  - {fileID: 11400000, guid: cb3fd1a3608576f4ab7b7726cc2dc65c, type: 2}
-  - {fileID: 11400000, guid: 955e87455c87e7f49941fdcfbd5d6a19, type: 2}
-  - {fileID: 11400000, guid: ce20e77ff2d47ea4d8847fdb30690d1a, type: 2}
-  - {fileID: 11400000, guid: 7d777e00f0d984041991595ca6cf7d91, type: 2}
-  - {fileID: 11400000, guid: 0c9a66a09e806284d8349e5824439047, type: 2}
-  - {fileID: 11400000, guid: 24ced40e70e713348ad1262ae54d0053, type: 2}
-  - {fileID: 11400000, guid: 3abcb9753d847bd4c8135a11eb039332, type: 2}
-  - {fileID: 11400000, guid: a6bbdfd9b7e16ec4aadc0b75dac3a163, type: 2}
-  - {fileID: 11400000, guid: f037525dce2707647bde66d0455782cb, type: 2}
-  - {fileID: 11400000, guid: ed67402e6f2e54f4cb02d02d13f4477d, type: 2}
-  - {fileID: 11400000, guid: 9a0f5245ed9dffa46be7265873121e67, type: 2}
-  - {fileID: 11400000, guid: 4b5671a4622ffc24a84eb8c044f39554, type: 2}
-  - {fileID: 11400000, guid: e5fea700d1086434eb3ef2d9dea61937, type: 2}
   - {fileID: 11400000, guid: 1e793bd2486350d48aa626c347600f84, type: 2}
-  - {fileID: 11400000, guid: 1c76193f995780e4fb2a1b2a32758fe5, type: 2}
-  - {fileID: 11400000, guid: efb3d850a90fa204b96871545fd4b1f9, type: 2}
-  - {fileID: 11400000, guid: 6af22784f763aa1418e9468c94c8d814, type: 2}
-  - {fileID: 11400000, guid: e18c76d87c4ffc94fbeb356f92aa18b7, type: 2}
 --- !u!1001 &1892136841
 PrefabInstance:
   m_ObjectHideFlags: 0
