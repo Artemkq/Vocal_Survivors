@@ -21,7 +21,7 @@ MonoBehaviour:
     description: Attacks horizontally, passes through enemies
     projectilePrefab: {fileID: 6696205618121510374, guid: 93576ccb3fea7c844b4c9a2c373f1c57, type: 3}
     auraPrefab: {fileID: 0}
-    hitEffect: {fileID: 0}
+    hitEffect: {fileID: 372242045722072226, guid: 27a4e02d7d78d914e98d2f4bb5783e49, type: 3}
     procEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2

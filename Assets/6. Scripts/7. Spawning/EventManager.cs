@@ -78,17 +78,24 @@ public class EventManager : MonoBehaviour
             // Если текущее время игры достигло или превысило время триггера события
             if (gameTimer >= e.triggerMinutes * 60f)
             {
+                Debug.Log($"Время триггера достигнуто для события: {e.name}. Попытка активации.", e); // DEBUG 1
+
                 // При запуске события инициализируем repeatsLeft из maxRepeats
-                if (e.IsActive() && e.CheckIfWillHappen(allPlayers[Random.Range(0, allPlayers.Length)]))
+                if (e.CheckIfWillHappen(allPlayers[Random.Range(0, allPlayers.Length)]))
                 {
                     // Запускаем событие, добавляя его в список активных
                     runningEvents.Add(new RunningEventState
                     {
                         data = e,
-                        // durationLeft = e.timeElapsed, // УДАЛЕНО
-                        currentCooldown = 0, // Начнем внутренний кулдаун сразу
+                        currentCooldown = e.delayPlusSpawnInterval, // Инициализируем кулдаун значением задержки из EventData
                         repeatsLeft = e.maxRepeats == 0 ? int.MaxValue : e.maxRepeats // 0 в конфиге означает бесконечность
                     });
+                    Debug.Log($"Событие {e.name} успешно прошло проверку шанса и добавлено в runningEvents.", e); // DEBUG 2
+                }
+                else
+                {
+                    Debug.LogWarning($"Событие {e.name} пропущено из-за проверки шанса CheckIfWillHappen().", e); // DEBUG 3
+
                 }
                 // В любом случае (запустилось или пропущено по шансу), 
                 // удаляем событие из списка ожидания, чтобы оно не сработало повторно.
@@ -139,7 +146,6 @@ public class EventManager : MonoBehaviour
             // Нужно просто изменить логику удаления.
             */
         }
-
         // Давайте внесем финальную правку в UpdateRunningEvents, используя оба подхода
         UpdateRunningEvents_V2();
     }
@@ -157,10 +163,10 @@ public class EventManager : MonoBehaviour
                 e.durationLeft -= Time.deltaTime;
                 if (e.durationLeft <= 0)
                 {
-                    toRemove.Add(e); 
+                    toRemove.Add(e);
                     continue;
                 }
-                
+
             }
             // В противном случае оно управляется repeatsLeft, который мы будем уменьшать при активации
 
@@ -173,6 +179,8 @@ public class EventManager : MonoBehaviour
 
                 if (activatedSuccessfully)
                 {
+                    Debug.Log($"Активация события {e.data.name} произошла успешно. Сброс кулдауна/повтора.", e.data); // DEBUG 4
+
                     // Если событие управляется повторениями (GetTimeElapsed() == 0f) И это не бесконечность (MaxValue)
                     if (e.data.GetTimeElapsed() == 0f && e.repeatsLeft != int.MaxValue)
                     {
@@ -185,7 +193,7 @@ public class EventManager : MonoBehaviour
             }
 
             // Проверка на удаление в конце цикла
-            bool timeElapsedFinished = e.data.GetTimeElapsed() > 0f && e.durationLeft <= 0f ; // Зависит от durationLeft
+            bool timeElapsedFinished = e.data.GetTimeElapsed() > 0f && e.durationLeft <= 0f; // Зависит от durationLeft
             bool repeatsFinished = e.data.GetTimeElapsed() == 0f && e.repeatsLeft <= 0;
 
             if (timeElapsedFinished || repeatsFinished)

@@ -4409,8 +4409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5aa0d10779a9e4eb6a4dafb3ce2da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventManager
-  events:
-  - {fileID: 11400000, guid: 1e793bd2486350d48aa626c347600f84, type: 2}
+  events: []
 --- !u!1001 &1892136841
 PrefabInstance:
   m_ObjectHideFlags: 0

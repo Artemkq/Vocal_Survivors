@@ -18,9 +18,9 @@ MonoBehaviour:
   enemies:
   - {fileID: 1688658195713744783, guid: 1b61d9f4361f29e469166d9087239447, type: 3}
   triggerMinutes: 0.1
-  delayPlusSpawnInterval: 1
+  delayPlusSpawnInterval: 10
   chance: 1
-  maxRepeats: 2
+  maxRepeats: 6
   luckFactor: 0
   spawnEffectPrefab: {fileID: 0}
   scale: {x: 1, y: 1}

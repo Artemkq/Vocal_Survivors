@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         //Set the levels Time Limit
         timeLimit = TimeLimit;
-        
+
         //Warning check to see if there is another singleton of this kind in the game
         if (instance == null)
         {
@@ -115,6 +115,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DisableScreens();
+    }
+
+    void Start()
+    {
+        // Ограничиваем игру 60 кадрами в секунду
+        Application.targetFrameRate = 60;
+
+        // Отключаем вертикальную синхронизацию, чтобы targetFrameRate работал стабильно
+        QualitySettings.vSyncCount = 0;
+
     }
 
     void Update()
@@ -175,7 +185,7 @@ public class GameManager : MonoBehaviour
         {
             //If the rect object is missing for whatever reason, terminate this loop
             if (!rect) break;
-            
+
             //Fade the text to the right alpha value
             tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
 
@@ -321,8 +331,8 @@ public class GameManager : MonoBehaviour
             //Spawn the EvilWizard off-camera
             Vector2 evilWizardOffset = Random.insideUnitCircle * 50f;
             Vector2 spawnPosition = GetRandomPlayerLocation() + evilWizardOffset;
-            Instantiate (evilWizardPrefab, spawnPosition, Quaternion.identity);
-        }        
+            Instantiate(evilWizardPrefab, spawnPosition, Quaternion.identity);
+        }
     }
 
     void UpdateStopwatchDisplay()

@@ -41,4 +41,5 @@ public abstract class EventData : SpawnData
 
         return false;
     }
+
 }

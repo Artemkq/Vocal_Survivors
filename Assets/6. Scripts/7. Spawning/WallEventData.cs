@@ -6,10 +6,24 @@ public class WallEventData : EventData
 {
     [Header("Wall Data")]
     public ParticleSystem spawnEffectPrefab;
-    public Vector2 scale = new Vector2 (1, 1);
+    public Vector2 scale = new Vector2(1, 1);
     [Min(0)] public float spawnRadius = 10f, duration = 15f;
 
-    public override bool Activate (PlayerStats player = null)
+    // ИЗМЕНЕНО: Переопределяем метод получения интервала спавна
+    public override float GetSpawnInterval()
+    {
+        // delayPlusSpawnInterval используется как фиксированный интервал между активациями кольца
+        return delayPlusSpawnInterval;
+    }
+
+    // ИЗМЕНЕНО: Возвращаем 0, чтобы EventManager понял, что длительность 
+    // управляется повторениями (maxRepeats), а не общим временем (timeElapsed)
+    public override float GetTimeElapsed()
+    {
+        return 0f;
+    }
+
+    public override bool Activate(PlayerStats player = null)
     {
         //Only activate this if the player is present
         if (player)
@@ -41,7 +55,7 @@ public class WallEventData : EventData
 
                     if (enemyMovement != null)
                     {
-                        // ИЗМЕНЕНО: Передаем lifespan в метод Despawn()
+                        // ИЗМЕНЕНО: Передаем duration в метод Despawn()
                         enemyMovement.Despawn(duration);
                     }
                     else
@@ -53,6 +67,6 @@ public class WallEventData : EventData
                 currentAngle += angleOffset;
             }
         }
-        return false;
+        return true;
     }
 }

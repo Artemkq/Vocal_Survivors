@@ -10,7 +10,7 @@ public class WaveData : SpawnData
     [Min(0)] public int enemyMinimum = 0;
 
     [Tooltip("Сколько максимельно врагов может появиться в этой волне?")]
-    [Min(1)] public uint totalSpawns = uint.MaxValue;
+    [Min(1)] public int totalSpawns = int.MaxValue; // ИЗМЕНЕНО с uint на int
 
     [System.Flags] public enum ExitCondition { waveDuration = 1, reachedTotalSpawns = 2 }
     [Tooltip("Определите факторы, которые могут привести к завершению этой волны")]
@@ -19,7 +19,7 @@ public class WaveData : SpawnData
     [Tooltip("Чтобы волна продвинулась дальше, все враги должны быть мертвы")]
     public bool mustKillAll = false;
 
-    [HideInInspector] public uint spawnCount; //The number of enemies already spawned in this wave
+    [HideInInspector] public int spawnCount; //The number of enemies already spawned in this wave
 
     //Returns an array of prefabs that this wave can spawn
     //Takes an optional parameter of how many enemies are on the screen at the moment
