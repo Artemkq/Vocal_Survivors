@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
   m_Name: 8. Zombie
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  spawnInterval: 1.5
   timeElapsed: 60
+  spawnsPerTick: {x: 1, y: 1}
   enemies:
   - {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
-  spawnInterval: {x: 1.5, y: 1.5}
-  spawnsPerTick: {x: 1, y: 1}
   enemyMinimum: 100
   totalSpawns: 1000000
   exitConditions: 1

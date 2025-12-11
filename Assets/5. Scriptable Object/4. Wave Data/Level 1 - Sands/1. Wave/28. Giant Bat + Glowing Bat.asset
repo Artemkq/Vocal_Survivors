@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
   m_Name: 28. Giant Bat + Glowing Bat
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  spawnInterval: 0.1
   timeElapsed: 60
+  spawnsPerTick: {x: 1, y: 1}
   enemies:
   - {fileID: 7060775958896916355, guid: 7d539c19d6181904e8d2e75d30ac5b86, type: 3}
   - {fileID: 7060775958896916355, guid: 9897fdddccd28b3468ed4ebd7d874196, type: 3}
-  spawnInterval: {x: 0.1, y: 0.1}
-  spawnsPerTick: {x: 1, y: 1}
   enemyMinimum: 300
   totalSpawns: 1000000
   exitConditions: 1

@@ -4294,6 +4294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1864655308}
   - component: {fileID: 1864655309}
+  - component: {fileID: 1864655311}
   - component: {fileID: 1864655310}
   m_Layer: 0
   m_Name: Enemy Spawner
@@ -4343,56 +4344,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
   data:
   - {fileID: 11400000, guid: 7339ee137713cfd4d90ed72843a314a4, type: 2}
-  - {fileID: 11400000, guid: 6198c4ad02f926a429c90048e40fc02f, type: 2}
   - {fileID: 11400000, guid: 7fc2503c662e4844480ded836328e804, type: 2}
   - {fileID: 11400000, guid: a23176b7ee7662a44be4b7f631bffd88, type: 2}
-  - {fileID: 11400000, guid: 94fd66de71cc7d64a8ebcff410bf84f0, type: 2}
   - {fileID: 11400000, guid: 016c864c0c66af64c982fed5d8ce8c3c, type: 2}
   - {fileID: 11400000, guid: 1dc5acf0604f11f49924ea0544171280, type: 2}
-  - {fileID: 11400000, guid: 04d8fa8d048d5b149bd0d9f1a465b336, type: 2}
   - {fileID: 11400000, guid: bfb98761376ec4c4091507b97285cd77, type: 2}
   - {fileID: 11400000, guid: 260e2fe1f9286854194b36d8983001be, type: 2}
-  - {fileID: 11400000, guid: 11f30f984f0362f4b892e191d76b8736, type: 2}
   - {fileID: 11400000, guid: 3434ba3502398fd49bf49391368000da, type: 2}
-  - {fileID: 11400000, guid: 88feaf95c23241f45afe5f5397526428, type: 2}
   - {fileID: 11400000, guid: 2e34c0ecf8a3154469f8573a71c85827, type: 2}
-  - {fileID: 11400000, guid: 4cf58e2eafbdd2f478fbb6d61ec7ac62, type: 2}
   - {fileID: 11400000, guid: 9306e84b2e5380f428fb882ba30bf2de, type: 2}
-  - {fileID: 11400000, guid: 37379bcef1a8bdf46b9e41394985eb49, type: 2}
   - {fileID: 11400000, guid: 2d3d85ca03b0df447b9cbb1f648c2478, type: 2}
-  - {fileID: 11400000, guid: 0a2fd9808880c93419a358f96f4496a8, type: 2}
   - {fileID: 11400000, guid: 3b564ee171f66e24a8f6430239daac4a, type: 2}
-  - {fileID: 11400000, guid: d39f6117fb8654840bfd6ec846b614f7, type: 2}
   - {fileID: 11400000, guid: 9bba052205d140644918f7ba2095e10b, type: 2}
   - {fileID: 11400000, guid: 0e2f7c2e05731634a9b9ebefb384864a, type: 2}
-  - {fileID: 11400000, guid: 4c8bfdc483951bd42821190565a7d3aa, type: 2}
   - {fileID: 11400000, guid: b57dc6193a4e20845bf48d318d32f02c, type: 2}
-  - {fileID: 11400000, guid: 0e94285f241d61c4eaba912d9d1b6ade, type: 2}
   - {fileID: 11400000, guid: 954ac302b21851543be05f15b5060578, type: 2}
-  - {fileID: 11400000, guid: feae7276c24844f46a15e4ff0b42efa6, type: 2}
   - {fileID: 11400000, guid: c45c2435c9f809641afc6eaa40ee2a5f, type: 2}
   - {fileID: 11400000, guid: c88ed62275afa004c84a61a113f287d5, type: 2}
-  - {fileID: 11400000, guid: ccbd8874ea83bd34e812eab264e9ce4e, type: 2}
   - {fileID: 11400000, guid: a1e3d44ab98bb5240a0556b4054a2a0b, type: 2}
   - {fileID: 11400000, guid: 803a815a36ce5ba41a17fa30388e46b8, type: 2}
-  - {fileID: 11400000, guid: a3fceaaf207a14e4382297b97c3fed84, type: 2}
   - {fileID: 11400000, guid: 8fc1384c458cf42409c1b25d2425bda3, type: 2}
-  - {fileID: 11400000, guid: dbdb7436860285c47a7b15b435ba12e2, type: 2}
-  - {fileID: 11400000, guid: c6cc5418c0521ae48865b89624725d9b, type: 2}
   - {fileID: 11400000, guid: b4f19c851ef49504c91723b269583e7a, type: 2}
-  - {fileID: 11400000, guid: 257b1fbabdacd95489b2f13e31f06981, type: 2}
   - {fileID: 11400000, guid: 032a54d79f8bdfb46b6fc68c12d5a33b, type: 2}
-  - {fileID: 11400000, guid: 3366dbacf715352428d674842ed90de7, type: 2}
   - {fileID: 11400000, guid: 77eb1ffc6cb4cdf4ba91815d7910738b, type: 2}
-  - {fileID: 11400000, guid: 7a53c9a5d56351246ada83e35658f305, type: 2}
   - {fileID: 11400000, guid: 7b502e9ee68c5c6469dce41809b34f5a, type: 2}
-  - {fileID: 11400000, guid: b56e9303b14f44f49a0bf116d9bc8050, type: 2}
   - {fileID: 11400000, guid: 60a3817ce8125fe4f945989698c18361, type: 2}
   - {fileID: 11400000, guid: 9093d025d0d23094f9cdaf6a6e8c7823, type: 2}
-  - {fileID: 11400000, guid: 451616f0ce91138439e6557ba35d2882, type: 2}
   - {fileID: 11400000, guid: 3d9c4de6eb5149a4588803c9c0042f89, type: 2}
   - {fileID: 11400000, guid: 9c9a37b1908238c4fa56da0e5e819da8, type: 2}
-  - {fileID: 11400000, guid: c528eeb701a60be4aae68da9423275c7, type: 2}
   - {fileID: 11400000, guid: 812d4fef08a8bde4fb1a27ed68eefec9, type: 2}
   referenceCamera: {fileID: 519420031}
   maximumEnemyCount: 300
@@ -4409,7 +4388,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5aa0d10779a9e4eb6a4dafb3ce2da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventManager
-  events: []
+  events:
+  - {fileID: 11400000, guid: f5960fa365b049e44a1b8da11cb0a928, type: 2}
+  - {fileID: 11400000, guid: 3c597bf39ac162e4eaa863f20c84f42d, type: 2}
+  - {fileID: 11400000, guid: 57a56f7711aaa6a48a3e368e3e54ec3b, type: 2}
+  - {fileID: 11400000, guid: cb3fd1a3608576f4ab7b7726cc2dc65c, type: 2}
+  - {fileID: 11400000, guid: 955e87455c87e7f49941fdcfbd5d6a19, type: 2}
+  - {fileID: 11400000, guid: ce20e77ff2d47ea4d8847fdb30690d1a, type: 2}
+  - {fileID: 11400000, guid: 7d777e00f0d984041991595ca6cf7d91, type: 2}
+  - {fileID: 11400000, guid: 0c9a66a09e806284d8349e5824439047, type: 2}
+  - {fileID: 11400000, guid: 24ced40e70e713348ad1262ae54d0053, type: 2}
+  - {fileID: 11400000, guid: 3abcb9753d847bd4c8135a11eb039332, type: 2}
+  - {fileID: 11400000, guid: a6bbdfd9b7e16ec4aadc0b75dac3a163, type: 2}
+  - {fileID: 11400000, guid: f037525dce2707647bde66d0455782cb, type: 2}
+  - {fileID: 11400000, guid: ed67402e6f2e54f4cb02d02d13f4477d, type: 2}
+  - {fileID: 11400000, guid: 9a0f5245ed9dffa46be7265873121e67, type: 2}
+  - {fileID: 11400000, guid: 4b5671a4622ffc24a84eb8c044f39554, type: 2}
+  - {fileID: 11400000, guid: e5fea700d1086434eb3ef2d9dea61937, type: 2}
+  - {fileID: 11400000, guid: 1e793bd2486350d48aa626c347600f84, type: 2}
+  - {fileID: 11400000, guid: 1c76193f995780e4fb2a1b2a32758fe5, type: 2}
+  - {fileID: 11400000, guid: efb3d850a90fa204b96871545fd4b1f9, type: 2}
+  - {fileID: 11400000, guid: 6af22784f763aa1418e9468c94c8d814, type: 2}
+  - {fileID: 11400000, guid: e18c76d87c4ffc94fbeb356f92aa18b7, type: 2}
+--- !u!114 &1864655311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864655306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807a532479b2d344baef64808f6e30c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossManager
+  data:
+  - {fileID: 11400000, guid: 72274530c4d67a94aae524c368a14773, type: 2}
+  - {fileID: 11400000, guid: 6c148e605d50131489cc303676d5be0b, type: 2}
+  - {fileID: 11400000, guid: 4c26d0c628127164baa213e1913eda50, type: 2}
+  - {fileID: 11400000, guid: fb3c07eec5a03a44e8aea348bd1d53ae, type: 2}
+  - {fileID: 11400000, guid: bd8904becfd5920479f94b1af136c9de, type: 2}
+  - {fileID: 11400000, guid: 51ad633ecfe22c74cb5318f9bee8db36, type: 2}
+  - {fileID: 11400000, guid: 7b48afc4b218fa04c8d6057272f9f4c5, type: 2}
+  - {fileID: 11400000, guid: 5f308117fd19ce949bca89703525206b, type: 2}
+  - {fileID: 11400000, guid: 00dbe9dd8828abf4fb7a66c70dffa4f3, type: 2}
+  - {fileID: 11400000, guid: e43397a0817223f4d97eac004f31aab9, type: 2}
+  - {fileID: 11400000, guid: c36d1dd6c204a444db0799d2cf0fac1d, type: 2}
+  - {fileID: 11400000, guid: 06c7992b779f3034da524feaae35d8bd, type: 2}
+  - {fileID: 11400000, guid: d40c2e68c2b6de34389bebaa169b9d7f, type: 2}
+  - {fileID: 11400000, guid: fad12ee33c62b7841bedb22b3a0ca428, type: 2}
+  - {fileID: 11400000, guid: 27125111ab6b56c478972eb2481e5389, type: 2}
+  - {fileID: 11400000, guid: c0996285c1451374cbbd5fe7f7543c84, type: 2}
+  - {fileID: 11400000, guid: 03bd69b7295768e42a3238cd7440e731, type: 2}
+  - {fileID: 11400000, guid: 4d9c5d70cbb79d14ab16e0657558fedc, type: 2}
+  - {fileID: 11400000, guid: 651f1f4378d77304591ac6330418e7ce, type: 2}
+  - {fileID: 11400000, guid: cfebefef15abee14198dcd8a2467bc2b, type: 2}
+  - {fileID: 11400000, guid: 28487e06ccffa384090df2f22efcc78a, type: 2}
+  referenceCamera: {fileID: 519420031}
+  maximumEnemyCount: 300
+  boostedByCurse: 1
 --- !u!1001 &1892136841
 PrefabInstance:
   m_ObjectHideFlags: 0

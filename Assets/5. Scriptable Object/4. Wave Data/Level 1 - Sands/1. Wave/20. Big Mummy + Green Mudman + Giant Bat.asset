@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
   m_Name: 20. Big Mummy + Green Mudman + Giant Bat
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  spawnInterval: 0.1
   timeElapsed: 60
+  spawnsPerTick: {x: 1, y: 1}
   enemies:
   - {fileID: 7060775958896916355, guid: c001d4233c6e75643933682050363f43, type: 3}
   - {fileID: 7060775958896916355, guid: 4b044bb56daf7b943bad8c7742aed0e7, type: 3}
   - {fileID: 7060775958896916355, guid: 7d539c19d6181904e8d2e75d30ac5b86, type: 3}
-  spawnInterval: {x: 0.1, y: 0.1}
-  spawnsPerTick: {x: 1, y: 1}
   enemyMinimum: 100
   totalSpawns: 1000000
   exitConditions: 1

@@ -27,7 +27,7 @@ public class EnemyMovement : Sortable
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
-        spawnedOutOffFrame = !SpawnManager.IsWithinBoundaries(transform);
+        spawnedOutOffFrame = !WaveManager.IsWithinBoundaries(transform);
         stats = GetComponent<EnemyStats>();
 
         //Picks a random player on the screen, instead of always picking the 1st player
@@ -55,7 +55,7 @@ public class EnemyMovement : Sortable
     protected virtual void HandleOutOffFrameAction()
     {
         //Handle the enemy when it is out of frame
-        if (!SpawnManager.IsWithinBoundaries(transform))
+        if (!WaveManager.IsWithinBoundaries(transform))
         {
             switch (outOffFrameAction)
             {
@@ -64,7 +64,7 @@ public class EnemyMovement : Sortable
                     break;
                 case OutOffFrameAction.respawnAtEdge:
                     //If the enemy is outside the camera frame, teleport it back to the edge of the frame
-                    transform.position = SpawnManager.GeneratePosition();
+                    transform.position = WaveManager.GeneratePosition();
                     break;
                 case OutOffFrameAction.despawn:
                     //Dont destroy if it is spawned outside the frame

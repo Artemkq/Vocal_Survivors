@@ -241,3 +241,6 @@ MonoBehaviour:
   - name: 30 Exp
     itemPrefab: {fileID: 6572816827611164919, guid: 7e40cd1b9a4866d429fda971c6a94314, type: 3}
     dropRate: 100
+  - name: Level 1 Treasure
+    itemPrefab: {fileID: 8906560445682621277, guid: 7e6bbfa28a4d04b40bd9dc1d43b90642, type: 3}
+    dropRate: 30

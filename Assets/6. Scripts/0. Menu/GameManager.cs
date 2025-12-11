@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
             levelEnded = true;
 
             //Set the enemy/event spawner GameObject inactive to stop enemies from spawning and kill the remaining enemies onscreen
-            FindAnyObjectByType<SpawnManager>().gameObject.SetActive(false);
+            FindAnyObjectByType<WaveManager>().gameObject.SetActive(false);
             foreach (EnemyStats e in FindObjectsByType<EnemyStats>(FindObjectsSortMode.None))
                 e.SendMessage("Kill");
 

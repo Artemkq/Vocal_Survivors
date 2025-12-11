@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
   m_Name: 22. Flower wall + Big Mummy
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  spawnInterval: 0.1
   timeElapsed: 60
+  spawnsPerTick: {x: 1, y: 1}
   enemies:
   - {fileID: 1688658195713744783, guid: 1b61d9f4361f29e469166d9087239447, type: 3}
   - {fileID: 7060775958896916355, guid: c001d4233c6e75643933682050363f43, type: 3}
-  spawnInterval: {x: 0.1, y: 0.1}
-  spawnsPerTick: {x: 1, y: 1}
   enemyMinimum: 200
   totalSpawns: 1000000
   exitConditions: 1

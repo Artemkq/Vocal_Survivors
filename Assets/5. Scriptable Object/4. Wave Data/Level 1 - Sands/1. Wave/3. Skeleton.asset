@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ef92629e301dd4faf7090f7200467e, type: 3}
   m_Name: 3. Skeleton
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  spawnInterval: 0.25
   timeElapsed: 60
+  spawnsPerTick: {x: 1, y: 1}
   enemies:
   - {fileID: 7060775958896916355, guid: 76eefff8d6af4ab4f96efcdc50a2f5ff, type: 3}
-  spawnInterval: {x: 0.25, y: 0.25}
-  spawnsPerTick: {x: 1, y: 1}
   enemyMinimum: 40
   totalSpawns: 1000000
   exitConditions: 1

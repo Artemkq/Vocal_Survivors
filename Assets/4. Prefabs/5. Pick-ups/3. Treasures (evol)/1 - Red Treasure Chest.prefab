@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a226e8cbf79d4c4468b2e679650dbd1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureChest
-  possibleDrops: -1
+  possibleDrops: 28
   dropCountType: 0
   dropProfiles:
   - {fileID: 11400000, guid: 0cd4199aae29c03488d2c391da4dde64, type: 2}
