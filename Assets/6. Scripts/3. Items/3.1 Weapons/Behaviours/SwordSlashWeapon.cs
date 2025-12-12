@@ -20,8 +20,7 @@ public class SwordSlashWeapon : ProjectileWeapon
         //If there is no projectile assigned, set the weapon on cooldown
         if (!CanAttack()) return false;
 
-        //If there is the first time the attack has been fired
-        //we reset the currentSpawnCount
+        // Если это первый вызов атаки, сбрасываем счетчик
         if (currentCooldown <= 0)
         {
             currentSpawnCount = 0;
@@ -37,10 +36,15 @@ public class SwordSlashWeapon : ProjectileWeapon
             currentSpawnYOffset
         );
 
-        //And spawn a copy of the projectile
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Используем базовую позицию спавна (центр спрайта) из PlayerMovement
+        Vector3 spawnBasePosition = movement.ProjectileSpawnPoint;
+        Vector3 finalSpawnPosition = spawnBasePosition + (Vector3)spawnOffset;
+
+        // And spawn a copy of the projectile
         Projectile prefab = Instantiate(
             currentStats.projectilePrefab,
-            owner.transform.position + (Vector3)spawnOffset,
+            finalSpawnPosition, // Используем новую, скорректированную позицию
             Quaternion.identity
         );
 

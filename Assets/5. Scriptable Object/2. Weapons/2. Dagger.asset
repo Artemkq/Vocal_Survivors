@@ -36,9 +36,9 @@ MonoBehaviour:
     spawnVariance:
       serializedVersion: 2
       x: 0
-      y: -0.4
+      y: -0.5
       width: 0
-      height: 0.4
+      height: 0.5
     damage: 6.5
     area: 1
     speed: 10

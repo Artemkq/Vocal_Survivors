@@ -27,7 +27,7 @@ public class ProjectileWeapon : Weapon
 
     protected override bool Attack(int attackCount = 1)
     {
-        //If no projectile prefab is assigned, leave a warning message
+        // If no projectile prefab is assigned, leave a warning message
         if (!currentStats.projectilePrefab)
         {
             Debug.LogWarning(string.Format("Projectile prefab has not been set for {0}", name));
@@ -35,22 +35,27 @@ public class ProjectileWeapon : Weapon
             return false;
         }
 
-        //Can we attack?
+        // Can we attack?
         if (!CanAttack()) return false;
 
-        //Otherwise, calculate the angle and offset of our spawned projectile
+        // Otherwise, calculate the angle and offset of our spawned projectile
         float spawnAngle = GetSpawnAngle();
 
-        //If there is a proc effectm play it on the player
+        // If there is a proc effect, play it on the player
         if (currentStats.procEffect)
         {
             Destroy(Instantiate(currentStats.procEffect, owner.transform), 5f);
         }
 
-        //And spawn a copy of the projectile
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Используем новую точку спавна из скрипта движения игрока.
+        Vector3 spawnBasePosition = movement.ProjectileSpawnPoint;
+        Vector3 spawnPositionWithVariance = spawnBasePosition + (Vector3)GetSpawnOffset(spawnAngle);
+
+        // And spawn a copy of the projectile
         Projectile prefab = Instantiate(
             currentStats.projectilePrefab,
-            owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
+            spawnPositionWithVariance, // Используем скорректированную позицию
             Quaternion.Euler(0, 0, spawnAngle)
         );
 

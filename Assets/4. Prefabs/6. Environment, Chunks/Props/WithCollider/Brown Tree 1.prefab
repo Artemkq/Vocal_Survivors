@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1298697249169944417
+--- !u!1 &4556923698788070963
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7655375903621401770}
-  - component: {fileID: 3493311745605921743}
-  - component: {fileID: -1852675049660112142}
-  - component: {fileID: 2590907815814118146}
+  - component: {fileID: 3085513324376730385}
+  - component: {fileID: 383872613933209452}
+  - component: {fileID: 754990565713312331}
+  - component: {fileID: -2124266578870651334}
   m_Layer: 0
-  m_Name: AutumnDecorations_39
+  m_Name: Brown Tree 1
   m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7655375903621401770
+--- !u!4 &3085513324376730385
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298697249169944417}
+  m_GameObject: {fileID: 4556923698788070963}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3493311745605921743
+--- !u!212 &383872613933209452
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298697249169944417}
+  m_GameObject: {fileID: 4556923698788070963}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -81,37 +81,24 @@ SpriteRenderer:
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1969224742, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
+  m_Sprite: {fileID: 1382519849, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-1852675049660112142
-MonoBehaviour:
+--- !u!70 &754990565713312331
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298697249169944417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
-  sortingActive: 1
---- !u!60 &2590907815814118146
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298697249169944417}
+  m_GameObject: {fileID: 4556923698788070963}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -139,28 +126,19 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.3530222, y: 0.26709652}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.5262751, y: 0.87919587}
-      - {x: 0.2939173, y: 0.8440996}
-      - {x: -0.4618694, y: 0.2680007}
-      - {x: -0.46827027, y: 0.07825086}
-      - {x: -0.21285105, y: 0.074761264}
-      - {x: 0.029895242, y: -0.051767826}
-      - {x: 0.48376578, y: 0.33208966}
-      - {x: 0.6109342, y: 0.3493557}
-      - {x: 0.7292892, y: 0.4121153}
-      - {x: 0.7359322, y: 0.6504037}
-      - {x: 0.7937575, y: 0.6507887}
-      - {x: 0.7941057, y: 0.8367784}
-  m_UseDelaunayMesh: 0
+  m_Offset: {x: -0.022526965, y: 0.14250706}
+  m_Size: {x: 1.1420828, y: 0.68106526}
+  m_Direction: 1
+--- !u!114 &-2124266578870651334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4556923698788070963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

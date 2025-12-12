@@ -16,6 +16,25 @@ public class PlayerMovement : Sortable
     Rigidbody2D rb;
     PlayerStats player;
 
+    public Vector3 ProjectileSpawnPoint
+    {
+        get
+        {
+            // Если вы используете SpriteRenderer для отображения игрока, 
+            // этот код найдет его и вернет центр его границ (bounds.center).
+            // Это автоматически компенсирует смещенный пивот.
+            SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+            {
+                return spriteRenderer.bounds.center;
+            }
+
+            // Запасной вариант: если SpriteRenderer не найден, вернуть обычную позицию объекта (пивот).
+            return transform.position;
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -60,7 +79,7 @@ public class PlayerMovement : Sortable
             lastHorizontalVector = moveDir.x;
             lastMovedVector = new Vector2(lastHorizontalVector, 0f); //Last moved X
         }
-        
+
         if (moveDir.y != 0)
         {
             lastVerticalVector = moveDir.y;
