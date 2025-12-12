@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3239953627364295274}
   - component: {fileID: 8148116292122758363}
-  - component: {fileID: 2732941465860262515}
+  - component: {fileID: 5034536092827460851}
+  - component: {fileID: 4111357625481064780}
   m_Layer: 0
   m_Name: AutumnDecorations_93
   m_TagString: Prop
@@ -77,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1296986857
-  m_SortingLayer: 2
+  m_SortingLayerID: -933330409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 818089209, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,8 +92,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &2732941465860262515
-CapsuleCollider2D:
+--- !u!114 &5034536092827460851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5690584788764849277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1
+--- !u!60 &4111357625481064780
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -125,6 +139,32 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00019083648, y: 0.3521987}
-  m_Size: {x: 1.8820413, y: 0.7810749}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5293956, y: 0.14499187}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.023756102, y: 0.8683948}
+      - {x: -0.43456745, y: 0.7898724}
+      - {x: -0.70206094, y: 0.71904045}
+      - {x: -0.870656, y: 0.72402185}
+      - {x: -0.9397388, y: 0.6392852}
+      - {x: -0.9402005, y: 0.27404597}
+      - {x: -0.73626804, y: 0.076269925}
+      - {x: -0.22160786, y: 0.07446545}
+      - {x: -0.1115358, y: -0.038424365}
+      - {x: 0.18401784, y: -0.037929296}
+      - {x: 0.44447014, y: 0.07277453}
+      - {x: 0.46090412, y: 0.1400789}
+      - {x: 0.74553704, y: 0.13651885}
+      - {x: 0.9265485, y: 0.3488987}
+      - {x: 0.9460958, y: 0.69407904}
+      - {x: 0.57495517, y: 0.79722774}
+  m_UseDelaunayMesh: 0

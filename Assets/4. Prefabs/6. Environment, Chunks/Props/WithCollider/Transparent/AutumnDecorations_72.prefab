@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7535054310014586497}
   - component: {fileID: -1725109588666377897}
   - component: {fileID: -6610373725037565416}
+  - component: {fileID: -8838536735132804407}
   m_Layer: 0
   m_Name: AutumnDecorations_72
   m_TagString: Prop
@@ -79,8 +80,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1296986857
-  m_SortingLayer: 2
+  m_SortingLayerID: -933330409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 572132776, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -179,5 +180,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbea79a011cd1dc4ea7b6bee3ea04a44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TransparencyDetection
-  transparencyAmount: 0.8
+  transparencyAmount: 0.5
   fadetime: 0.5
+--- !u!114 &-8838536735132804407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358105880528790141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

@@ -43,7 +43,7 @@ MonoBehaviour:
     area: 1
     speed: 10
     amount: 0
-    duration: 5
+    duration: 3
     pierce: 1
     cooldown: 1
     projectileInterval: 0.1

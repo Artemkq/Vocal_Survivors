@@ -34,7 +34,7 @@ public class WaveManager : MonoBehaviour
             if (HasWaveEnded())
             {
                 currentWaveIndex++;
-                currentWaveDuration = currentWaveSpawnCount = 0; 
+                currentWaveDuration = currentWaveSpawnCount = 0;
 
                 //If we have gone through all the waves, disable this component
                 if (currentWaveIndex >= data.Length)
@@ -94,7 +94,7 @@ public class WaveManager : MonoBehaviour
     }
 
     //Allows other scripts to check if we have exceeded the maximum number of enemies
-    public static bool HasExceededMaxEnemies ()
+    public static bool HasExceededMaxEnemies()
     {
         if (!instance) return false; //If there is no spawn manager, dont limit max enemies
         if (EnemyStats.count > instance.maximumEnemyCount) return true;
@@ -127,38 +127,53 @@ public class WaveManager : MonoBehaviour
         referenceCamera = Camera.main;
     }
 
-    //Creates a new lacation where we can place the enemy at
+    //Creates a new location where we can place the enemy at (с отступом 1.1f и 360 градусов)
     public static Vector3 GeneratePosition()
     {
-        //If there is no reference camera, then get one
+        // Если there is no reference camera, then get one
         if (!instance.referenceCamera) instance.referenceCamera = Camera.main;
 
-        //Give a warning if the camera is not orthographic
+        // Give a warning if the camera is not orthographic
         if (!instance.referenceCamera.orthographic)
             Debug.LogWarning("The reference camera is not orthographic! This will cause enemy spawns to sometimes appear within camera boundaries!");
 
-        //Generate a position outside of camera boundaries using 2 random numbers
-        float x = Random.Range(0f, 1f), y = Random.Range(0f, 1f);
+        // --- УСТАНАВЛИВАЕМ ЖЕЛАЕМЫЙ ОТСТУП/ДИСТАНЦИЮ ---
+        // Это минимальное расстояние от центра экрана до точки спавна (в единицах вьюпорта, 1.0f = край экрана)
+        const float spawnDistance = 1f;
 
-        //Then, randomly choose whether we want to round the x or the y value
-        switch (Random.Range(0, 2))
-        {
-            case 0: default:
-                return instance.referenceCamera.ViewportToWorldPoint(new Vector3(Mathf.Round(x), y));
-            case 1:
-                return instance.referenceCamera.ViewportToWorldPoint(new Vector3(x, Mathf.Round(y)));
-        }
+        // 1. Выбираем случайный угол в радианах (0 до 2*PI)
+        float randomAngle = Random.Range(0f, Mathf.PI * 2f);
+
+        // 2. Используем синус и косинус для получения координат X и Y на окружности
+        float x = Mathf.Cos(randomAngle) * spawnDistance;
+        float y = Mathf.Sin(randomAngle) * spawnDistance;
+
+        // 3. Преобразуем полученные координаты (которые теперь находятся на окружности радиусом 1.1f)
+        //    из вьюпорта в мировые координаты.
+        //    Обратите внимание: ViewportToWorldPoint ожидает координаты от 0 до 1, 
+        //    но мы можем передать и другие значения для расчета точек вне экрана.
+        //    Нам нужно отцентрировать координаты, добавив 0.5f к x и y (так как 0,0 в вьюпорте это левый нижний угол)
+
+        Vector3 spawnViewportPoint = new Vector3(x + 0.5f, y + 0.5f, 0f);
+
+        return instance.referenceCamera.ViewportToWorldPoint(spawnViewportPoint);
     }
 
     //Checking if the enemy is wighin the cameras boundaries
     public static bool IsWithinBoundaries(Transform checkedObject)
     {
+        // Устанавливаем отступ (padding). (Ваше предыдущее значение)
+        const float padding = 1f;
+
         //Get the camera to check if we are within boundaries
         Camera c = instance && instance.referenceCamera ? instance.referenceCamera : Camera.main;
 
         Vector2 viewport = c.WorldToViewportPoint(checkedObject.position);
-        if (viewport.x < 0f || viewport.x > 1f) return false;
-        if (viewport.y < 0f || viewport.y > 1f) return false;
+
+        // Проверяем границы с учетом отступа:
+        if (viewport.x < 0f - padding || viewport.x > 1f + padding) return false;
+        if (viewport.y < 0f - padding || viewport.y > 1f + padding) return false;
+
         return true;
     }
 }

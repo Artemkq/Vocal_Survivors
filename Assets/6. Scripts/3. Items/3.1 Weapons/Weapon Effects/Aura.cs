@@ -8,65 +8,126 @@ using UnityEngine;
 
 public class Aura : WeaponEffect
 {
+    // Словари для отслеживания целей и их кулдаунов
     Dictionary<EnemyStats, float> affectedTargets = new Dictionary<EnemyStats, float>();
-    List<EnemyStats> targetsToUnaffect = new List<EnemyStats>();
+    Dictionary<BreakableProps, float> affectedProps = new Dictionary<BreakableProps, float>();
 
-    //Update is called once per frame
+    // Списки для временного хранения целей, которые должны быть удалены после завершения цикла Update
+    List<EnemyStats> targetsToUnaffect = new List<EnemyStats>();
+    List<BreakableProps> propsToUnaffect = new List<BreakableProps>();
 
     void Update()
     {
-        Dictionary<EnemyStats, float> affectedTargsCopy = new Dictionary<EnemyStats, float>(affectedTargets);
-
-        //Loop throught every target affected by the aura, and reduce the cooldown
-        //of the aura for it. If the cooldown reaches 0, deal damage to it
-        foreach (KeyValuePair<EnemyStats, float> pair in affectedTargsCopy)
+        // --- ОБРАБОТКА ВРАГОВ (ENEMYSTATS) ---
+        // Создаем временный список ключей, чтобы безопасно изменять словарь во время итерации
+        List<EnemyStats> enemiesToProcess = new List<EnemyStats>(affectedTargets.Keys);
+        foreach (EnemyStats enemy in enemiesToProcess)
         {
-            affectedTargets[pair.Key] -= Time.deltaTime;
-            if (pair.Value <= 0)
+            // Пропускаем, если объект уже невалиден или удален
+            if (enemy == null || !affectedTargets.ContainsKey(enemy)) continue;
+
+            affectedTargets[enemy] -= Time.deltaTime;
+            if (affectedTargets[enemy] <= 0f)
             {
-                if (targetsToUnaffect.Contains(pair.Key))
+                if (targetsToUnaffect.Contains(enemy))
                 {
-                    //If the target is marked for removal, remove it
-                    affectedTargets.Remove(pair.Key);
-                    targetsToUnaffect.Remove(pair.Key);
+                    // Цель вышла из триггера, удаляем её окончательно
+                    RemoveEnemy(enemy);
                 }
                 else
                 {
-                    //Reset the cooldown and deal damage
-                    Weapon.Stats stats = weapon.GetStats();
-                    affectedTargets[pair.Key] = stats.cooldown * Owner.Stats.cooldown;
-                    pair.Key.TakeDamage(GetDamage(), transform.position, stats.knockback);
+                    // Сбрасываем кулдаун, наносим урон и применяем эффекты
+                    ProcessEnemyDamage(enemy);
+                }
+            }
+        }
 
-                    weapon.ApplyBuffs(pair.Key); //Apply all assigned buffs to the target
-
-                    //Play the hit effect if it is assigned
-                    if (stats.hitEffect)
-                    {
-                        Destroy(Instantiate(stats.hitEffect, pair.Key.transform.position, Quaternion.identity), 5f);
-                    }
+        // --- ОБРАБОТКА РАЗРУШАЕМЫХ ОБЪЕКТОВ (BREAKABLEPROPS) ---
+        List<BreakableProps> propsToProcess = new List<BreakableProps>(affectedProps.Keys);
+        foreach (BreakableProps prop in propsToProcess)
+        {
+            if (prop == null || !affectedProps.ContainsKey(prop)) continue;
+            
+            affectedProps[prop] -= Time.deltaTime;
+            if (affectedProps[prop] <= 0f)
+            {
+                if (propsToUnaffect.Contains(prop))
+                {
+                    // Объект вышел из триггера, удаляем его окончательно
+                    RemoveProp(prop);
+                }
+                else
+                {
+                    // Сбрасываем кулдаун, наносим урон и применяем эффекты
+                    ProcessPropDamage(prop);
                 }
             }
         }
     }
 
+    private void ProcessEnemyDamage(EnemyStats enemy)
+    {
+        Weapon.Stats stats = weapon.GetStats();
+        affectedTargets[enemy] = stats.cooldown * Owner.Stats.cooldown;
+        
+        enemy.TakeDamage(GetDamage(), transform.position, stats.knockback);
+        weapon.ApplyBuffs(enemy);
+
+        if (stats.hitEffect)
+        {
+            Destroy(Instantiate(stats.hitEffect, enemy.transform.position, Quaternion.identity), 5f);
+        }
+    }
+
+    private void RemoveEnemy(EnemyStats enemy)
+    {
+        affectedTargets.Remove(enemy);
+        targetsToUnaffect.Remove(enemy);
+    }
+
+    private void ProcessPropDamage(BreakableProps prop)
+    {
+        Weapon.Stats stats = weapon.GetStats();
+        affectedProps[prop] = stats.cooldown * Owner.Stats.cooldown;
+        
+        prop.TakeDamage(GetDamage());
+
+        if (stats.hitEffect)
+        {
+            Destroy(Instantiate(stats.hitEffect, prop.transform.position, Quaternion.identity), 5f);
+        }
+    }
+
+    private void RemoveProp(BreakableProps prop)
+    {
+        affectedProps.Remove(prop);
+        propsToUnaffect.Remove(prop);
+    }
+    
+    // --- ОБРАБОТКА ТРИГГЕРОВ ---
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out EnemyStats es))
         {
-            //If the target is not yet affected by this auram add it
-            //to our list of affected targets
             if (!affectedTargets.ContainsKey(es))
             {
-                //Always starts with an interval of 0, so that it will get
-                //damaged in the next Update() tick
-                affectedTargets.Add(es, 0);
+                affectedTargets.Add(es, 0); // Урон начнется в следующем Update()
             }
-            else
+            else if (targetsToUnaffect.Contains(es))
             {
-                if (targetsToUnaffect.Contains(es))
-                {
-                    targetsToUnaffect.Remove(es);
-                }
+                targetsToUnaffect.Remove(es);
+            }
+        }
+        else if (other.TryGetComponent(out BreakableProps p))
+        {
+            if (!affectedProps.ContainsKey(p))
+            {
+                affectedProps.Add(p, 0); // Урон начнется в следующем Update()
+            }
+            else if (propsToUnaffect.Contains(p))
+            {
+                propsToUnaffect.Remove(p);
             }
         }
     }
@@ -75,11 +136,16 @@ public class Aura : WeaponEffect
     {
         if (other.TryGetComponent(out EnemyStats es))
         {
-            //Do not directly remove the target upon leaving
-            //because we still have to track their cooldowns
             if (affectedTargets.ContainsKey(es))
             {
                 targetsToUnaffect.Add(es);
+            }
+        }
+        else if (other.TryGetComponent(out BreakableProps p))
+        {
+            if (affectedProps.ContainsKey(p))
+            {
+                propsToUnaffect.Add(p);
             }
         }    
     }

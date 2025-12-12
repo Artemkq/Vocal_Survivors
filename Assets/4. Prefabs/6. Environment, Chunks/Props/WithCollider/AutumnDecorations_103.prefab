@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4127403822621846142}
   - component: {fileID: 5185082996865167560}
-  - component: {fileID: 2823037491038796505}
+  - component: {fileID: -5848558936930396575}
+  - component: {fileID: 4912320616646954368}
   m_Layer: 0
   m_Name: AutumnDecorations_103
   m_TagString: Prop
@@ -77,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1296986857
-  m_SortingLayer: 2
+  m_SortingLayerID: -933330409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -605155405, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,8 +92,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &2823037491038796505
-CapsuleCollider2D:
+--- !u!114 &-5848558936930396575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6451331729904513261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1
+--- !u!60 &4912320616646954368
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -125,6 +139,24 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0119765075, y: 0.28505164}
-  m_Size: {x: 0.80765486, y: 0.563746}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5407014, y: 0.2964921}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.1667065, y: 0.0039361715}
+      - {x: 0.29070374, y: 0.0005272478}
+      - {x: 0.40836766, y: 0.09447982}
+      - {x: 0.39642242, y: 0.3924115}
+      - {x: 0.07448828, y: 0.7091669}
+      - {x: -0.22984889, y: 0.71702135}
+      - {x: -0.41337448, y: 0.49978477}
+      - {x: -0.41903347, y: 0.18910919}
+  m_UseDelaunayMesh: 0

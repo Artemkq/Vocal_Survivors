@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3830733479883834844}
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
+  - component: {fileID: 8613530013601480410}
   m_Layer: 0
   m_Name: Giant Venus
   m_TagString: Enemy
@@ -182,7 +183,7 @@ BoxCollider2D:
   m_Offset: {x: 0.11015597, y: -0.044905543}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.39}
     oldSize: {x: 12.5, y: 12.5}
     newSize: {x: 9.375, y: 9.375}
     adaptiveTilingThreshold: 0.5
@@ -251,3 +252,16 @@ MonoBehaviour:
   - name: 30 Exp
     itemPrefab: {fileID: 6572816827611164919, guid: 7e40cd1b9a4866d429fda971c6a94314, type: 3}
     dropRate: 100
+--- !u!114 &8613530013601480410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

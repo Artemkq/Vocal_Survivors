@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3830733479883834844}
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
+  - component: {fileID: 3894076543161021786}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Enemy
@@ -241,3 +242,16 @@ MonoBehaviour:
   - name: 2 Exp
     itemPrefab: {fileID: 6572816827611164919, guid: a86d8d98630af63429b8c43c093209e2, type: 3}
     dropRate: 100
+--- !u!114 &3894076543161021786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3830733479883834844}
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
+  - component: {fileID: -5419187495013295673}
   m_Layer: 0
   m_Name: 'Pipeestrello 2 '
   m_TagString: Enemy
@@ -241,3 +242,16 @@ MonoBehaviour:
   - name: 1 Exp
     itemPrefab: {fileID: 6572816827611164919, guid: ffa8ec76aaa96cd4491466f40fd51c18, type: 3}
     dropRate: 100
+--- !u!114 &-5419187495013295673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3706313517816989428}
   - component: {fileID: 910069844221249312}
   - component: {fileID: 5250462854165909439}
+  - component: {fileID: -2459185169709549419}
   m_Layer: 0
   m_Name: Green Bush
   m_TagString: Prop
@@ -79,8 +80,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1296986857
-  m_SortingLayer: 2
+  m_SortingLayerID: -933330409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2060900770, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 0.23847914, g: 1, b: 0, a: 1}
@@ -169,3 +170,16 @@ MonoBehaviour:
   - name: Green Diamond
     itemPrefab: {fileID: 4940573944749371825, guid: 3ac0c27587e04c64192270a85f6b1176, type: 3}
     dropRate: 100
+--- !u!114 &-2459185169709549419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761321895998190807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

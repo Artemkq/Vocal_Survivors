@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4805448585912231072}
   - component: {fileID: 5025109308737011462}
   - component: {fileID: 7078834105407243970}
+  - component: {fileID: -1797419396972852095}
   m_Layer: 0
   m_Name: Green Mush
   m_TagString: Prop
@@ -79,8 +80,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1296986857
-  m_SortingLayer: 2
+  m_SortingLayerID: -933330409
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1573461883, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 0.12251449, g: 1, b: 0, a: 1}
@@ -169,3 +170,16 @@ MonoBehaviour:
   - name: Bread
     itemPrefab: {fileID: 6446746050567509442, guid: 08302cc986669be44a474d6b2506f169, type: 3}
     dropRate: 100
+--- !u!114 &-1797419396972852095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8524719868687407932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1
