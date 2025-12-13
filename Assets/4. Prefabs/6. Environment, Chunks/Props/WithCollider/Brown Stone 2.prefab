@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1140559917705313294}
   - component: {fileID: -7766520357853672620}
   - component: {fileID: 7708308317383156091}
+  - component: {fileID: 7224923309365884728}
   m_Layer: 0
   m_Name: Brown Stone 2
   m_TagString: Prop
@@ -142,3 +143,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0092719, y: 0.3273701}
   m_Size: {x: 1.0633986, y: 0.91811603}
   m_Direction: 1
+--- !u!114 &7224923309365884728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308284110085963576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ea17b05e84cb44f9361bf83fe1957c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
+  isImmortal: 1
+  health: 0

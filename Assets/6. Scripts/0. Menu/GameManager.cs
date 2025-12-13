@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using NUnit.Framework;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver { get { return currentState == GameState.GameOver; } }
     public bool choosingUpgrade { get { return currentState == GameState.LevelUp; } }
+
+    // ДОБАВЛЕНО СВОЙСТВО:
+    public bool isPaused { get { return currentState == GameState.Paused; } }
 
     public float GetElapsedTime() { return stopwatchTime; }
 

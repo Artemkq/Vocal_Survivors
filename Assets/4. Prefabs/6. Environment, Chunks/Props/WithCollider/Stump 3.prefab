@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7531085852067370230}
   - component: {fileID: 5767836073171640368}
   - component: {fileID: -5412614711860660369}
-  - component: {fileID: -9081409140735451553}
   m_Layer: 0
   m_Name: Stump 3
   m_TagString: Prop
@@ -80,7 +79,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -933330409
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: -1000
   m_Sprite: {fileID: 524576099, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -129,16 +128,3 @@ CapsuleCollider2D:
   m_Offset: {x: -0.012724076, y: 0.7237944}
   m_Size: {x: 1.9227467, y: 1.6916692}
   m_Direction: 1
---- !u!114 &-9081409140735451553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5244484745656126925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
-  sortingActive: 1

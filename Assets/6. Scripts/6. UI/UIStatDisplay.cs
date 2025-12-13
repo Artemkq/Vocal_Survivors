@@ -35,14 +35,14 @@ public class UIStatDisplay : UIPropertyDisplay
         // Add the current health to the stat box.
         if (displayCurrentHealth)
         {
-            if (player != null) // <-- ÄÎÁÀÂËÅÍÀ ÝÒÀ ÏÐÎÂÅÐÊÀ
+            if (player != null) // <-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
                 allStats[0].Insert(0, "Health\n");
                 allStats[1].Insert(0, player.CurrentHealth + "\n");
             }
             else
             {
-                Debug.LogWarning("Cannot display current health: Player object is missing!");
+                //Debug.LogWarning("Cannot display current health: Player object is missing!");
             }
         }
 

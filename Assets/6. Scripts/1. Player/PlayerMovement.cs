@@ -55,10 +55,15 @@ public class PlayerMovement : Sortable
 
     void InputManagement()
     {
-        if (GameManager.instance.isGameOver)
-        {
-            return;
-        }
+        // Удаляем проверку isGameOver здесь. 
+        // Логика ввода (Input.GetAxisRaw) должна работать всегда, 
+        // чтобы мы могли обновлять направление взгляда (lastMovedVector) 
+        // даже когда игра на паузе или окончена.
+
+        // if (GameManager.instance.isGameOver)
+        // {
+        //     return;
+        // }
 
         float moveX, moveY;
         if (VirtualJoystick.CountActiveInstances() > 0)
@@ -71,6 +76,8 @@ public class PlayerMovement : Sortable
             moveX = Input.GetAxisRaw("Horizontal");
             moveY = Input.GetAxisRaw("Vertical");
         }
+
+        // moveDir будет хранить желаемое направление движения, даже если оно равно нулю из-за паузы
         moveDir = new Vector2(moveX, moveY).normalized;
 
 

@@ -4909,6 +4909,7 @@ GameObject:
   - component: {fileID: 1696727220813197568}
   - component: {fileID: 7582900914791889225}
   - component: {fileID: 8815087057986463320}
+  - component: {fileID: 1092566303073314107}
   m_Layer: 0
   m_Name: Lightning Bolt
   m_TagString: Untagged
@@ -9894,3 +9895,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1092566303073314107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182183462434695211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908abaec2cd23c348b17311cd22b313a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoDestroyEffect

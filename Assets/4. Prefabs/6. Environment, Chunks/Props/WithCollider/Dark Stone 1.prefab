@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5185082996865167560}
   - component: {fileID: -5848558936930396575}
   - component: {fileID: 1007373281556954622}
+  - component: {fileID: -2384174543754233354}
   m_Layer: 0
   m_Name: Dark Stone 1
   m_TagString: Prop
@@ -142,3 +143,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0.009486142, y: 0.26162207}
   m_Size: {x: 0.9947253, y: 0.77812046}
   m_Direction: 1
+--- !u!114 &-2384174543754233354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6451331729904513261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ea17b05e84cb44f9361bf83fe1957c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
+  isImmortal: 1
+  health: 0

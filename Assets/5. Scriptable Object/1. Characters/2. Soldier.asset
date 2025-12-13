@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
   m_Name: 2. Soldier
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  icon: {fileID: -2097619832946416524, guid: 949aa72d738c9dd4c92091037bf390d9, type: 3}
+  icon: {fileID: 21300000, guid: 949aa72d738c9dd4c92091037bf390d9, type: 3}
   controller: {fileID: 9100000, guid: a016fdc742c96e242acdcc54467fd1f3, type: 2}
   name: Soldier
   fullName: Gennaro Belpaese

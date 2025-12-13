@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0a68c086a61be4eae655d2708513eb, type: 3}
   m_Name: 5. Zena
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  icon: {fileID: -2097619832946416524, guid: 3c4ce6030f880df47ba569e07c8a0a97, type: 3}
+  icon: {fileID: 21300000, guid: 3c4ce6030f880df47ba569e07c8a0a97, type: 3}
   controller: {fileID: 22100000, guid: ff2ce6df0fdff3d4f9f9c7a6535996ac, type: 2}
   name: Zena
   fullName: Lama Ladonna

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7535054310014586497}
   - component: {fileID: -6610373725037565416}
   - component: {fileID: -8838536735132804407}
+  - component: {fileID: -1103424906610748750}
   m_Layer: 0
   m_Name: Brown Tree 2
   m_TagString: Prop
@@ -195,3 +196,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
+--- !u!114 &-1103424906610748750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358105880528790141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ea17b05e84cb44f9361bf83fe1957c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
+  isImmortal: 1
+  health: 0

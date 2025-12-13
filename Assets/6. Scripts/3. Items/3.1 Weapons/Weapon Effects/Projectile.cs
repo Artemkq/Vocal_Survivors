@@ -68,7 +68,7 @@ public class Projectile : WeaponEffect
         }
 
         //Point the projectile towards where we are aimning at
-        transform.rotation = Quaternion.Euler (0, 0, aimAngle);
+        transform.rotation = Quaternion.Euler(0, 0, aimAngle);
     }
 
     //Update is called once per frame
@@ -108,7 +108,10 @@ public class Projectile : WeaponEffect
             piercing--;
             if (stats.hitEffect)
             {
-                Destroy(Instantiate(stats.hitEffect, transform.position, Quaternion.identity), 5f);
+                // Было: Destroy(Instantiate(stats.hitEffect, transform.position, Quaternion.identity), 5f);
+
+                // Стало: Просто инстанцируем эффект. Он сам себя уничтожит.
+                Instantiate(stats.hitEffect, transform.position, Quaternion.identity);
             }
         }
         else if (p)
