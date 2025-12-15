@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,11 @@ public class GameManager : MonoBehaviour
     public GameObject resultScreen;
     public GameObject levelUpScreen;
     int stackedLevelUps = 0; //If we try to StartLevelUp() multiple times
+
+    // !!! ДОБАВЬТЕ ЭТУ ПЕРЕМЕННУЮ ДЛЯ КНОПКИ RESUME !!!
+    public UnityEngine.UI.Button resumeButton;
+    // !!! ДОБАВЬТЕ ССЫЛКУ НА КНОПКУ ВЫХОДА ЗДЕСЬ !!!
+    public UnityEngine.UI.Button quitButton;
 
     [Header("Current Stat Displays")]
     public TMP_Text currentHealthDisplay;
@@ -231,6 +237,14 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f; //Stop the game
             pauseScreen.SetActive(true);
             Debug.Log("Game is paused");
+
+            // !!! УСТАНОВКА ФОКУСА НА КНОПКУ RESUME !!!
+            // Сначала сбрасываем текущий выбор, затем устанавливаем новый
+            EventSystem.current.SetSelectedGameObject(null);
+            if (resumeButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
+            }
         }
     }
 
@@ -242,6 +256,9 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f; //Resume the game
             pauseScreen.SetActive(false);
             Debug.Log("Game is resumed");
+
+            // !!! СБРОС ФОКУСА ПРИ ВОЗВРАЩЕНИИ К ГЕЙМПЛЕЮ !!!
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
@@ -296,6 +313,22 @@ public class GameManager : MonoBehaviour
     void DisplayResults()
     {
         resultScreen.SetActive(true);
+
+         // !!! ЗАПУСКАЕМ КОРУТИНУ ДЛЯ УСТАНОВКИ ФОКУСА !!!
+        StartCoroutine(SelectQuitButtonNextFrame());
+    }
+
+    // !!! НОВАЯ КОРУТИНА ДЛЯ ЭКРАНА GAMEOVER !!!
+    System.Collections.IEnumerator SelectQuitButtonNextFrame()
+    {
+        // Ждем один кадр
+        yield return null; 
+
+        if (quitButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(quitButton.gameObject);
+        }
     }
 
     public void AssignChosenCharacterUI(CharacterData chosenCharacterData)
@@ -365,6 +398,7 @@ public class GameManager : MonoBehaviour
 
     public void EndLevelUp()
     {
+        // ... (ваш существующий код EndLevelUp) ...
         Time.timeScale = 1f; //Resume the game
         levelUpScreen.SetActive(false);
         ChangeState(GameState.Gameplay);
@@ -374,5 +408,7 @@ public class GameManager : MonoBehaviour
             stackedLevelUps--;
             StartLevelUp();
         }
+        // !!! СБРОС ФОКУСА ПРИ ЗАКРЫТИИ ЭКРАНА (опционально, но рекомендуется) !!!
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }

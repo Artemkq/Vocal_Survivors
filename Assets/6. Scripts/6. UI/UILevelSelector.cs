@@ -107,6 +107,19 @@ public class UILevelSelector : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Выбираем первый уровень (индекс 0) по умолчанию при старте сцены
+        if (levels.Count > 0 && selectableToggles.Count > 0)
+        {
+            // Устанавливаем переключатель (Toggle) первого уровня в состояние "Включено"
+            // Это визуально выделит его в интерфейсе и вызовет Select(0) через Event System (если настроено)
+            selectableToggles[0].isOn = true;
+            // Также явно вызываем Select(0) на случай, если Toggle не настроен на вызов этого метода
+            Select(0);
+        }
+    }
+
     // Selects a scene that will be loaded with LoadSelectedLevel().
     // Also creates the buff that will be applied on that level, and checks if
     // the modifier variables are empty (which are used by PlayerStats and EnemyStats). 1 reference

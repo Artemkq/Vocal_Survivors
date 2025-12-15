@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 //We require a VerticalLayoutGroup on the GameObject this is
 //attached to, because it uses the component to make sure the
@@ -149,6 +150,39 @@ public class UIUpgradeWindow : MonoBehaviour
 
         //Sizes all the elements so they do not exceed the size of the box
         RecalculateLayout();
+
+        // !!! УСТАНАВЛИВАЕМ ФОКУС СРАЗУ ПОСЛЕ НАСТРОЙКИ КНОПОК !!!
+        StartCoroutine(SelectFirstOptionNextFrameCoroutine());
+    }
+
+    // !!! НОВАЯ КОРУТИНА В UIUpgradeWindow.cs !!!
+    private IEnumerator SelectFirstOptionNextFrameCoroutine()
+    {
+        // Ждем один кадр, чтобы EventSystem точно "увидел" новые активные кнопки
+        yield return null; 
+
+        if (activeOptions > 0 && upgradeOptions.Count > 0)
+        {
+            // Получаем ссылку на первую активную кнопку через наш метод GetUpgradeButton
+            Button firstButton = GetUpgradeButton(0); 
+
+            if (firstButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+            }
+        }
+    }
+
+    // !!! НОВЫЙ МЕТОД ДЛЯ ПОЛУЧЕНИЯ КНОПКИ ПО ИНДЕКСУ !!!
+    public UnityEngine.UI.Button GetUpgradeButton(int index)
+    {
+        if (index >= 0 && index < upgradeOptions.Count && upgradeOptions[index].gameObject.activeSelf)
+        {
+            // Находим компонент Button внутри RectTransform
+            return upgradeOptions[index].Find(buttonPath).GetComponent<UnityEngine.UI.Button>();
+        }
+        return null;
     }
 
     //Recalculates the heights of all elements
@@ -177,7 +211,7 @@ public class UIUpgradeWindow : MonoBehaviour
         foreach (RectTransform r in upgradeOptions)
         {
             if (r == null || !r.gameObject.activeSelf) continue;
-            r.sizeDelta = new Vector2 (r.sizeDelta.x, optionHeight);    
+            r.sizeDelta = new Vector2(r.sizeDelta.x, optionHeight);
         }
     }
 
@@ -186,7 +220,7 @@ public class UIUpgradeWindow : MonoBehaviour
     //and we will call RecalculateLayout() to update the height of our buttons
     private void Update()
     {
-        if(lastScreen.x != Screen.width || lastScreen.y != Screen.height)
+        if (lastScreen.x != Screen.width || lastScreen.y != Screen.height)
         {
             RecalculateLayout();
             lastScreen = new Vector2(Screen.width, Screen.height);
