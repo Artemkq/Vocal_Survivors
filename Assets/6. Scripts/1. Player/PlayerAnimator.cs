@@ -18,6 +18,13 @@ public class PlayerAnimator : MonoBehaviour
     
     void Update()
     {
+        // Игнорируем анимацию во время паузы или завершения игры
+        if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
+        {
+            am.SetBool("Move", false);
+            return;
+        }
+
         if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
         {
             am.SetBool ("Move", true);
