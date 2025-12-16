@@ -1,7 +1,6 @@
 using System.Text;
 using System.Reflection;
 using TMPro;
-using UnityEngine;
 
 public class UIStatDisplay : UIPropertyDisplay
 {

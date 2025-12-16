@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using UnityEngine;
 
 /// <summary>
 /// A simple SaveManager designed to save the total number of diamonds the player has. 
-/// /// In later parts, this will be used to store all the player's save data, but we are 
-/// /// keeping it simple for now.
+/// In later parts, this will be used to store all the player's save data, but we are 
+/// keeping it simple for now.
 /// </summary>
  
 public class SaveManager

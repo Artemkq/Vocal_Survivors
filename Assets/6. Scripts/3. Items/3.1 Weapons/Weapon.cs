@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Component to be attached to all Weapon prefabs. The Weapon prefab works together with the WeaponData ScrtiptableObjects to manage and run the behaviours of all weapons in the game

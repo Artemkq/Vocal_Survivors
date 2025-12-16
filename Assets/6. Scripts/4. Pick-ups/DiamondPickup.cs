@@ -1,6 +1,5 @@
 public class DiamondPickup : Pickup
 {
-
     PlayerCollector collector;
     public int diamods = 1;
 

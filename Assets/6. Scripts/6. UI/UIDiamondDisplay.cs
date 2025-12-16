@@ -3,8 +3,8 @@ using UnityEngine;
 
 /// <summary>
 /// Component that is attached to GameObjects to make it display the player's coins. 
-/// /// Either in-game, or the total number of coins the player has, depending on whether 
-/// /// the collector variable is set.
+/// Either in-game, or the total number of coins the player has, depending on whether 
+/// the collector variable is set.
 /// </summary>
 
 public class UIDiamondDisplay : MonoBehaviour
