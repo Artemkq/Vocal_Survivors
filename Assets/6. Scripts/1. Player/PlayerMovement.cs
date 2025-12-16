@@ -4,7 +4,7 @@ using Terresquall;
 public class PlayerMovement : Sortable
 
 {
-    public const float DEFAULT_MOVESPEED = 5f;
+    public const float DEFAULT_MOVESPEED = 2.5f;
 
     //Movement
     [HideInInspector] public float lastHorizontalVector;
