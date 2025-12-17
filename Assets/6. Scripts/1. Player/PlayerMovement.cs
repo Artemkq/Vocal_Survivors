@@ -9,6 +9,7 @@ public class PlayerMovement : Sortable
     //Movement
     [HideInInspector] public float lastHorizontalVector;
     [HideInInspector] public float lastVerticalVector;
+    [HideInInspector] public float lastHorizontalDirection = 1f; //Запоминаем последнее горизонтальное направление для ударов
     [HideInInspector] public Vector2 moveDir;
     [HideInInspector] public Vector2 lastMovedVector;
 
@@ -79,6 +80,7 @@ public class PlayerMovement : Sortable
         if (moveDir.x != 0)
         {
             lastHorizontalVector = moveDir.x;
+            lastHorizontalDirection = moveDir.x; //Запоминаем направление для ударов
             lastMovedVector = new Vector2(lastHorizontalVector, 0f); //Last moved X
         }
 

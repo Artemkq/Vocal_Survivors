@@ -4,6 +4,7 @@ public class SwordSlashWeapon : ProjectileWeapon
 {
     int currentSpawnCount; //How many times the whip has been attacking in this iteration
     float currentSpawnYOffset; //If there are more that 2 sword slash, we will start offsetting it upwards
+    float firstAttackDirection; //Запоминаем направление первого удара
 
     protected override bool Attack(int attackCount = 1)
     {
@@ -18,17 +19,18 @@ public class SwordSlashWeapon : ProjectileWeapon
         //If there is no projectile assigned, set the weapon on cooldown
         if (!CanAttack()) return false;
 
-        // Если это первый вызов атаки, сбрасываем счетчик
+        // Если это первый вызов атаки, сбрасываем счетчик и запоминаем направление
         if (currentCooldown <= 0)
         {
             currentSpawnCount = 0;
             currentSpawnYOffset = 0f;
+            firstAttackDirection = movement.lastHorizontalDirection; //Запоминаем последнее горизонтальное направление
         }
 
         //Otherwise, calculate the angle and offset of our spawned projectile
         //Then, if <currentSpawnCount> is even (i.e. more than 1 projectile,
         //we flip the direction of the spawn
-        float spawnDir = Mathf.Sign(movement.lastMovedVector.x) * (currentSpawnCount % 2 != 0 ? -1 : 1);
+        float spawnDir = firstAttackDirection * (currentSpawnCount % 2 != 0 ? -1 : 1);
         Vector2 spawnOffset = new Vector2(
             spawnDir * Random.Range(currentStats.spawnVariance.xMin, currentStats.spawnVariance.xMax),
             currentSpawnYOffset
