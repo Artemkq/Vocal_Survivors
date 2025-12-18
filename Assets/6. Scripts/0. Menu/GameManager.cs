@@ -151,6 +151,10 @@ public class GameManager : MonoBehaviour
                 CheckForPauseAndResume();
                 break;
 
+            case GameState.TreasureChest:
+                // Code for treasure chest state - no pause/resume input allowed
+                break;
+
             case GameState.GameOver:
 
             case GameState.LevelUp:
@@ -226,6 +230,13 @@ public class GameManager : MonoBehaviour
     {
         previousState = currentState;
         currentState = newState;
+
+        // Handle pause logic for TreasureChest state
+        if (newState == GameState.TreasureChest && previousState != GameState.Paused)
+        {
+            Time.timeScale = 0f; // Pause the game when treasure chest opens
+            Debug.Log("Game paused for treasure chest");
+        }
     }
 
     public void PauseGame()

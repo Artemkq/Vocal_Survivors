@@ -1217,6 +1217,7 @@ GameObject:
   - component: {fileID: 515493552}
   - component: {fileID: 515493554}
   - component: {fileID: 515493553}
+  - component: {fileID: 515493555}
   m_Layer: 5
   m_Name: UI Diamonds Display
   m_TagString: Untagged
@@ -1284,6 +1285,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515493551}
   m_CullTransparentMesh: 1
+--- !u!114 &515493555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515493551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a449471b524c8e4e882f6037ba43e47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDiamondDisplay
+  collector: {fileID: 0}
 --- !u!1001 &519146200
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ MonoBehaviour:
     procEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
-      x: 0
+      x: 1
       y: 0
       width: 0
       height: 0

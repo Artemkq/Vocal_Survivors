@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  icon: {fileID: 21300000, guid: b3505f1a2eb6ad04bbe712cac2a41dec, type: 2}
+  icon: {fileID: 21300000, guid: 0c07fb3e41fc1964096824ab3c6ad808, type: 2}
   maxLevel: 8
   evolutionData: []
   behaviour: AxeWeapon

@@ -4,6 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the treasure chest UI animation and item reveal sequence.
+/// Supports 3 display variants:
+/// - 1 item: Single item reveal
+/// - 3 items: First item, then two together
+/// - 5 items: First item, then two together, then two together (Vampire Survivors style)
+/// 
+/// The display behavior is controlled via TreasureChestDropProfile settings.
+/// </summary>
 public class UITreasureChest : MonoBehaviour
 {
     public static UITreasureChest instance;
@@ -65,12 +74,29 @@ public class UITreasureChest : MonoBehaviour
 
     public static void Activate(PlayerCollector collector, TreasureChest chest)
     {
-        if (!instance) Debug.LogWarning("No treasure chest UI GameObject found.");
+        if (!instance) 
+        {
+            Debug.LogWarning("No treasure chest UI GameObject found.");
+            return;
+        }
+
+        if (chest == null)
+        {
+            Debug.LogWarning("TreasureChest is null when trying to activate UI.");
+            return;
+        }
 
         // Save the important variables.
         instance.collector = collector;
         instance.currentChest = chest;
         instance.dropProfile = chest.GetCurrentDropProfile();
+        
+        if (instance.dropProfile == null)
+        {
+            Debug.LogWarning("Drop profile is null. Check if dropProfiles array is properly configured.");
+            return;
+        }
+        
         Debug.Log(instance.dropProfile);
 
         // Activate the GameObject.
@@ -151,6 +177,9 @@ public class UITreasureChest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays the beam effects for all items and starts the item reveal animation
+    /// </summary>
     public void DisplayerBeam(float noOfBeams)
     {
         int delayedStartIndex = Mathf.Max(0, (int)noOfBeams - dropProfile.delayedBeams); //ensure beams do not go out of index
@@ -161,10 +190,11 @@ public class UITreasureChest : MonoBehaviour
             SetupBeam(i);
         }
 
-        // Delay the rest
+        // Delay the rest (creates a cascading effect)
         if (dropProfile.delayedBeams > 0)
             StartCoroutine(ShowDelayedBeams(delayedStartIndex, (int)noOfBeams));
 
+        // Start the sequence of revealing items one by one or in groups
         StartCoroutine(DisplayItems(noOfBeams));
     }
 
@@ -173,38 +203,60 @@ public class UITreasureChest : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(dropProfile.animDuration);
 
-        if (noOfBeams == 5)
+        int itemCount = (int)noOfBeams;
+
+        switch (itemCount)
         {
-            // Show first item
-            items[0].weaponBeam.SetActive(false);
-            items[0].sprite.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.3f);
+            case 1:
+                // Show single item centered
+                RevealItem(0);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+                break;
 
-            // Show second and third at the same time
-            for (int i = 1; i <= 2; i++)
-            {
-                items[i].weaponBeam.SetActive(false);
-                items[i].sprite.SetActive(true);
-            }
-            yield return new WaitForSecondsRealtime(0.3f);
+            case 3:
+                // Show 3 items in order: 0, then 1 & 2 together
+                RevealItem(0);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
 
-            // Show fourth and fifth at the same time
-            for (int i = 3; i <= 4; i++)
-            {
-                items[i].weaponBeam.SetActive(false);
-                items[i].sprite.SetActive(true);
-            }
-            yield return new WaitForSecondsRealtime(0.3f);
+                RevealItem(1);
+                RevealItem(2);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+                break;
+
+            case 5:
+                // Show 5 items in order: 0, then 1 & 2, then 3 & 4
+                RevealItem(0);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+
+                RevealItem(1);
+                RevealItem(2);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+
+                RevealItem(3);
+                RevealItem(4);
+                yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+                break;
+
+            default:
+                // Fallback for any other item counts - show one by one
+                for (int i = 0; i < itemCount; i++)
+                {
+                    RevealItem(i);
+                    yield return new WaitForSecondsRealtime(dropProfile.itemRevealDelay);
+                }
+                break;
         }
-        else
+    }
+
+    /// <summary>
+    /// Reveals a single item by hiding its beam and showing the sprite
+    /// </summary>
+    private void RevealItem(int index)
+    {
+        if (index >= 0 && index < items.Count)
         {
-            // Fallback for other item counts - show normally one by one
-            for (int i = 0; i < noOfBeams; i++)
-            {
-                items[i].weaponBeam.SetActive(false);
-                items[i].sprite.SetActive(true);
-                yield return new WaitForSecondsRealtime(0.3f);
-            }
+            items[index].weaponBeam.SetActive(false);
+            items[index].sprite.SetActive(true);
         }
     }
 
@@ -258,7 +310,7 @@ public class UITreasureChest : MonoBehaviour
         StopAllCoroutines(); // Halt all coroutines
 
         // Immediately show all beams and icons
-        for (int i = 0; i < icons.Count; i++)
+        for (int i = 0; i < icons.Count && i < items.Count; i++)
         {
             SetupBeam(i);
             items[i].weaponBeam.SetActive(false);
@@ -335,6 +387,8 @@ public class UITreasureChest : MonoBehaviour
 
         isAnimating = false;
 
+        // Resume the game when treasure chest closes
+        Time.timeScale = 1f;
         GameManager.instance.ChangeState(GameManager.GameState.Gameplay);
         currentChest.NotifyComplete();
     }

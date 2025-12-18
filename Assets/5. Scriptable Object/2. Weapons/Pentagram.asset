@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
   m_Name: Pentagram
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  icon: {fileID: 21300000, guid: 7babb14528fc40949b7db0254ec54b27, type: 2}
+  icon: {fileID: 21300000, guid: 205075e92acb99c4f844f2fcd162a8a5, type: 2}
   maxLevel: 8
   evolutionData:
   - name: Soul Eater
