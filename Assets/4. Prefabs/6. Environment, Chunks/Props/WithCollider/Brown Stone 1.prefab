@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: -3533013303524790698}
   - component: {fileID: 4704921446333045491}
   - component: {fileID: -3516506626513094163}
-  m_Layer: 0
+  - component: {fileID: -7330479439263711030}
+  m_Layer: 7
   m_Name: Brown Stone 1
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -157,3 +158,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
   isImmortal: 1
   health: 0
+--- !u!114 &-7330479439263711030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520103397435808486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 0.86338806, y: 0.7331948, z: 4}
+  m_Center: {x: 0, y: 0.21039385, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4511340074952785833}
   - component: {fileID: 1185197868139198347}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dark Stone 2
   m_TagString: Prop
   m_Icon: {fileID: 0}

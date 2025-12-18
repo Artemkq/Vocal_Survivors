@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 910069844221249312}
   - component: {fileID: 5250462854165909439}
   - component: {fileID: -2459185169709549419}
-  m_Layer: 0
+  - component: {fileID: 843717665502825365}
+  m_Layer: 7
   m_Name: Green Bush
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -175,3 +176,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
+--- !u!114 &843717665502825365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761321895998190807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 1.1875429, y: 0.60743713, z: 4}
+  m_Center: {x: 0.022337258, y: 0.1362946, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

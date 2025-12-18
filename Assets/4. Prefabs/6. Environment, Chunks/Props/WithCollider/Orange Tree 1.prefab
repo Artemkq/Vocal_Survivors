@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 1374986214009295067}
   - component: {fileID: -7436394862728386252}
   - component: {fileID: -1644625333939868332}
-  m_Layer: 0
+  - component: {fileID: 6804222537728106125}
+  m_Layer: 7
   m_Name: Orange Tree 1
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -157,3 +158,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
   isImmortal: 1
   health: 0
+--- !u!114 &6804222537728106125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549569634735397190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 1.1990713, y: 0.7455826, z: 4}
+  m_Center: {x: -0.02665472, y: 0.14188623, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

@@ -56,15 +56,28 @@ public class WaveManager : MonoBehaviour
             //Get the array of enemies that we are spawning for this tick
             GameObject[] spawns = data[currentWaveIndex].GetSpawns(EnemyStats.count);
 
-            //Loop through and spawn all the prefabs
+            // Loop through and spawn all the prefabs
             foreach (GameObject prefab in spawns)
             {
-                //Stop spawning enemieds if we exceed the limit
                 if (!CanSpawn()) continue;
 
-                //Spawn the enemy
-                Instantiate(prefab, GeneratePosition(), Quaternion.identity);
-                currentWaveSpawnCount++;
+                Vector3 spawnPos = GeneratePosition();
+                spawnPos.z = 0; // Убеждаемся, что Z координата для 2D корректна
+
+                // Проверяем, запечен ли NavMesh в этой точке (радиус поиска 2 единицы)
+                UnityEngine.AI.NavMeshHit hit;
+                if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out hit, 2.0f, UnityEngine.AI.NavMesh.AllAreas))
+                {
+                    // Спавним строго в точку, которую одобрил NavMesh
+                    Instantiate(prefab, hit.position, Quaternion.identity);
+                    currentWaveSpawnCount++;
+                }
+                else
+                {
+                    // Если NavMesh еще не готов (MapController в процессе Bake), 
+                    // не спавним, чтобы не вызвать ошибку агента.
+                    // Debug.Log("Skipping spawn: NavMesh not ready yet."); 
+                }
             }
 
             ActivateCooldown();
@@ -154,9 +167,10 @@ public class WaveManager : MonoBehaviour
         //    но мы можем передать и другие значения для расчета точек вне экрана.
         //    Нам нужно отцентрировать координаты, добавив 0.5f к x и y (так как 0,0 в вьюпорте это левый нижний угол)
 
-        Vector3 spawnViewportPoint = new Vector3(x + 0.5f, y + 0.5f, 0f);
-
-        return instance.referenceCamera.ViewportToWorldPoint(spawnViewportPoint);
+        Vector3 spawnViewportPoint = new Vector3(x + 0.5f, y + 0.5f, instance.referenceCamera.nearClipPlane);
+        Vector3 worldPoint = instance.referenceCamera.ViewportToWorldPoint(spawnViewportPoint);
+        worldPoint.z = 0f; // Принудительно обнуляем Z для 2D NavMesh
+        return worldPoint;
     }
 
     //Checking if the enemy is wighin the cameras boundaries

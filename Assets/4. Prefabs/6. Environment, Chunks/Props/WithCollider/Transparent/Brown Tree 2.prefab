@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: -6610373725037565416}
   - component: {fileID: -8838536735132804407}
   - component: {fileID: -1103424906610748750}
-  m_Layer: 0
+  - component: {fileID: -8667801814063511872}
+  m_Layer: 7
   m_Name: Brown Tree 2
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -210,3 +211,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
   isImmortal: 1
   health: 0
+--- !u!114 &-8667801814063511872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358105880528790141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 2.0888095, y: 1.0393207, z: 4}
+  m_Center: {x: -0.023096979, y: 0.10691595, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

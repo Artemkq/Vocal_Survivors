@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7383762143165801561}
   - component: {fileID: -4129000462361678932}
   - component: {fileID: -1421331978415625478}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Evil Wizard
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2823084917574124383}
   - component: {fileID: 1555057248087876107}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,8 +342,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -933330409
-  m_SortingLayer: 3
+  m_SortingLayerID: 1296986857
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2076396489, guid: 67a9b5b4ad1baf648830e4103b9cc5b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

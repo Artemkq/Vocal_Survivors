@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI; // Добавляем using для NavMeshAgent
 
 public class EnemyMovement : Sortable
 {
     protected EnemyStats stats;
     protected Transform player;
-    protected Rigidbody2D rb; //For checking if enemy has a rigidbody
+    protected Rigidbody2D rb;
+    protected NavMeshAgent agent; // Добавляем ссылку на NavMeshAgent
 
     protected Vector2 knockbackVelocity;
     protected float knockbackDuration;
@@ -18,34 +20,51 @@ public class EnemyMovement : Sortable
     public KnockbackVariance knockbackVariance = KnockbackVariance.velocity;
 
     protected bool spawnedOutOffFrame = false;
-
-    // --- ДОБАВЛЕНО/ИЗМЕНЕНО ---
-    // По умолчанию TRUE (обычная смерть врага дает опыт)
     [HideInInspector] public bool giveExperienceOnDeath = true;
 
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>(); // Пытаемся получить компонент
         spawnedOutOffFrame = !WaveManager.IsWithinBoundaries(transform);
         stats = GetComponent<EnemyStats>();
 
-        //Picks a random player on the screen, instead of always picking the 1st player
         PlayerMovement[] allPlayers = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
-        player = allPlayers[Random.Range(0, allPlayers.Length)].transform;
+
+        if (allPlayers.Length > 0)
+        {
+            player = allPlayers[Random.Range(0, allPlayers.Length)].transform;
+        }
+
+        // --- ФИКС ПРОБЛЕМЫ ПОВОРОТА NAVMESHAGENT ---
+        if (agent != null)
+        {
+            // Запрещаем агенту управлять вращением (это убирает поворот на -90 по X)
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+
+            // Убеждаемся, что спрайт смотрит на камеру (сброс поворотов X и Y)
+            transform.rotation = Quaternion.identity;
+        }
     }
 
 
     protected virtual void Update()
     {
-        //If we are currently being knocked back, then process the knockback.
         if (knockbackDuration > 0)
         {
+            // Отключаем агент на время отталкивания, чтобы он не конфликтовал
+            if (agent != null) agent.enabled = false;
+
             transform.position += (Vector3)knockbackVelocity * Time.deltaTime;
             knockbackDuration -= Time.deltaTime;
         }
         else
         {
+            // Включаем агент обратно
+            if (agent != null && !agent.enabled) agent.enabled = true;
+
             Move();
             HandleOutOffFrameAction();
         }
@@ -130,9 +149,24 @@ public class EnemyMovement : Sortable
 
     public virtual void Move()
     {
-        //If there is a rigidbody, use it to move instead of moving the position directly
-        //This optimises performance
-        if (rb)
+        if (agent != null && agent.enabled && player != null)
+        {
+            agent.speed = stats.Actual.moveSpeed;
+
+            // Проверяем, может ли агент дойти до цели
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(player.transform.position, path))
+            {
+                // Если путь найден, устанавливаем его как цель движения
+                if (path.status == NavMeshPathStatus.PathComplete || path.status == NavMeshPathStatus.PathPartial)
+                {
+                    agent.SetDestination(player.transform.position);
+                }
+                // Если статус PathInvalid, значит, цели вообще нельзя достичь (игрок в закрытой комнате)
+            }
+        }
+        // --- РЕЗЕРВНЫЙ ВАРИАНТ С RIGIDBODY (как было раньше) ---
+        else if (rb)
         {
             rb.MovePosition(Vector2.MoveTowards
                 (
@@ -142,9 +176,9 @@ public class EnemyMovement : Sortable
                 )
             );
         }
-        else
+        else if (player != null)
         {
-            //Constatnly move the enemy towards the player
+            // Движение без Rigidbody
             transform.position = Vector2.MoveTowards
                 (
                 transform.position,

@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: -2998825586481484741}
   - component: {fileID: -3968614753479655462}
   - component: {fileID: 2059171024374491286}
-  m_Layer: 0
+  - component: {fileID: -8440806380462645318}
+  m_Layer: 7
   m_Name: Gray Stone 2
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -157,3 +158,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BreakableProps
   isImmortal: 1
   health: 0
+--- !u!114 &-8440806380462645318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573508087872097694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 1.052109, y: 0.9125252, z: 4}
+  m_Center: {x: 0.02092135, y: 0.2910025, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

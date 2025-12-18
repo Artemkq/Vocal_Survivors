@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7531085852067370230}
   - component: {fileID: 5767836073171640368}
   - component: {fileID: -5412614711860660369}
-  m_Layer: 0
+  - component: {fileID: -34863047341527618}
+  m_Layer: 7
   m_Name: Stump 3
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -128,3 +129,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.012724076, y: 0.7237944}
   m_Size: {x: 1.9227467, y: 1.6916692}
   m_Direction: 1
+--- !u!114 &-34863047341527618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5244484745656126925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 1.9778309, y: 1.7544318, z: 4}
+  m_Center: {x: -0.005931258, y: 0.7152986, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

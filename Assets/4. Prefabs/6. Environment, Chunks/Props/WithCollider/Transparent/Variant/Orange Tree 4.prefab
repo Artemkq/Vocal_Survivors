@@ -56,8 +56,33 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 395714119, guid: 64d1fe283c2815d43b5419e878dbc615, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7033462533158182473, guid: 488b7f9a4360afd48bec05696abae28d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6667657593780538124, guid: 488b7f9a4360afd48bec05696abae28d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8326393701175844928}
   m_SourcePrefab: {fileID: 100100000, guid: 488b7f9a4360afd48bec05696abae28d, type: 3}
+--- !u!1 &6265078098523304820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6667657593780538124, guid: 488b7f9a4360afd48bec05696abae28d, type: 3}
+  m_PrefabInstance: {fileID: 754986355095124088}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8326393701175844928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265078098523304820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 2.605949, y: 1.3755939, z: 4}
+  m_Center: {x: -0.005760908, y: 0.33283317, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

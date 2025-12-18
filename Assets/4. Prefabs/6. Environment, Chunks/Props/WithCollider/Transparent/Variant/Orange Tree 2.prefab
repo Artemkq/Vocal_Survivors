@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 358105880528790141, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
       propertyPath: m_Name
-      value: Orange Tree 5
+      value: Orange Tree 2
       objectReference: {fileID: 0}
     - target: {fileID: 2291445871264364079, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
       propertyPath: m_Sprite
@@ -56,8 +56,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8667801814063511872, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 358105880528790141, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -55287489441224922}
   m_SourcePrefab: {fileID: 100100000, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
+--- !u!1 &3820950458522949385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 358105880528790141, guid: 6413ce77f0a03474d85e5e4a91617df3, type: 3}
+  m_PrefabInstance: {fileID: 3602458949859014004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-55287489441224922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820950458522949385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa0352a4d56abd42ad2fc69deb72448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifierVolume
+  m_Size: {x: 2.113619, y: 1.0304011, z: 4}
+  m_Center: {x: -0.017952085, y: 0.10239655, z: 0}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

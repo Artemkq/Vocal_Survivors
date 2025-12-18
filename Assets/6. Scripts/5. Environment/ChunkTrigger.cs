@@ -2,30 +2,34 @@ using UnityEngine;
 
 public class ChunkTrigger : MonoBehaviour
 {
-    MapController mc;
-    public GameObject targetMap;
+    private MapController mc;
+    public GameObject targetMap; // Ссылка на корневой объект чанка
 
     void Start()
     {
-        mc = FindAnyObjectByType<MapController>();
-    }
-
-    private void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.CompareTag("Player"))
+        mc = Object.FindAnyObjectByType<MapController>();
+        
+        // Если таргет не назначен вручную, берем родителя, 
+        // так как триггер обычно находится внутри чанка
+        if (targetMap == null)
         {
-            mc.currentChunk = targetMap;
+            targetMap = transform.parent.gameObject;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            if (mc.currentChunk == targetMap)
+            // Меняем текущий чанк только если он действительно изменился
+            if (mc.currentChunk != targetMap)
             {
-                mc.currentChunk = null;
+                mc.currentChunk = targetMap;
+                // Debug.Log($"Игрок перешел на чанк: {targetMap.name}");
             }
         }
     }
+
+    // Метод Exit удален специально, чтобы избежать "мертвых зон" 
+    // при переходе между триггерами чанков.
 }

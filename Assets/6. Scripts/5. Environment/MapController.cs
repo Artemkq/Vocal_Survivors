@@ -1,3 +1,5 @@
+using UnityEngine.AI;
+using NavMeshPlus.Components; // Для NavMeshPlus
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,19 +11,49 @@ public class MapController : MonoBehaviour
     public LayerMask terrainMask;
     public GameObject currentChunk;
     Vector3 playerLastPosition;
-    
+
 
     [Header("Optimization")]
     public List<GameObject> spawnedChunks;
     public GameObject latestChunk;
     public float maxOpDist;
-    float opDist;
     float optimizerCooldown;
     public float optimizerCooldepownDur;
+
+    [SerializeField] private NavMeshSurface navMeshSurface; // Ссылка на NavMesh Surface на сцене (можно назначить вручную в инспекторе)
+
+    [Header("NavMesh Settings")]
+    [SerializeField] private float bakeDelayBetweenChunks = 1f; // Задержка между Bake для каждого нового чанка (в секундах)
+    [SerializeField] private float initialBakeDelay = 1f; // Начальная задержка перед первым BuildNavMesh (для инициализации Tilemap)
+    [SerializeField] private bool useBaking = false; // ОТКЛЮЧЕНО: Из-за ошибок NavMeshPlus при частых Bake. Используй BakeAllChunksManually() вместо этого
+    private int pendingChunksCount = 0; // Количество чанков в очереди на Bake
+    private bool isBaking = false; // Флаг, что Bake в процессе
 
     void Start()
     {
         playerLastPosition = player.transform.position;
+
+        // Автоматически находим NavMeshSurface на сцене (включая неактивные объекты)
+        if (navMeshSurface == null)
+        {
+            // Ищем среди активных объектов
+            navMeshSurface = FindAnyObjectByType<NavMeshSurface>();
+
+            // Если не нашли, ищем среди неактивных
+            if (navMeshSurface == null)
+            {
+                navMeshSurface = FindAnyObjectByType<NavMeshSurface>(FindObjectsInactive.Include);
+            }
+
+            if (navMeshSurface == null)
+            {
+                Debug.LogError("NavMeshSurface не найден на сцене! Проверь, что объект NavMeshSurface существует и имеет компонент NavMeshSurface.");
+            }
+            else
+            {
+                Debug.Log("NavMeshSurface успешно найден: " + navMeshSurface.gameObject.name);
+            }
+        }
     }
 
 
@@ -66,67 +98,8 @@ public class MapController : MonoBehaviour
             CheckAndSpawnChunk("Left");
         }
     }
-    
-    #region Archive diagonal chunk generator
 
-    //if (!Physics2D.OverlapCircle(currentChunk.transform.Find(directionName).position, checkerRadius, terrainMask))
-    //{
-    //    SpawnChunk(currentChunk.transform.Find(directionName).position);
-
-    //    //Check additional adjacent directions for diagonal chunks
-    //    if (directionName.Contains("Up") && directionName.Contains("Right"))
-    //    {
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Up").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Up").position);
-    //        }
-
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Right").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Right").position);
-    //        }
-    //    }
-    //    else if (directionName.Contains("Up") && directionName.Contains("Left"))
-    //    {
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Up").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Up").position);
-    //        }
-
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Left").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Left").position);
-    //        }
-    //    }
-    //    else if (directionName.Contains("Down") && directionName.Contains("Right"))
-    //    {
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Down").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Down").position);
-    //        }
-
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Right").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Right").position);
-    //        }
-    //    }
-    //    else if (directionName.Contains("Down") && directionName.Contains("Left"))
-    //    {
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Down").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Down").position);
-    //        }
-
-    //        if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Left").position, checkerRadius, terrainMask))
-    //        {
-    //            SpawnChunk(currentChunk.transform.Find("Left").position);
-    //        }
-    //    }
-    //}
-
-    #endregion
-
-    void CheckAndSpawnChunk (string direction)
+    void CheckAndSpawnChunk(string direction)
     {
         if (!Physics2D.OverlapCircle(currentChunk.transform.Find(direction).position, checkerRadius, terrainMask))
         {
@@ -178,114 +151,190 @@ public class MapController : MonoBehaviour
         }
     }
 
-    #region Archive map generator
+    // Метод для постановки чанка в очередь на Bake
+    public void BakeNavMesh()
+    {
+        if (!useBaking || navMeshSurface == null)
+            return;
 
-    //if (pm.moveDir.x > 0 && pm.moveDir.y == 0) //right
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Right").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Right").position;
-    //        SpawnChunk();
-    //    }
-    //}
+        // Защита от переполнения очереди
+        if (pendingChunksCount >= 50)
+        {
+            Debug.LogWarning($"Очередь Bake переполнена! Текущее количество: {pendingChunksCount}");
+            return;
+        }
 
-    //else if (pm.moveDir.x < 0 && pm.moveDir.y == 0) //left
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Left").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Left").position;
-    //        SpawnChunk();
-    //    }
-    //}
+        pendingChunksCount++;
 
-    //else if (pm.moveDir.x == 0 && pm.moveDir.y > 0) //up
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Up").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Up").position;
-    //        SpawnChunk();
-    //    }
-    //}
+        // Если Bake уже запущен, просто добавляем в очередь
+        if (isBaking)
+        {
+            return;
+        }
 
-    //else if (pm.moveDir.x == 0 && pm.moveDir.y < 0) //down
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Down").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Down").position;
-    //        SpawnChunk();
-    //    }
-    //}
+        // Запускаем очередь Bake с распределенной задержкой для каждого чанка
+        StartCoroutine(ProcessBakeQueue());
+    }
 
-    //else if (pm.moveDir.x > 0 && pm.moveDir.y > 0) //right up
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Right Up").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Right Up").position;
-    //        SpawnChunk();
-    //    }
-    //}
+    // Обработка очереди Bake с задержкой между каждым чанком
+    private System.Collections.IEnumerator ProcessBakeQueue()
+    {
+        isBaking = true;
 
-    //else if (pm.moveDir.x > 0 && pm.moveDir.y < 0) //right down
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Right Down").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Right Down").position;
-    //        SpawnChunk();
-    //    }
-    //}
+        while (pendingChunksCount > 0)
+        {
+            // 1. Ждем стабилизации объектов
+            yield return new WaitForSeconds(initialBakeDelay);
 
-    //else if (pm.moveDir.x < 0 && pm.moveDir.y > 0) //left up
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Left Up").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Left Up").position;
-    //        SpawnChunk();
-    //    }
-    //}
+            if (navMeshSurface != null)
+            {
+                // Сбрасываем очередь, так как один Bake обновит всё сразу вокруг игрока
+                pendingChunksCount = 0;
 
-    //else if (pm.moveDir.x < 0 && pm.moveDir.y < 0) //left down
-    //{
-    //    if (!Physics2D.OverlapCircle(currentChunk.transform.Find("Left Down").position, checkerRadius, terrainMask))
-    //    {
-    //        noTerrainPosition = currentChunk.transform.Find("Left Down").position;
-    //        SpawnChunk();
-    //    }
-    //}
+                // 2. ОПТИМИЗАЦИЯ: Чтобы не было лага, мы временно снижаем качество запекания 
+                // или используем Physics Colliders.
 
-    #endregion
+                // ВАЖНО: Перед вызовом BuildNavMesh мы убеждаемся, что не делаем это слишком часто
+                navMeshSurface.BuildNavMesh();
+
+                Debug.Log($"[Bake] ✓ Сетка обновлена. Чанков в памяти: {spawnedChunks.Count}");
+            }
+
+            // 3. ДАЕМ ИГРЕ "ПОДЫШАТЬ" (Это убирает микро-фриз после запекания)
+            yield return new WaitForEndOfFrame();
+
+            pendingChunksCount--;
+            yield return new WaitForSeconds(bakeDelayBetweenChunks);
+        }
+
+        isBaking = false;
+    }
 
     void SpawnChunk(Vector3 spawnPosition)
     {
         int rand = Random.Range(0, terrainChunks.Count);
         latestChunk = Instantiate(terrainChunks[rand], spawnPosition, Quaternion.identity);
         spawnedChunks.Add(latestChunk);
+
+        // Вместо мгновенного вызова, используйте Invoke или таймер
+        CancelInvoke("TriggerDeferredBake");
+        Invoke("TriggerDeferredBake", 0.5f); // Запечь только через 0.5 сек после последнего спавна
+    }
+
+    void TriggerDeferredBake()
+    {
+        BakeNavMesh();
+    }
+
+    /// <summary>
+    /// Простой метод для Bake после задержки без попыток очистки
+    /// </summary>
+    private System.Collections.IEnumerator BakeNavMeshAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (navMeshSurface != null)
+        {
+            try
+            {
+                navMeshSurface.BuildNavMesh();
+                Debug.Log($"✓ NavMesh обновлен. Спавнено чанков: {spawnedChunks.Count}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"⚠ Ошибка при Bake: {e.Message}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Вызови этот метод через небольшую задержку после появления чанков 
+    /// (например, в конце сцены или когда игрок остановился)
+    /// </summary>
+    public void BakeAllChunksManually()
+    {
+        if (navMeshSurface == null)
+        {
+            Debug.LogError("NavMeshSurface не найден!");
+            return;
+        }
+
+        Debug.Log("Начинаем полный Bake всех чанков...");
+        StartCoroutine(ManualBakeRoutine());
+    }
+
+    private System.Collections.IEnumerator ManualBakeRoutine()
+    {
+        // Ждем кадр для полной инициализации всех чанков
+        yield return new WaitForSeconds(0.5f);
+
+        bool shouldWait = false;
+
+        try
+        {
+            // Очищаем старые данные
+            if (navMeshSurface.navMeshData != null)
+            {
+                navMeshSurface.RemoveData();
+                shouldWait = true;
+            }
+
+            // Строим новый NavMesh
+            navMeshSurface.BuildNavMesh();
+            Debug.Log("✓ NavMesh успешно создан!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"✗ Ошибка при Bake: {e.Message}");
+        }
+
+        // Ждем после очистки если нужно было очищать данные
+        if (shouldWait)
+        {
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
     void ChunkOptimizer()
     {
-       
-        optimizerCooldown -= Time.deltaTime;
-
-        if (optimizerCooldown <= 0f)
-        {
-            optimizerCooldown = optimizerCooldepownDur;
-        }
-        else
+        // 1. ПРОВЕРКА: Если сейчас идет запекание NavMesh, выходим из метода.
+        // Мы не должны отключать или удалять объекты, пока NavMeshPlus их сканирует!
+        if (isBaking)
         {
             return;
         }
 
-        foreach (GameObject chunk in spawnedChunks)
-        {
-            opDist = Vector3.Distance(player.transform.position, chunk.transform.position);
+        optimizerCooldown -= Time.deltaTime;
+        if (optimizerCooldown > 0f) return;
+        optimizerCooldown = optimizerCooldepownDur;
 
-            if (opDist > maxOpDist)
+        // Используем обратный цикл for, чтобы безопасно удалять объекты из списка
+        for (int i = spawnedChunks.Count - 1; i >= 0; i--)
+        {
+            GameObject chunk = spawnedChunks[i];
+
+            // Проверка на null (если объект уже был удален кем-то другим)
+            if (chunk == null)
             {
-                chunk.SetActive(false);
+                spawnedChunks.RemoveAt(i);
+                continue;
             }
-            else
+
+            float dist = Vector3.Distance(player.transform.position, chunk.transform.position);
+
+            // 2. УДАЛЕНИЕ: Если чанк ОЧЕНЬ далеко, удаляем его из памяти
+            if (dist > maxOpDist * 2.5f) // Коэффициент 2.5, чтобы не удалять то, что только что скрылось
             {
-                chunk.SetActive(true);
+                spawnedChunks.RemoveAt(i);
+                Destroy(chunk);
+                continue; // Переходим к следующему чанку
+            }
+
+            // 3. СКРЫТИЕ: Если чанк просто вне зоны видимости, выключаем его
+            bool shouldBeActive = dist <= maxOpDist;
+            if (chunk.activeSelf != shouldBeActive)
+            {
+                chunk.SetActive(shouldBeActive);
             }
         }
     }
