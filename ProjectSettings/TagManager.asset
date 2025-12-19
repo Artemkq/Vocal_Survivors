@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Prop
+  - Flying
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Terrain
   - Environment
-  - Enemies
+  - GroundEnemies
   - FlyingEnemies
   - 
   - 

@@ -213,7 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   owner: {fileID: 0}
   weapon: {fileID: 0}
-  damageSource: 0
+  damageSource: 1
   hasAutoAim: 0
   rotationSpeed: {x: 0, y: 0, z: 0}
 --- !u!82 &5347325487203455690

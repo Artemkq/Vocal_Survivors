@@ -1172,7 +1172,7 @@ Transform:
   m_GameObject: {fileID: 360838659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.96, y: -0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3451,7 +3451,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.13333334
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
@@ -6130,7 +6130,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3239953627364295274, guid: 24678e4715d6b8043bed5acc41570297, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.96
+      value: -8.34
       objectReference: {fileID: 0}
     - target: {fileID: 3239953627364295274, guid: 24678e4715d6b8043bed5acc41570297, type: 3}
       propertyPath: m_LocalPosition.y
