@@ -54,17 +54,20 @@ public class EnemyMovement : Sortable
     {
         if (knockbackDuration > 0)
         {
-            // Отключаем агент на время отталкивания, чтобы он не конфликтовал
             if (agent != null) agent.enabled = false;
-
             transform.position += (Vector3)knockbackVelocity * Time.deltaTime;
             knockbackDuration -= Time.deltaTime;
         }
         else
         {
-            // Включаем агент обратно
-            if (agent != null && !agent.enabled) agent.enabled = true;
+            if (agent != null && !agent.enabled)
+            {
+                agent.enabled = true;
+                // Помогаем агенту понять, где он оказался после пинка
+                agent.Warp(transform.position);
+            }
 
+            // Вызываем Move (внутри него agent.speed = stats.Actual.moveSpeed)
             Move();
             HandleOutOffFrameAction();
         }
@@ -151,19 +154,13 @@ public class EnemyMovement : Sortable
     {
         if (agent != null && agent.enabled && player != null)
         {
+            // 1. Всегда берем скорость из Stats. 
+            // Теперь не важно, что написано в инспекторе агента, 
+            // скрипт EnemyStats будет главным источником.
             agent.speed = stats.Actual.moveSpeed;
 
-            // Проверяем, может ли агент дойти до цели
-            NavMeshPath path = new NavMeshPath();
-            if (agent.CalculatePath(player.transform.position, path))
-            {
-                // Если путь найден, устанавливаем его как цель движения
-                if (path.status == NavMeshPathStatus.PathComplete || path.status == NavMeshPathStatus.PathPartial)
-                {
-                    agent.SetDestination(player.transform.position);
-                }
-                // Если статус PathInvalid, значит, цели вообще нельзя достичь (игрок в закрытой комнате)
-            }
+            // 2. Устанавливаем цель
+            agent.SetDestination(player.position);
         }
         // --- РЕЗЕРВНЫЙ ВАРИАНТ С RIGIDBODY (как было раньше) ---
         else if (rb)

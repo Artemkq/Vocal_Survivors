@@ -67,7 +67,7 @@ public class EnemyStats : EntityStats
         {
             s1.maxHealth += s2.maxHealth;
             s1.moveSpeed += s2.moveSpeed;
-            s1.damage += s2.maxHealth;
+            s1.damage += s2.damage; 
             s1.knockbackMultiplier += s2.knockbackMultiplier;
             s1.resistances += s2.resistances;
             return s1;
