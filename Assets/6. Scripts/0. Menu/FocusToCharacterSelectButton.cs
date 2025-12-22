@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UI;
 
 // Скрипт для немедленного переноса фокуса на другую кнопку
 public class FocusToCharacterSelectButton : MonoBehaviour, IPointerClickHandler, ISubmitHandler
