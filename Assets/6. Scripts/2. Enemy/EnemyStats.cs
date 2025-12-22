@@ -190,61 +190,71 @@ public class EnemyStats : EntityStats
         actualStats *= multiplier;
     }
 
-    public override void TakeDamage(float dmg)
+        public override void TakeDamage(float dmg)
     {
-        // ДОБАВИТЬ ЭТИ СТРОКИ:
-        // Если враг уже мертв (у него отключен коллайдер), игнорируем урон
         if (enemyCollider != null && !enemyCollider.enabled) return;
 
-        health -= dmg;
+        // --- БЛОК BEAT HELL: РАСЧЕТ МОДИФИКАТОРА ---
+        float multiplier = 1f;
 
-        //If damage is exactly equal to maximum health, we assume it is an insta-kill and
-        //check for the kill resistance to see if we can dodge this damage
+        // 1. Бонус за попадание в бит (x2 урон)
+        if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
+        {
+            multiplier += 1.0f; 
+        }
+
+        // 2. Бонус за вокал (до +100% от громкости)
+        if (VocalAnalyzer.Instance != null)
+        {
+            multiplier += VocalAnalyzer.Instance.CurrentLoudness;
+        }
+
+        float totalDmg = dmg * multiplier;
+        // --- КОНЕЦ БЛОКА BEAT HELL ---
+
+        health -= totalDmg;
+
+        // Проверка на Insta-kill (используем исходный dmg, как в твоей логике)
         if (dmg == actualStats.maxHealth)
         {
-            //Roll a die to check if we can dodge the damage
-            //Gets a random value between 0 to 1, and if the number is
-            //below the kill resistance, then we avoid getting killed
             if (Random.value < actualStats.resistances.kill)
             {
-                return; //Dont take damage
+                return;
             }
         }
 
-        //Create the text popup when enemy takes damage
-        if (dmg > 0)
+        if (totalDmg > 0)
         {
             StartCoroutine(DamageFlash());
-            GameManager.GenerateFloatingText(Mathf.FloorToInt(dmg).ToString(), transform);
+            // Выводим уже усиленный урон в текст
+            GameManager.GenerateFloatingText(Mathf.FloorToInt(totalDmg).ToString(), transform);
         }
 
-        //Kills the enemy if the health drops below zero
         if (health <= 0)
         {
             Kill();
         }
     }
 
-    //This function always needs at least 2 values, the amount of damage dealt <dmg>, as well as where the damage is
-    //coming from, which is passed as <sourcePosition>. The <sourcePosition> is necessary because it is used to calculate
-    //the direction of the knockback
-
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
+        // Вызываем базовый TakeDamage, который уже усилит dmg ритмом и голосом
         TakeDamage(dmg);
 
         if (movement == null || health <= 0)
         {
-            // ���� ������ ��� ���� ��� ���������� ���, ������ �������.
             return;
         }
 
-        //Aply knockback if it is not zero
         if (knockbackForce > 0)
         {
-            //Gets the direction of knockback
+            // БОНУС: Усиление отбрасывания в ритм
+            float kMultiplier = 1f;
+            if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow) 
+                kMultiplier = 1.5f; // В бит отбрасываем на 50% дальше
+
             Vector2 dir = (Vector2)transform.position - sourcePosition;
-            movement.Knockback(dir.normalized * knockbackForce, knockbackDuration);
+            movement.Knockback(dir.normalized * knockbackForce * kMultiplier, knockbackDuration);
         }
     }
 
