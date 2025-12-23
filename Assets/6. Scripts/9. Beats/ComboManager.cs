@@ -1,52 +1,66 @@
 using UnityEngine;
-using System; // Нужно для Action
+using System;
 
 public class ComboManager : MonoBehaviour
 {
     public static ComboManager Instance;
+    public event Action<int, int> OnComboChanged;
 
-    // Событие, на которое подпишется UI
-    // Передает текущее комбо и множитель
-    public event Action<int, float> OnComboChanged;
-
-    public float comboResetTime = 2f;
     public int CurrentCombo { get; private set; } = 0;
-    public float ComboMultiplier { get; private set; } = 1f;
-    private float _lastActionTime;
+    public int CurrentMultiplier { get; private set; } = 1;
 
-    void Awake()
-    {
-        Instance = this; // Гарантируем, что Instance создается сразу
-    }
+    private bool _hasActedThisBeat = false; // Совершил ли игрок действие в текущем бите
 
-    void Update()
+    void Awake() => Instance = this;
+
+    void Start()
     {
-        if (CurrentCombo > 0 && Time.time - _lastActionTime > comboResetTime)
+        // Подписываемся на событие бита, чтобы проверять пропуски
+        if (BeatConductor.Instance != null)
         {
-            ResetCombo();
+            BeatConductor.Instance.OnBeat += HandleBeatUpdate;
         }
     }
 
     public void AddCombo()
     {
+        _hasActedThisBeat = true; // Фиксируем успех
         CurrentCombo++;
-        _lastActionTime = Time.time;
-        ComboMultiplier = 1f + (CurrentCombo * 0.1f);
 
-        // Вызываем событие
-        OnComboChanged?.Invoke(CurrentCombo, ComboMultiplier);
+        int newMultiplier = 1;
+        if (CurrentCombo >= 30) newMultiplier = 4;
+        else if (CurrentCombo >= 20) newMultiplier = 3;
+        else if (CurrentCombo >= 10) newMultiplier = 2;
 
-        Debug.Log($"КОМБО X{CurrentCombo}! Множитель: {ComboMultiplier}");
+        CurrentMultiplier = newMultiplier;
+        OnComboChanged?.Invoke(CurrentCombo, CurrentMultiplier);
     }
 
     public void ResetCombo()
     {
+        if (CurrentCombo == 0) return;
+
         CurrentCombo = 0;
-        ComboMultiplier = 1f;
+        CurrentMultiplier = 1;
+        OnComboChanged?.Invoke(CurrentCombo, CurrentMultiplier);
+        Debug.Log("COMBO RESET");
+    }
 
-        // Вызываем событие при сбросе
-        OnComboChanged?.Invoke(CurrentCombo, ComboMultiplier);
+    private void HandleBeatUpdate()
+    {
+        // Не сбрасываем, если музыка только началась (первые 0.5 сек)
+        if (BeatConductor.Instance.musicSource.time < 0.5f) return;
 
-        Debug.Log("КОМБО СБРОШЕНО!");
+        if (!_hasActedThisBeat && CurrentCombo > 0)
+        {
+            ResetCombo();
+        }
+        _hasActedThisBeat = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (BeatConductor.Instance != null)
+            BeatConductor.Instance.OnBeat -= HandleBeatUpdate;
     }
 }

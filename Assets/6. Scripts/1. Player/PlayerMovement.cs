@@ -7,7 +7,7 @@ public class PlayerMovement : Sortable
 
     // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ РИТМА ---
     [Header("Beat Movement")]
-    public float dashSpeed = 8f; 
+    public float dashSpeed = 8f;
     public float dashDistance = 2f; // Теперь используем дистанцию вместо абстрактной скорости
     public float movementDuration = 0.12f;
 
@@ -67,18 +67,39 @@ public class PlayerMovement : Sortable
     // --- НОВЫЙ МЕТОД: ВЫЗЫВАЕТСЯ СТРОГО В БИТ ---
     void PerformDash()
     {
-        // Если игрок зажал направление к моменту бита
-        if (moveDir.sqrMagnitude > 0.01f)
+        // Обычный рывок в бит (стандартная дистанция)
+        if (moveDir.sqrMagnitude > 0.01f && moveTimer <= 0)
         {
-            StartFixedDash(moveDir, movementDuration);
+            StartFixedDash(moveDir, movementDuration, dashDistance);
         }
     }
 
-    // Вспомогательный метод для запуска рывка
-    void StartFixedDash(Vector2 direction, float duration)
+    // Вспомогательный метод теперь принимает дистанцию
+    void StartFixedDash(Vector2 direction, float duration, float distance)
     {
-        fixedDashDir = direction.normalized;
+        if (moveTimer > 0) return; // Если уже в рывке — игнорируем
+        StartCoroutine(DashRoutine(direction.normalized, duration, distance));
+    }
+
+    private System.Collections.IEnumerator DashRoutine(Vector2 direction, float duration, float distance)
+    {
         moveTimer = duration;
+        Vector2 startPos = rb.position;
+        Vector2 endPos = startPos + direction * distance; // Используем переданную дистанцию
+        float elapsed = 0f;
+
+        rb.linearVelocity = Vector2.zero; // Убираем инерцию
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float percent = elapsed / duration;
+            rb.MovePosition(Vector2.Lerp(startPos, endPos, percent));
+            yield return null;
+        }
+
+        rb.MovePosition(endPos);
+        moveTimer = 0;
     }
 
     void InputManagement()
@@ -123,15 +144,18 @@ public class PlayerMovement : Sortable
             lastMovedVector = new Vector2(lastHorizontalVector, lastVerticalVector);
         }
 
-        // НОВЫЙ КОД ДЛЯ КОМБО (Пробел)
         if (Input.GetKeyDown(KeyCode.Space) && BeatConductor.Instance != null)
         {
             if (BeatConductor.Instance.IsInBeatWindow)
             {
-                ComboManager.Instance?.AddCombo();
-                // Рывок по пробелу теперь тоже фиксирует текущее направление ввода
-                Vector2 dashInput = moveDir.sqrMagnitude > 0.01f ? moveDir : (Vector2)lastMovedVector;
-                StartFixedDash(dashInput, movementDuration * 1.2f);
+                if (moveDir.sqrMagnitude > 0.001f && moveTimer <= 0)
+                {
+                    ComboManager.Instance?.AddCombo();
+                    ScoreManager.Instance?.AddPoints();
+
+                    // УДВОЕННАЯ ДИСТАНЦИЯ: dashDistance * 2f
+                    StartFixedDash(moveDir, movementDuration * 1.2f, dashDistance * 2f);
+                }
             }
             else
             {
@@ -140,6 +164,7 @@ public class PlayerMovement : Sortable
         }
     }
 
+    // 3. Метод Move теперь отвечает ТОЛЬКО за остановку в паузе
     public virtual void Move()
     {
         if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
@@ -148,14 +173,8 @@ public class PlayerMovement : Sortable
             return;
         }
 
-        if (moveTimer > 0)
-        {
-            // ИСПОЛЬЗУЕМ fixedDashDir вместо moveDir
-            // Это гарантирует, что даже если игрок отпустит кнопки в середине рывка,
-            // персонаж долетит ровно по вектору, который был в начале.
-            rb.linearVelocity = fixedDashDir * dashSpeed * player.Stats.moveSpeed;
-        }
-        else
+        // Если рывка нет, скорость должна быть 0 (или обычный бег, если он есть)
+        if (moveTimer <= 0)
         {
             rb.linearVelocity = Vector2.zero;
         }
