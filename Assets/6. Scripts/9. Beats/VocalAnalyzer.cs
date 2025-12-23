@@ -15,16 +15,38 @@ public class VocalAnalyzer : MonoBehaviour
 
     void Start()
     {
-        if (Microphone.devices.Length > 0) {
+        if (Microphone.devices.Length > 0)
+        {
+            Debug.Log("Микрофон найден: " + Microphone.devices[0]); // Покажет имя микрофона
             _micClip = Microphone.Start(null, true, 1, 44100);
-        } else {
-            Debug.LogWarning("Микрофон не найден!");
+        }
+        else
+        {
+            Debug.LogError("Микрофон НЕ найден! Подключите устройство.");
         }
     }
 
     void Update()
     {
-        CurrentLoudness = GetLoudness() * sensitivity;
+        // Проверка: если зажат левый Shift — имитируем крик на максимум
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            CurrentLoudness = 1.5f; // "Виртуальный крик"
+        }
+        else
+        {
+            // Если микрофон есть — берем данные с него, если нет — будет 0
+            if (Microphone.devices.Length > 0)
+            {
+                CurrentLoudness = GetLoudness() * sensitivity;
+            }
+            else
+            {
+                CurrentLoudness = 0;
+            }
+        }
+
+        // Ограничиваем порог шума
         if (CurrentLoudness < vocalThreshold) CurrentLoudness = 0;
     }
 

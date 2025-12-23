@@ -245,6 +245,10 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(GameState.Paused);
             Time.timeScale = 0f; //Stop the game
+            if (MusicLayerManager.Instance != null)
+            {
+                MusicLayerManager.Instance.PauseMusic(); // Используем новый метод PauseMusic()
+            }
             pauseScreen.SetActive(true);
             Debug.Log("Game is paused");
 
@@ -264,6 +268,10 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(previousState);
             Time.timeScale = 1f; //Resume the game
+            if (MusicLayerManager.Instance != null)
+            {
+                MusicLayerManager.Instance.UnPauseMusic(); // Используем новый метод UnPauseMusic()
+            }
             pauseScreen.SetActive(false);
             Debug.Log("Game is resumed");
 
@@ -302,6 +310,10 @@ public class GameManager : MonoBehaviour
         //Set the Game Over variables here
         ChangeState(GameState.GameOver);
         Time.timeScale = 0f; //Stop the game entirely
+        if (MusicLayerManager.Instance != null)
+        {
+            MusicLayerManager.Instance.StopMusic(); // Используем новый метод StopMusic()
+        }
         DisplayResults();
 
         // Save all the diamonds of all the players to the save file.
@@ -399,6 +411,10 @@ public class GameManager : MonoBehaviour
         else
         {
             Time.timeScale = 0f; //Pause the game for now
+            if (MusicLayerManager.Instance != null)
+            {
+                MusicLayerManager.Instance.PauseMusic(); // Используем новый метод PauseMusic()
+            }
             levelUpScreen.SetActive(true);
 
             foreach (PlayerStats p in players)
@@ -410,6 +426,10 @@ public class GameManager : MonoBehaviour
     {
         // ... (ваш существующий код EndLevelUp) ...
         Time.timeScale = 1f; //Resume the game
+        if (MusicLayerManager.Instance != null)
+        {
+            MusicLayerManager.Instance.UnPauseMusic(); // Используем новый метод UnPauseMusic()
+        }
         levelUpScreen.SetActive(false);
         ChangeState(GameState.Gameplay);
 
