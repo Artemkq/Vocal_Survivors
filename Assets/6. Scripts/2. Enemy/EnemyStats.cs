@@ -67,7 +67,7 @@ public class EnemyStats : EntityStats
         {
             s1.maxHealth += s2.maxHealth;
             s1.moveSpeed += s2.moveSpeed;
-            s1.damage += s2.damage; 
+            s1.damage += s2.damage;
             s1.knockbackMultiplier += s2.knockbackMultiplier;
             s1.resistances += s2.resistances;
             return s1;
@@ -190,7 +190,7 @@ public class EnemyStats : EntityStats
         actualStats *= multiplier;
     }
 
-        public override void TakeDamage(float dmg)
+    public override void TakeDamage(float dmg)
     {
         if (enemyCollider != null && !enemyCollider.enabled) return;
 
@@ -200,7 +200,7 @@ public class EnemyStats : EntityStats
         // 1. Бонус за попадание в бит (x2 урон)
         if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
         {
-            multiplier += 1.0f; 
+            multiplier += 1.0f;
         }
 
         // 2. Бонус за вокал (до +100% от громкости)
@@ -250,7 +250,7 @@ public class EnemyStats : EntityStats
         {
             // БОНУС: Усиление отбрасывания в ритм
             float kMultiplier = 1f;
-            if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow) 
+            if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
                 kMultiplier = 1.5f; // В бит отбрасываем на 50% дальше
 
             Vector2 dir = (Vector2)transform.position - sourcePosition;
@@ -281,26 +281,29 @@ public class EnemyStats : EntityStats
 
     public override void Kill()
     {
+        // --- ДОБАВЛЯЕМ СЮДА ---
+        // Ищем менеджер комбо на сцене и вызываем метод регистрации убийства
+        KillComboManager comboManager = FindAnyObjectByType<KillComboManager>();
+        if (comboManager != null)
+        {
+            comboManager.OnEnemyKilled();
+        }
+        // ----------------------
+
         DropRateManager drops = GetComponent<DropRateManager>();
 
         // *** ИСПРАВЛЕНИЕ ЛОГИКИ: ВОССТАНАВЛИВАЕМ ПРОВЕРКУ ФЛАГА ***
-
-        // Убеждаемся, что у нас есть ссылка на компонент движения (на всякий случай)
         if (movement == null) movement = GetComponent<EnemyMovement>();
 
         if (drops != null && movement != null)
         {
-            // Мы активируем дропы ТОЛЬКО если giveExperienceOnDeath равен true.
             drops.active = movement.giveExperienceOnDeath;
         }
         else if (drops != null && movement == null)
         {
-             // Если компонент движения отсутствует (что плохо, т.к. мы на EnemyStats),
-             // предполагаем, что это обычное убийство и опыт должен выпасть.
-             drops.active = true; 
+            drops.active = true;
         }
 
-        // Отключаем коллайдер и движение (это правильно)
         if (enemyCollider != null) enemyCollider.enabled = false;
         if (movement != null) movement.enabled = false;
 

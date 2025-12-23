@@ -34,16 +34,17 @@ public class CameraShaker : MonoBehaviour
 
     private void TryShake()
     {
-        if (ComboManager.Instance == null) return;
+        // Теперь обращаемся к нашему новому единому менеджеру
+        if (RhythmManager.Instance == null) return;
 
-        int combo = ComboManager.Instance.CurrentCombo;
+        int combo = RhythmManager.Instance.CurrentCombo;
         ShakeSettings currentSet = new ShakeSettings { intensity = 0, decay = 0 };
 
-        // Тряска при переходе на новые уровни множителя (GH3 Style)
-        if (combo == 10) currentSet = settings10;      // Переход на x2
-        else if (combo == 20) currentSet = settings25; // Переход на x3
-        else if (combo == 30) currentSet = settings50; // Переход на x4
-        else if (combo >= 80 && (combo - 30) % 50 == 0) // Каждые 50 после выхода на макс
+        // Логика остается прежней
+        if (combo == 10) currentSet = settings10;
+        else if (combo == 20) currentSet = settings25;
+        else if (combo == 30) currentSet = settings50;
+        else if (combo >= 80 && (combo - 30) % 50 == 0)
         {
             currentSet = settings100;
         }

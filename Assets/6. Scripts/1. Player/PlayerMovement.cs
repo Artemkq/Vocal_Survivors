@@ -150,16 +150,16 @@ public class PlayerMovement : Sortable
             {
                 if (moveDir.sqrMagnitude > 0.001f && moveTimer <= 0)
                 {
-                    ComboManager.Instance?.AddCombo();
-                    ScoreManager.Instance?.AddPoints();
+                    // ВМЕСТО ДВУХ ВЫЗОВОВ ТЕПЕРЬ ОДИН
+                    RhythmManager.Instance?.AddHit();
 
-                    // УДВОЕННАЯ ДИСТАНЦИЯ: dashDistance * 2f
                     StartFixedDash(moveDir, movementDuration * 1.2f, dashDistance * 2f);
                 }
             }
             else
             {
-                ComboManager.Instance?.ResetCombo();
+                // ВМЕСТО RhytmComboManager
+                RhythmManager.Instance?.ResetCombo();
             }
         }
     }
