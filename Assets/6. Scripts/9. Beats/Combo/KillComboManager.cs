@@ -1,3 +1,5 @@
+// Отвечает за всю механику комбо убийств и взаимодействие с UI
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -68,7 +70,7 @@ public class KillComboManager : MonoBehaviour
         _totalKillCount++;
         _currentTimer = timeLimit;
 
-        if (_killCount % 10 == 0 && _killCount > 0) TriggerMilestone();
+        if (_killCount % 100 == 0 && _killCount > 0) TriggerMilestone();
 
         UpdateUI();
     }

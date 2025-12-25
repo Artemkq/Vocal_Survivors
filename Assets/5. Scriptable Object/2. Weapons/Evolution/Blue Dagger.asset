@@ -35,7 +35,7 @@ MonoBehaviour:
     amount: 6
     duration: 3
     pierce: 3
-    cooldown: 0.35
+    cooldown: 1
     projectileInterval: 0.05
     knockback: 0.5
     poolLimit: 70

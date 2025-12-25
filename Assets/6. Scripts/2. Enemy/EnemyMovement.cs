@@ -24,13 +24,27 @@ public class EnemyMovement : Sortable
 
     // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ РИТМА ---
     [Header("Beat Settings")]
-    public float speedBoostMultiplier = 4f; // Сила прыжка
-    public float decelerationSpeed = 8f;    // Резкость остановки
-    private float currentBeatSpeed;         // Текущая расчетная скорость
+    [Tooltip("Во сколько раз скорость увеличится в момент бита")]
+    public float speedBoostMultiplier = 4f;
+    [Tooltip("Как быстро скорость возвращается от рывка к обычной (чем выше, тем резче)")]
+    public float decelerationSpeed = 8f;
+    private float currentBeatSpeed;
+
+    protected SpriteRenderer sr; // Ссылка на компонент отрисовки
+    protected SpriteRenderer shadowSr; // Ссылка на компонент отрисовки тени
 
     protected override void Start()
     {
         base.Start();
+        sr = GetComponentInChildren<SpriteRenderer>(); // Ищем спрайт внутри объекта
+
+        // Ищем спрайт тени только на дочернем объекте с именем "Shadow"
+        Transform shadowT = transform.Find("Shadow");
+        if (shadowT != null)
+        {
+            shadowSr = shadowT.GetComponent<SpriteRenderer>();
+        }
+
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
         spawnedOutOffFrame = !WaveManager.IsWithinBoundaries(transform);
@@ -59,7 +73,7 @@ public class EnemyMovement : Sortable
     // МЕТОД РЫВКА
     protected virtual void ApplyBeatImpulse()
     {
-        // Устанавливаем взрывную скорость в момент удара музыки
+        // В момент бита скорость подскакивает до максимума
         currentBeatSpeed = stats.Actual.moveSpeed * speedBoostMultiplier;
     }
 
@@ -79,29 +93,48 @@ public class EnemyMovement : Sortable
                 agent.Warp(transform.position);
             }
 
-            // РАСЧЕТ ЗАТУХАНИЯ СКОРОСТИ
-            // Плавно снижаем скорость от прыжка до нуля
-            currentBeatSpeed = Mathf.Lerp(currentBeatSpeed, 0, Time.deltaTime * decelerationSpeed);
+            // --- ИЗМЕНЕНО: РАСЧЕТ ЗАТУХАНИЯ СКОРОСТИ ---
+            // Теперь скорость плавно падает не до 0, а до stats.Actual.moveSpeed (базовой скорости)
+            currentBeatSpeed = Mathf.Lerp(currentBeatSpeed, stats.Actual.moveSpeed, Time.deltaTime * decelerationSpeed);
 
-            Move(); // Вызываем движение
+            Move();
             HandleOutOffFrameAction();
         }
     }
 
     public virtual void Move()
     {
-        if (agent != null && agent.enabled && player != null)
+        if (player == null) return;
+
+        Vector2 direction = (player.position - transform.position).normalized;
+        bool playerIsRight = direction.x > 0;
+
+        // --- ЛОГИКА ПОВОРОТА БЕЗ ИСКАЖЕНИЙ ---
+        if (sr != null)
         {
-            // ПРИМЕНЯЕМ НАШУ РИТМ-СКОРОСТЬ ВМЕСТО СТАТИЧНОЙ
+            // Поворачиваем основной спрайт
+            sr.flipX = !playerIsRight;
+        }
+
+        if (shadowSr != null)
+        {
+            // Поворачиваем тень так же, как и основной спрайт
+            shadowSr.flipX = sr.flipX;
+        }
+
+        // --- ДВИЖЕНИЕ ---
+        // ... (весь ваш код движения через agent, rb или transform.position)
+        if (agent != null && agent.enabled)
+        {
             agent.speed = currentBeatSpeed;
             agent.SetDestination(player.position);
         }
-        else if (rb && player != null)
+        else if (rb)
         {
-            // Для Rigidbody тоже применяем currentBeatSpeed
-            rb.MovePosition(Vector2.MoveTowards(rb.position, player.position, currentBeatSpeed * Time.deltaTime));
+            Vector2 targetPos = Vector2.MoveTowards(rb.position, player.position, currentBeatSpeed * Time.deltaTime);
+            rb.MovePosition(targetPos);
         }
-        else if (player != null)
+        else
         {
             transform.position = Vector2.MoveTowards(transform.position, player.position, currentBeatSpeed * Time.deltaTime);
         }
@@ -109,15 +142,13 @@ public class EnemyMovement : Sortable
 
     protected virtual void OnDestroy()
     {
-        // ОТПИСКА, чтобы не было ошибок при смерти врага
         if (BeatConductor.Instance != null)
         {
             BeatConductor.Instance.OnBeat -= ApplyBeatImpulse;
         }
     }
 
-    // --- ОСТАЛЬНЫЕ ТВОИ МЕТОДЫ БЕЗ ИЗМЕНЕНИЙ ---
-
+    // Остальные методы (Despawn, Knockback и т.д.) остаются без изменений...
     public void Despawn(float delay = 3.0f)
     {
         StartCoroutine(DelayedKill(delay));

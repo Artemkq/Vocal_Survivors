@@ -1,3 +1,5 @@
+// Отвечает за синхронизацию игровых событий с музыкой на основе битов.
+
 using UnityEngine;
 using System;
 
@@ -55,5 +57,11 @@ public class BeatConductor : MonoBehaviour
         // Окно допуска
         float distanceFromBeat = Mathf.Abs(BeatPosition - Mathf.Round(BeatPosition)) * _secondsPerBeat;
         IsInBeatWindow = distanceFromBeat <= timingWindow;
+    }
+
+    // Добавьте этот метод:
+    public float GetSecondsPerBeat()
+    {
+        return 60f / bpm;
     }
 }

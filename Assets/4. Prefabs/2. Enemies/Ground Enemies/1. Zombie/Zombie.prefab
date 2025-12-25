@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
   - component: {fileID: 1636927269441485158}
-  - component: {fileID: -3936133876395791437}
+  - component: {fileID: -2133227608224346281}
   m_Layer: 8
   m_Name: Zombie
   m_TagString: Enemy
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
---- !u!114 &-3936133876395791437
+--- !u!114 &-2133227608224346281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,5 +394,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
-  pulseSize: 1.25
+  pulseSize: 1.15
   returnSpeed: 10

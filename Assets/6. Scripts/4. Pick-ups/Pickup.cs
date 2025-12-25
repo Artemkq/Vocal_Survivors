@@ -3,22 +3,8 @@ using UnityEngine;
 public class Pickup : Sortable
 {
     public float lifespan = 0.5f;
-    protected PlayerStats target; //If the pickup has a target, then fly towwards the target
-    protected float speed; //The speed at which the pickup travels
-    Vector2 initialPosition;
-    float initialOffset;
-
-    //To represent the bobbing animation of the object
-    [System.Serializable] public struct BobbingAnimation
-    {
-        public float frequency;
-        public Vector2 direction;
-    }
-    public BobbingAnimation bobbingAnimation = new BobbingAnimation
-    {
-        frequency = 2f, 
-        direction = new Vector2(0, 0.3f)
-    };
+    protected PlayerStats target; // Если у подбираемого предмета есть цель, он летит к ней
+    protected float speed;        // Скорость полета предмета к игроку
 
     [Header("Bonuses")]
     public int experience;
@@ -27,26 +13,21 @@ public class Pickup : Sortable
     protected override void Start()
     {
         base.Start();
-        initialPosition = transform.position;
-        initialOffset = Random.Range(0, bobbingAnimation.frequency);
+        // Логика инициализации позиции удалена, так как предмет теперь статичен до подбора
     }
 
     protected virtual void Update()
     {
         if (target)
         {
-            //Move it towards the player and check the distance between
+            // Движение в сторону игрока
             Vector2 distance = target.transform.position - transform.position;
             if (distance.sqrMagnitude > speed * speed * Time.deltaTime)
                 transform.position += (Vector3)distance.normalized * speed * Time.deltaTime;
             else
                 Destroy(gameObject);
         }
-        else
-        {
-            //Handle the animation of the object
-            transform.position = initialPosition + bobbingAnimation.direction * Mathf.Sin((Time.time + initialOffset) * bobbingAnimation.frequency);
-        }
+        // Блок else с анимацией Bobbing удален
     }
 
     public virtual bool Collect(PlayerStats target, float speed, float lifespan = 0f)
@@ -69,4 +50,3 @@ public class Pickup : Sortable
         if (health != 0) target.RestoreHealth(health);
     }
 }
-

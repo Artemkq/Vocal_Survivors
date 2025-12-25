@@ -1,3 +1,5 @@
+// Отвечает за всю механику комбо ритма и взаимодействие с UI
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

@@ -33,5 +33,5 @@ MonoBehaviour:
     growth: 1
     greed: 1
     curse: 1
-    magnet: 1
+    magnet: 1.5
     revival: 0

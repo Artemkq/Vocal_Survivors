@@ -1,3 +1,5 @@
+// Отвечает за тряску камеры в такт музыки в зависимости от комбо ритма
+
 using UnityEngine;
 
 public class CameraShaker : MonoBehaviour

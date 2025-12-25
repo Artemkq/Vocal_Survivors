@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 7827969575099121649}
   - component: {fileID: -2699016497766313944}
   - component: {fileID: -7128369838658744715}
+  - component: {fileID: -2963834979116875613}
   m_Layer: 0
   m_Name: 9 Green Exp
   m_TagString: Untagged
@@ -280,8 +281,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pickup
   sortingActive: 1
   lifespan: 0.5
-  bobbingAnimation:
-    frequency: 2
-    direction: {x: 0, y: 0.3}
   experience: 9
   health: 0
+--- !u!114 &-2963834979116875613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572816827611164919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10

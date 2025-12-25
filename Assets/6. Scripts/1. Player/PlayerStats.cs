@@ -162,7 +162,7 @@ public class PlayerStats : EntityStats
             speed = 1f,
             duration = 1f,
             amount = 1,
-            cooldown = 1f,
+            cooldown = 1,
             luck = 1f,
             growth = 1f,
             greed = 1f,

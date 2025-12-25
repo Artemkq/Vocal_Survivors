@@ -1,29 +1,33 @@
 using UnityEngine;
-using Terresquall;
 
 public class PlayerMovement : Sortable
 {
     public const float DEFAULT_MOVESPEED = 2.5f;
 
-    // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ РИТМА ---
-    [Header("Beat Movement")]
-    public float dashSpeed = 8f;
-    public float dashDistance = 2f; // Теперь используем дистанцию вместо абстрактной скорости
-    public float movementDuration = 0.12f;
+    [Header("Base Movement")]
+    public float baseMoveSpeed = 3f; // Постоянная медленная скорость
 
-    private Vector2 fixedDashDir; // Зафиксированное направление рывка
-    private float moveTimer;
+    [Header("Beat Dash (Shift)")]
+    public float dashDistance = 4f; // Дистанция рывка
+    public float dashDuration = 0.15f; // Длительность рывка
+    public float dashCooldown = 0.2f; // Защита от спама
 
-    //Movement
+    private float _moveTimer;
+    private float _dashCooldownTimer;
+
+    // References
+    private Rigidbody2D rb;
+    private PlayerStats player;
+
+    [HideInInspector] public Vector2 moveDir;
+    [HideInInspector] public Vector2 lastMovedVector;
     [HideInInspector] public float lastHorizontalVector;
     [HideInInspector] public float lastVerticalVector;
     [HideInInspector] public float lastHorizontalDirection = 1f;
-    [HideInInspector] public Vector2 moveDir;
-    [HideInInspector] public Vector2 lastMovedVector;
 
-    //References
-    Rigidbody2D rb;
-    PlayerStats player;
+    [Header("VFX")]
+    public GameObject ghostPrefab;
+    public float ghostSpawnInterval = 0.03f; // Как часто оставлять след
 
     public Vector3 ProjectileSpawnPoint
     {
@@ -46,126 +50,84 @@ public class PlayerMovement : Sortable
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = new Vector2(1, 0f);
 
-        // --- ПОДПИСКА НА БИТ ---
+        // ОТПИСЫВАЕМСЯ от автоматического рывка, если он был
         if (BeatConductor.Instance != null)
         {
-            BeatConductor.Instance.OnBeat += PerformDash;
+            BeatConductor.Instance.OnBeat -= PerformDash;
         }
     }
 
     void Update()
     {
         InputManagement();
-        if (moveTimer > 0) moveTimer -= Time.deltaTime;
+
+        if (_moveTimer > 0) _moveTimer -= Time.deltaTime;
+        if (_dashCooldownTimer > 0) _dashCooldownTimer -= Time.deltaTime;
     }
 
     void FixedUpdate()
     {
-        Move();
-    }
-
-    // --- НОВЫЙ МЕТОД: ВЫЗЫВАЕТСЯ СТРОГО В БИТ ---
-    void PerformDash()
-    {
-        // Обычный рывок в бит (стандартная дистанция)
-        if (moveDir.sqrMagnitude > 0.01f && moveTimer <= 0)
+        // Если мы НЕ в состоянии рывка, двигаемся обычно
+        if (_moveTimer <= 0)
         {
-            StartFixedDash(moveDir, movementDuration, dashDistance);
+            ApplyBaseMovement();
         }
-    }
-
-    // Вспомогательный метод теперь принимает дистанцию
-    void StartFixedDash(Vector2 direction, float duration, float distance)
-    {
-        if (moveTimer > 0) return; // Если уже в рывке — игнорируем
-        StartCoroutine(DashRoutine(direction.normalized, duration, distance));
-    }
-
-    private System.Collections.IEnumerator DashRoutine(Vector2 direction, float duration, float distance)
-    {
-        moveTimer = duration;
-        Vector2 startPos = rb.position;
-        Vector2 endPos = startPos + direction * distance; // Используем переданную дистанцию
-        float elapsed = 0f;
-
-        rb.linearVelocity = Vector2.zero; // Убираем инерцию
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float percent = elapsed / duration;
-            rb.MovePosition(Vector2.Lerp(startPos, endPos, percent));
-            yield return null;
-        }
-
-        rb.MovePosition(endPos);
-        moveTimer = 0;
     }
 
     void InputManagement()
     {
-        // Игнорируем ввод во время паузы или завершения игры
         if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
         {
             moveDir = Vector2.zero;
             return;
         }
 
-        float moveX, moveY;
-        if (VirtualJoystick.CountActiveInstances() > 0)
-        {
-            moveX = VirtualJoystick.GetAxisRaw("Horizontal");
-            moveY = VirtualJoystick.GetAxisRaw("Vertical");
-        }
-        else
-        {
-            moveX = Input.GetAxisRaw("Horizontal");
-            moveY = Input.GetAxisRaw("Vertical");
-        }
-
-        // Обновляем moveDir только для логики "намерения" игрока
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
         moveDir = new Vector2(moveX, moveY).normalized;
 
-        if (moveDir.x != 0)
+        if (moveX != 0)
         {
-            lastHorizontalVector = moveDir.x;
-            lastHorizontalDirection = moveDir.x;
-            lastMovedVector = new Vector2(lastHorizontalVector, 0f);
+            lastHorizontalVector = moveX;
+            // --- ВОЗВРАЩАЕМ ЭТУ СТРОКУ ---
+            lastHorizontalDirection = moveX;
+        }
+        if (moveY != 0)
+        {
+            lastVerticalVector = moveY;
         }
 
-        if (moveDir.y != 0)
+        if (moveDir.sqrMagnitude > 0)
         {
-            lastVerticalVector = moveDir.y;
-            lastMovedVector = new Vector2(0f, lastVerticalVector);
+            lastMovedVector = moveDir;
         }
 
-        if (moveDir.x != 0 && moveDir.y != 0)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Space))
         {
-            lastMovedVector = new Vector2(lastHorizontalVector, lastVerticalVector);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && BeatConductor.Instance != null)
-        {
-            if (BeatConductor.Instance.IsInBeatWindow)
-            {
-                if (moveDir.sqrMagnitude > 0.001f && moveTimer <= 0)
-                {
-                    // ВМЕСТО ДВУХ ВЫЗОВОВ ТЕПЕРЬ ОДИН
-                    RhythmManager.Instance?.AddHit();
-
-                    StartFixedDash(moveDir, movementDuration * 1.2f, dashDistance * 2f);
-                }
-            }
-            else
-            {
-                // ВМЕСТО RhytmComboManager
-                RhythmManager.Instance?.ResetCombo();
-            }
+            TryDash();
         }
     }
 
-    // 3. Метод Move теперь отвечает ТОЛЬКО за остановку в паузе
-    public virtual void Move()
+    void TryDash()
+    {
+        if (BeatConductor.Instance == null) return;
+
+        if (BeatConductor.Instance.IsInBeatWindow && _moveTimer <= 0 && _dashCooldownTimer <= 0)
+        {
+            // УСПЕХ: Рывок в бит
+            RhythmManager.Instance?.AddHit();
+            StartCoroutine(DashRoutine(moveDir.sqrMagnitude > 0 ? moveDir : lastMovedVector, dashDuration, dashDistance));
+            _dashCooldownTimer = dashCooldown;
+        }
+        else if (!BeatConductor.Instance.IsInBeatWindow)
+        {
+            // ПРОМАХ: Можно добавить визуальный эффект осечки или сброс комбо
+            RhythmManager.Instance?.ResetCombo();
+            Debug.Log("Missed Beat Dash!");
+        }
+    }
+
+    void ApplyBaseMovement()
     {
         if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
         {
@@ -173,19 +135,49 @@ public class PlayerMovement : Sortable
             return;
         }
 
-        // Если рывка нет, скорость должна быть 0 (или обычный бег, если он есть)
-        if (moveTimer <= 0)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        // Обычное передвижение из Vampire Survivors
+        rb.linearVelocity = moveDir * baseMoveSpeed;
     }
 
-    // --- ОТПИСКА ДЛЯ ЧИСТОТЫ КОДА ---
-    void OnDestroy()
+    private System.Collections.IEnumerator DashRoutine(Vector2 direction, float duration, float distance)
     {
-        if (BeatConductor.Instance != null)
+        _moveTimer = duration;
+        Vector2 startPos = rb.position;
+        Vector2 endPos = startPos + direction.normalized * distance;
+        float elapsed = 0f;
+        float lastGhostTime = 0f; // Таймер для призраков
+
+        SpriteRenderer playerSR = GetComponentInChildren<SpriteRenderer>();
+
+        rb.linearVelocity = Vector2.zero;
+
+        while (elapsed < duration)
         {
-            BeatConductor.Instance.OnBeat -= PerformDash;
+            elapsed += Time.deltaTime;
+            float percent = elapsed / duration;
+            rb.MovePosition(Vector2.Lerp(startPos, endPos, percent));
+
+            // СПАВН ПРИЗРАКА
+            if (elapsed - lastGhostTime >= ghostSpawnInterval)
+            {
+                GameObject ghost = Instantiate(ghostPrefab);
+                ghost.GetComponent<DashGhost>().Init(
+                    playerSR.sprite,
+                    transform.position,
+                    transform.rotation,
+                    playerSR.transform.localScale,
+                    playerSR.flipX
+                );
+                lastGhostTime = elapsed;
+            }
+
+            yield return null;
         }
+
+        rb.MovePosition(endPos);
+        _moveTimer = 0;
     }
+
+    // Метод оставлен пустым, чтобы не было ошибок подписки
+    void PerformDash() { }
 }

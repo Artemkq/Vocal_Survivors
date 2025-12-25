@@ -3,51 +3,56 @@ using UnityEngine.UI;
 
 public class RhythmUI : MonoBehaviour
 {
-    [Header("Ссылки на элементы")]
-    public Image centerTarget;    // Объект в центре
-    public RectTransform beatRing; // Кольцо, которое сжимается
+    [Header("Ссылки на элементы UI")]
+    public RectTransform leftFillBar;
+    public RectTransform rightFillBar;
+    public Image centerTarget;    // Объект в центре (ваша уникальная иконка)
 
     [Header("Настройки")]
-    public float startScale = 3f;  // Начальный размер кольца
+    [Tooltip("Начальное смещение полос от центра (например, 200px)")]
+    public float startXOffset = 600f;
     public Color hitColor = Color.green; // Цвет в "окне"
     public Color missColor = Color.white; // Цвет вне "окна"
 
-    private Vector3 _initialRingScale;
-
-    void Start()
-    {
-        _initialRingScale = beatRing.localScale;
-    }
+    // Переменная для хранения текущей позиции в доле бита (от 0.0 до 1.0)
+    private float _currentFraction;
 
     void Update()
     {
         if (BeatConductor.Instance == null) return;
 
-        // 1. Плавное сжатие кольца к биту
-        // BeatPosition идет например так: 1.1, 1.2, 1.3... 
-        // Мы берем только дробную часть: 0.1, 0.2...
-        float fraction = BeatConductor.Instance.BeatPosition % 1f;
+        // Расчет позиции в такте (от 0.0 до 1.0)
+        _currentFraction = BeatConductor.Instance.BeatPosition % 1f;
 
-        // Инвертируем, чтобы кольцо уменьшалось к 1.0 (к моменту удара)
-        float currentScale = Mathf.Lerp(startScale, 1f, fraction);
-        beatRing.localScale = _initialRingScale * currentScale;
+        // 1. Движение полос от края к центру
+        // Lerp от начального смещения (startOffset) до 0 (центра)
+        float currentXPosition = Mathf.Lerp(startXOffset, 0f, _currentFraction);
 
-        // 2. Подсветка центрального индикатора
+        // Устанавливаем позиции. Левая полоса двигается в минус по X, правая в плюс по X.
+        // При _currentFraction = 0f, они на startXOffset. При _currentFraction = 1f, они в центре (0f).
+        leftFillBar.anchoredPosition = new Vector2(-currentXPosition, leftFillBar.anchoredPosition.y);
+        rightFillBar.anchoredPosition = new Vector2(currentXPosition, rightFillBar.anchoredPosition.y);
+
+        // 2. Плавное исчезание при приближении к центру
+        // Мы хотим, чтобы они исчезали в конце цикла (когда _currentFraction близко к 1.0)
+        // Используем степень (_currentFraction^2) для более резкого исчезания в самом конце
+        float alpha = Mathf.Lerp(1f, 0f, Mathf.Pow(_currentFraction, 2));
+
+        Color leftColor = leftFillBar.GetComponent<Image>().color;
+        leftColor.a = alpha;
+        leftFillBar.GetComponent<Image>().color = leftColor;
+
+        Color rightColor = rightFillBar.GetComponent<Image>().color;
+        rightColor.a = alpha;
+        rightFillBar.GetComponent<Image>().color = rightColor;
+
+        // 3. Подсветка центрального индикатора
         if (BeatConductor.Instance.IsInBeatWindow)
         {
-            centerTarget.color = hitColor;
-            // Делаем центр чуть больше в окне бита
-            centerTarget.transform.localScale = Vector3.one * 1.2f;
-        }
+            centerTarget.color = hitColor;        }
         else
         {
             centerTarget.color = missColor;
-            centerTarget.transform.localScale = Vector3.one;
         }
-
-        // 3. Прозрачность кольца (оно исчезает сразу после бита и появляется снова)
-        Color ringCol = beatRing.GetComponent<Image>().color;
-        ringCol.a = Mathf.Lerp(0.1f, 0.8f, fraction);
-        beatRing.GetComponent<Image>().color = ringCol;
     }
 }

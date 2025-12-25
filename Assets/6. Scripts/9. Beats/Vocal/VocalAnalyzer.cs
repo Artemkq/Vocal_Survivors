@@ -1,3 +1,5 @@
+// Отвечает за анализ громкости голоса с микрофона
+
 using UnityEngine;
 
 public class VocalAnalyzer : MonoBehaviour
@@ -52,12 +54,26 @@ public class VocalAnalyzer : MonoBehaviour
 
     float GetLoudness()
     {
-        float[] waveData = new float[128];
-        int micPos = Microphone.GetPosition(null) - 128;
-        if (micPos < 0) return 0;
-        _micClip.GetData(waveData, micPos);
+        // Увеличиваем окно до 512 для более стабильного среднего значения
+        int sampleWindow = 512;
+        float[] waveData = new float[sampleWindow];
+
+        // Получаем текущую позицию записи
+        int micPos = Microphone.GetPosition(null);
+
+        // Если буфер еще не заполнился (самое начало записи), выходим
+        if (micPos < sampleWindow) return 0;
+
+        // Считываем последние данные перед текущей позицией
+        _micClip.GetData(waveData, micPos - sampleWindow);
+
         float sum = 0;
-        foreach (var s in waveData) sum += Mathf.Abs(s);
-        return sum / 128;
+        for (int i = 0; i < sampleWindow; i++)
+        {
+            // Используем абсолютное значение (RMS упрощенный)
+            sum += Mathf.Abs(waveData[i]);
+        }
+
+        return sum / sampleWindow;
     }
 }

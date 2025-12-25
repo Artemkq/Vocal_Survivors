@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4712875448561777602}
   - component: {fileID: 6806826513969953154}
   - component: {fileID: 469592765507477016}
+  - component: {fileID: -1544695834632213320}
   m_Layer: 0
   m_Name: 3 - Treasure Chest
   m_TagString: Untagged
@@ -246,3 +247,17 @@ MonoBehaviour:
   dropProfiles:
   - {fileID: 11400000, guid: c49c01be3602b3c4a8beec6cbe921665, type: 2}
   defaultDropSprite: {fileID: 1410797335, guid: 066d8504039dca94fba083ff7fe007be, type: 3}
+--- !u!114 &-1544695834632213320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906560445682621277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10

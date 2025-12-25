@@ -28,10 +28,10 @@ MonoBehaviour:
     speed: 1
     duration: 1
     amount: 0
-    cooldown: 0.9
+    cooldown: 1
     luck: 1
     growth: 1
     greed: 1
     curse: 1
-    magnet: 1
+    magnet: 1.5
     revival: 0

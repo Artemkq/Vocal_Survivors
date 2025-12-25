@@ -1,3 +1,5 @@
+// Отвечает за пульсацию объекта в такт музыки
+
 using UnityEngine;
 
 public class BeatPulser : MonoBehaviour

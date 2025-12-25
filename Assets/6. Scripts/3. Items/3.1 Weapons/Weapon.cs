@@ -23,7 +23,7 @@ public abstract class Weapon : Item
         public int amount;
         public float duration; //if duration = 0, it will last forever
         public int pierce;
-        public float cooldown;
+        public int cooldown; // Теперь это будет восприниматься как "количество битов"
         public float projectileInterval;
         public float knockback;
         public int poolLimit;
@@ -84,6 +84,34 @@ public abstract class Weapon : Item
 
     protected PlayerMovement movement; //Reference to the players movement
 
+    // --- ИЗМЕНЕНО: Добавляем подписку на Бит при появлении оружия ---
+    protected virtual void OnEnable()
+    {
+        if (BeatConductor.Instance != null)
+        {
+            BeatConductor.Instance.OnBeat += HandleBeatAttack;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (BeatConductor.Instance != null)
+        {
+            BeatConductor.Instance.OnBeat -= HandleBeatAttack;
+        }
+    }
+
+    // --- ИЗМЕНЕНО: Этот метод вызывается каждый раз, когда звучит бит ---
+    private void HandleBeatAttack()
+    {
+        currentCooldown -= 1f; // Уменьшаем кулдаун на 1 бит
+
+        if (currentCooldown <= 0f)
+        {
+            Attack(currentStats.amount + owner.Stats.amount);
+        }
+    }
+
     //For dynamically created weapons, call initialise to set everything up
     public virtual void Initialise(WeaponData data)
     {
@@ -94,13 +122,10 @@ public abstract class Weapon : Item
         ActivateCooldown();
     }
 
+    // --- ИЗМЕНЕНО: Удаляем логику из Update, так как теперь мы зависим от OnBeat ---
     protected virtual void Update()
     {
-        currentCooldown -= Time.deltaTime;
-        if (currentCooldown <= 0f) //Once the cooldown becomes 0, attack
-        {
-            Attack(currentStats.amount + owner.Stats.amount);
-        }
+        // Теперь Update пустой, чтобы не стрелять по обычному времени.
     }
 
     //Levels up the weapon by 1, and calculates the corresponding stats
@@ -142,65 +167,34 @@ public abstract class Weapon : Item
         return false;
     }
 
-    //Gets the amount of damage that the weapon is supposed to deal
-    //Factoring in the weapons stats (including damage variance),
-    //as well as the charactes Might stat
-    public virtual float GetDamage()
-    {
-        return currentStats.GetDamage() * owner.Stats.might;
-    }
-
-    //Get the area, including modifications from the players stst
-    public virtual float GetArea()
-    {
-        return currentStats.area * owner.Stats.area;
-    }
-
-    //For retrieving the weapons stats
-
-    public virtual Stats GetStats() { return currentStats; }
-
-    //Refreshes the cooldown of the weapon
-    //If <strict> is true, refreshes only when currentCooldown < 0
+    // --- ИЗМЕНЕНО: Теперь кулдаун устанавливается в БИТАХ ---
     public virtual bool ActivateCooldown(bool strict = false)
     {
-        //When <strict> is enabled and the cooldown is not yet finished,
-        //do not refresh the cooldown
+        // Если включен строгий режим и откат еще не прошел — ничего не делаем
         if (strict && currentCooldown > 0) return false;
 
-        //Calculate what the cooldown is going to be, factoring in the cooldown
-        //reduction stat in the player character
-        float actualCooldown = currentStats.cooldown * Owner.Stats.cooldown;
+        // 1. Берем базовое количество битов (например, 4)
+        // 2. Умножаем на модификатор игрока (например, 0.75 для ускорения)
+        // 3. RoundToInt превращает результат (3.0) в целое число
+        int actualBeats = Mathf.RoundToInt(currentStats.cooldown * Owner.Stats.cooldown);
 
-        //Limit the maximum cooldown to the actual cooldown, so we cannot increase
-        //the cooldown above the cooldown stat if we accidentally call this function
-        //multiple times
-        currentCooldown = Mathf.Min(actualCooldown, currentCooldown + actualCooldown);
+        // ВАЖНО: Оружие не может стрелять чаще, чем каждый 1 бит (на каждый удар)
+        // Mathf.Max гарантирует, что значение не упадет до 0 или отрицательного
+        currentCooldown = Mathf.Max(1, actualBeats);
+
         return true;
     }
 
-    //Makes the weapon apply its buff to a target EntityStats object
+    public virtual float GetDamage() { return currentStats.GetDamage() * owner.Stats.might; }
+    public virtual float GetArea() { return currentStats.area * owner.Stats.area; }
+    public virtual Stats GetStats() { return currentStats; }
+
     public void ApplyBuffs(EntityStats e)
     {
-        if (e == null) // <-- ��������� �������� �� null
-        {
-            Debug.LogWarning("ApplyBuffs called with null EntityStats target.");
-            return;
-        }
-
-        // ����� ������� ���������, ��� appliedBuffs �� null, ���� ��� ����� ��������
-        if (GetStats().appliedBuffs == null)
-        {
-            return;
-        }
-
-        //Apply all assigned buffs to the target
+        if (e == null || GetStats().appliedBuffs == null) return;
         foreach (EntityStats.BuffInfo b in GetStats().appliedBuffs)
         {
-            if (owner != null)
-            {
-                e.ApplyBuff(b, owner.Actual.duration);
-            }
+            if (owner != null) e.ApplyBuff(b, owner.Actual.duration);
         }
     }
 }

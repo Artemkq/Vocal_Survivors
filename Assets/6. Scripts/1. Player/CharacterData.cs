@@ -28,7 +28,7 @@ public class CharacterData : ScriptableObject
         [Range(-1, 10)] public float moveSpeed, might, area;
         [Range(-1, 5)] public float speed, duration;
         [Range(-1, 10)] public int amount;
-        [Range(-1, 1)] public float cooldown;
+        [Range(-1, 1)] public int cooldown;
         [Min(-1)] public float luck, growth, greed, curse;
         public float magnet;
         public int revival;

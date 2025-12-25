@@ -110,14 +110,14 @@ AudioMixerController:
   - guid: 1466e44eb563c1c4b8b8ba57e0005a04
     name: otherVol
   - guid: 3bfb86ee155a51c40aee163e31c65cb8
-    name: leadVol
+    name: vocalsVol
   m_AudioMixerGroupViews:
   - guids:
     - 3395a0362b0ca484bab6f330baf4f346
-    - 1a2797fd90f4ca84a81aecabe3f3118e
     - 746464cf1575d0d4fb945946018caeae
-    - 31a7aa775fa5fd24ba336bccb3aad92c
+    - 1a2797fd90f4ca84a81aecabe3f3118e
     - 87eb294142e36924694e2c48294c77e5
+    - 31a7aa775fa5fd24ba336bccb3aad92c
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}

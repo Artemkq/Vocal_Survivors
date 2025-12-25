@@ -1,3 +1,5 @@
+// Отвечает за управление звуковыми слоями через AudioMixer.
+
 using UnityEngine;
 using UnityEngine.Audio;
 

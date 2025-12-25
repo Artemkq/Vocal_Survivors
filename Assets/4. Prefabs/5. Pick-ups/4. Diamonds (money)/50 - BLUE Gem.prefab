@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5914187814178750903}
   - component: {fileID: 9147954933722289913}
-  - component: {fileID: 2073184742041340063}
   - component: {fileID: -6493221213029563076}
+  - component: {fileID: 2073184742041340063}
+  - component: {fileID: -7482444325229049111}
   m_Layer: 0
   m_Name: 50 - BLUE Gem
   m_TagString: Untagged
@@ -93,26 +94,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2073184742041340063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85880298717456950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7803f1dc2c6fa242be77ee083a02f34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DiamondPickup
-  sortingActive: 1
-  lifespan: 0.5
-  bobbingAnimation:
-    frequency: 2
-    direction: {x: 0, y: 0.3}
-  experience: 0
-  health: 0
-  diamods: 50
 --- !u!58 &-6493221213029563076
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -149,6 +130,37 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.6875
+--- !u!114 &2073184742041340063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85880298717456950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7803f1dc2c6fa242be77ee083a02f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiamondPickup
+  sortingActive: 1
+  lifespan: 0.5
+  experience: 0
+  health: 0
+  diamods: 50
+--- !u!114 &-7482444325229049111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85880298717456950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10
 --- !u!1 &8574804263367614088
 GameObject:
   m_ObjectHideFlags: 0
