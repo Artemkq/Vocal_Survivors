@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections; // Убедитесь, что добавлено Using System.Collections для IEnumerator
 
 public class RhythmReactor : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class RhythmReactor : MonoBehaviour
 
     private int _targetBeatToStop = -1;
     private bool _areDrumsActive = false;
+
+    public int comboCount = 0;
 
     void Start()
     {
@@ -41,7 +44,7 @@ public class RhythmReactor : MonoBehaviour
             {
                 _mlm.SetLayer("drumsVol", false);
                 _areDrumsActive = false;
-                Debug.Log("Drums Stopped on Beat");
+                // Debug.Log("Drums Stopped on Beat");
             }
         }
     }
@@ -50,6 +53,8 @@ public class RhythmReactor : MonoBehaviour
     {
         if (_bc.IsInBeatWindow)
         {
+            
+            
             // Если попали, планируем остановку через X битов от ТЕКУЩЕГО момента
             _targetBeatToStop = (int)_bc.BeatPosition + beatsToSustain;
 
@@ -57,16 +62,16 @@ public class RhythmReactor : MonoBehaviour
             {
                 _mlm.SetLayer("drumsVol", true);
                 _areDrumsActive = true;
-                Debug.Log("Drums Started!");
+                // Debug.Log("Drums Started!");
             }
 
-            Debug.Log($"Hit! Drums will play until beat: {_targetBeatToStop}");
+            //Debug.Log($"Hit! Drums will play until beat: {_targetBeatToStop}");
         }
         else
         {
             // Штраф за промах: выключаем барабаны на следующем же бите
             _targetBeatToStop = (int)_bc.BeatPosition + 1;
-            Debug.Log("Miss! Drums will cut early.");
+            // Debug.Log("Miss! Drums will cut early.");
         }
     }
 }

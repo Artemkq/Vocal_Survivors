@@ -13,10 +13,11 @@ public class BeatConductor : MonoBehaviour
 
     [Header("Настройка сложности")]
     [Tooltip("Размер окна (в секундах), когда нажатие засчитывается")]
-    public float timingWindow = 0.12f;
+    public float timingWindow = 0.15f;
 
     public float BeatPosition { get; private set; }
     public bool IsInBeatWindow { get; private set; }
+    public bool WasPressedThisWindow { get; private set; }
 
     // Это "событие", на которое будут подписываться другие объекты
     public event Action OnBeat;
@@ -57,6 +58,17 @@ public class BeatConductor : MonoBehaviour
         // Окно допуска
         float distanceFromBeat = Mathf.Abs(BeatPosition - Mathf.Round(BeatPosition)) * _secondsPerBeat;
         IsInBeatWindow = distanceFromBeat <= timingWindow;
+
+        // Если мы вышли из окна бита, сбрасываем флаг нажатия
+        if (!IsInBeatWindow)
+        {
+            WasPressedThisWindow = false;
+        }
+        // Если мы внутри окна и игрок нажал Пробел — запоминаем это
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            WasPressedThisWindow = true;
+        }
     }
 
     // Добавьте этот метод:

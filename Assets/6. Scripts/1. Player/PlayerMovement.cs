@@ -29,6 +29,9 @@ public class PlayerMovement : Sortable
     public GameObject ghostPrefab;
     public float ghostSpawnInterval = 0.03f; // Как часто оставлять след
 
+    public System.Action OnDashStarted;
+    public System.Action OnDashFinished;
+
     public Vector3 ProjectileSpawnPoint
     {
         get
@@ -112,10 +115,16 @@ public class PlayerMovement : Sortable
     {
         if (BeatConductor.Instance == null) return;
 
+        // Проверяем: нажаты ли Space И Shift одновременно для "Blast Dash"
+        bool isSpecialDash = Input.GetKey(KeyCode.LeftShift);
+
         if (BeatConductor.Instance.IsInBeatWindow && _moveTimer <= 0 && _dashCooldownTimer <= 0)
         {
-            // УСПЕХ: Рывок в бит
             RhythmManager.Instance?.AddHit();
+
+            // Оповещаем другие скрипты (например, BlastDash для звука LPF)
+            OnDashStarted?.Invoke();
+
             StartCoroutine(DashRoutine(moveDir.sqrMagnitude > 0 ? moveDir : lastMovedVector, dashDuration, dashDistance));
             _dashCooldownTimer = dashCooldown;
         }
@@ -123,7 +132,7 @@ public class PlayerMovement : Sortable
         {
             // ПРОМАХ: Можно добавить визуальный эффект осечки или сброс комбо
             RhythmManager.Instance?.ResetCombo();
-            Debug.Log("Missed Beat Dash!");
+            // Debug.Log("Missed Beat Dash!");
         }
     }
 
@@ -176,6 +185,9 @@ public class PlayerMovement : Sortable
 
         rb.MovePosition(endPos);
         _moveTimer = 0;
+
+        // В КОНЦЕ РЫВКА: Оповещаем систему приземления
+        OnDashFinished?.Invoke();
     }
 
     // Метод оставлен пустым, чтобы не было ошибок подписки

@@ -30,6 +30,7 @@ public abstract class Weapon : Item
 
         [Header("Other Values")]
         public float damageVariance;
+        public float blastBeatModifier = 1.5f;
 
         [Header("Dont USE FOR NOW Values")] //Нужно придумать применение
         public float chance; 

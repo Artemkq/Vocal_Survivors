@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddba96f8abf7375489cab345be2c2524, type: 3}
+  m_Name: Drummer
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  icon: {fileID: -255066901, guid: 60572901a9aeb6a41b0c942ae9d6cbd1, type: 3}
+  maxLevel: 8
+  evolutionData: []
+  behaviour: DrummerWeapon
+  baseStats:
+    name: Drummer
+    description: Bit and hit
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 4903274624306423283, guid: 3ebe0ffb826eece40a705142c494ede1, type: 3}
+    hitEffect: {fileID: 372242045722072226, guid: 27a4e02d7d78d914e98d2f4bb5783e49, type: 3}
+    procEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    damage: 5
+    area: 3
+    speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
+    cooldown: 2
+    projectileInterval: 0
+    knockback: 2
+    poolLimit: 0
+    damageVariance: 1
+    blastBeatModifier: 1.5
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
+    appliedBuffs: []
+  linearGrowth:
+  - name: 
+    description: 
+    projectilePrefab: {fileID: 0}
+    auraPrefab: {fileID: 0}
+    hitEffect: {fileID: 0}
+    procEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    damage: 0
+    area: 0
+    speed: 0
+    amount: 0
+    duration: 0
+    pierce: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    poolLimit: 0
+    damageVariance: 0
+    blastBeatModifier: 1.5
+    chance: 0
+    criticalMultiplier: 0
+    blockedByWalls: 0
+    appliedBuffs: []
+  randomGrowth: []

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Marcus Thunder Barabanov
+  m_Controller: {fileID: 9100000, guid: a016fdc742c96e242acdcc54467fd1f3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 176556c8d2e64424cb5fc9d906033acc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4baf98971b143a34489b3e84eb42fd4f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 61e11b16198120245ac80f2495d21651, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6a69b7d9cc8b9784e9d7ba2ad4e20319, type: 2}

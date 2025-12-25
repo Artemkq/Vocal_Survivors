@@ -197,7 +197,7 @@ public class MapController : MonoBehaviour
                 // ВАЖНО: Перед вызовом BuildNavMesh мы убеждаемся, что не делаем это слишком часто
                 navMeshSurface.BuildNavMesh();
 
-                Debug.Log($"[Bake] ✓ Сетка обновлена. Чанков в памяти: {spawnedChunks.Count}");
+                // Debug.Log($"[Bake] ✓ Сетка обновлена. Чанков в памяти: {spawnedChunks.Count}");
             }
 
             // 3. ДАЕМ ИГРЕ "ПОДЫШАТЬ" (Это убирает микро-фриз после запекания)

@@ -153,7 +153,7 @@ namespace NavMeshPlus.Extensions
             {
                 CollectSources(it, sources, builder);
             }
-            if (!builder.hideEditorLogs) Debug.Log("Sources " + sources.Count);
+            // if (!builder.hideEditorLogs) Debug.Log("Sources " + sources.Count);
         }
 
         public static void CollectSources(GameObject root, List<NavMeshBuildSource> sources, NavMeshBuilder2dState builder)
@@ -221,7 +221,7 @@ namespace NavMeshPlus.Extensions
                     tilemap.CompressBounds();
                 }
 
-                if (!builder.hideEditorLogs) Debug.Log($"Walkable Bounds [{tilemap.name}]: {tilemap.localBounds}");
+                // if (!builder.hideEditorLogs) Debug.Log($"Walkable Bounds [{tilemap.name}]: {tilemap.localBounds}");
                 var box = BoxBoundSource(NavMeshSurface.GetWorldBounds(tilemap.transform.localToWorldMatrix, tilemap.localBounds));
                 box.area = builder.defaultArea;
                 sources.Add(box);

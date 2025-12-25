@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
         if (newState == GameState.TreasureChest && previousState != GameState.Paused)
         {
             Time.timeScale = 0f; // Pause the game when treasure chest opens
-            Debug.Log("Game paused for treasure chest");
+            // Debug.Log("Game paused for treasure chest");
         }
     }
 
@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
                 MusicLayerManager.Instance.PauseMusic(); // Используем новый метод PauseMusic()
             }
             pauseScreen.SetActive(true);
-            Debug.Log("Game is paused");
+            // Debug.Log("Game is paused");
 
             // !!! УСТАНОВКА ФОКУСА НА КНОПКУ RESUME !!!
             // Сначала сбрасываем текущий выбор, затем устанавливаем новый
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
                 MusicLayerManager.Instance.UnPauseMusic(); // Используем новый метод UnPauseMusic()
             }
             pauseScreen.SetActive(false);
-            Debug.Log("Game is resumed");
+            // Debug.Log("Game is resumed");
 
             // !!! СБРОС ФОКУСА ПРИ ВОЗВРАЩЕНИИ К ГЕЙМПЛЕЮ !!!
             EventSystem.current.SetSelectedGameObject(null);
