@@ -90,8 +90,7 @@ public class EnemyStats : EntityStats
     Collider2D enemyCollider;
     EnemyMovement movement;
     SpriteRenderer sr; // Кэшируем для быстрой смены цвета
-
-    // *** ИЗМЕНЕНО: УДАЛЕН СТАТИЧЕСКИЙ СЧЕТЧИК 'count' ***
+    private float flashTimer;
 
     protected override void Awake()
     {
@@ -164,25 +163,19 @@ public class EnemyStats : EntityStats
 
     public override void TakeDamage(float dmg)
     {
-        // 1. Быстрая проверка: если враг уже "мертв" (в процессе исчезновения), игнорируем урон
         if (enemyCollider != null && !enemyCollider.enabled) return;
 
-        // --- БЛОК BEAT HELL ---
-        float multiplier = 1f;
-        // ОПТИМИЗАЦИЯ: проверка BeatConductor через Instance? (null-conditional)
-        if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
-            multiplier += 1.0f;
-
+        float multiplier = (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow) ? 2.0f : 1.0f;
         float totalDmg = dmg * multiplier;
-        // --- КОНЕЦ БЛОКА ---
-
         health -= totalDmg;
 
         if (totalDmg > 0)
         {
-            // ОПТИМИЗАЦИЯ: Вместо StartCoroutine используем простую смену цвета.
-            // Корутины при массовом уроне создают "мусор" (GC), который тормозит игру.
-            TriggerFlash();
+            // ВМЕСТО StartCoroutine — просто красим и ставим таймер
+            if (sr != null) sr.color = damageColor;
+            flashTimer = damageFlashDuration;
+
+            // ТЕКСТ УРОНА: Временно закомментируй эту строку, чтобы проверить плавность
             GameManager.GenerateFloatingText(Mathf.FloorToInt(totalDmg).ToString(), transform);
         }
 
@@ -215,6 +208,15 @@ public class EnemyStats : EntityStats
         StartCoroutine(DamageFlash());
     }
 
+    void LateUpdate()
+    {
+        if (flashTimer > 0)
+        {
+            flashTimer -= Time.deltaTime;
+            if (flashTimer <= 0 && sr != null)
+                sr.color = Color.white; // Возвращаем обычный цвет
+        }
+    }
 
     public override void RestoreHealth(float amount)
     {
@@ -278,9 +280,12 @@ public class EnemyStats : EntityStats
 
     void OnTriggerStay2D(Collider2D col)
     {
+        // Проверяем урон только раз в 10 кадров (примерно 6 раз в секунду)
+        if (Time.frameCount % 10 != 0) return;
+
         if (enemyCollider == null || !enemyCollider.enabled || actualStats.damage <= 0) return;
 
-        if (col.CompareTag("Player")) // Быстрая проверка по тегу перед GetComponent
+        if (col.CompareTag("Player"))
         {
             if (col.TryGetComponent(out PlayerStats p))
             {
@@ -293,6 +298,4 @@ public class EnemyStats : EntityStats
             }
         }
     }
-
-    // *** ИЗМЕНЕНО: УДАЛЕН МЕТОД ONDESTROY() ***
 }

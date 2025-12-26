@@ -2120,9 +2120,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!4 &360838663
 Transform:
@@ -2200,16 +2200,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   baseMoveSpeed: 3
-  dashDistance: 1.5
+  dashForce: 20
   dashDuration: 0.15
   dashCooldown: 0.2
   moveDir: {x: 0, y: 0}
   lastMovedVector: {x: 0, y: 0}
+  lastHorizontalVector: 0
+  lastVerticalVector: 0
   lastHorizontalDirection: 1
   ghostPrefab: {fileID: 7658433240846687850, guid: b26a2915c3456614198a2e031489b412, type: 3}
   ghostSpawnInterval: 0.03
-  lastHorizontalVector: 0
-  lastVerticalVector: 0
 --- !u!212 &360838668
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3427,7 +3427,6 @@ MonoBehaviour:
   threshold: 0.05
   cooldownBetweenBeats: 0.2
   timingWindow: 0.5
-  currentRmsView: 0
 --- !u!1 &540392634 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3238910564475726808, guid: 9d5a4c89a7d34da45a02a59b7b23b282, type: 3}
@@ -5042,6 +5041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraMovement
   target: {fileID: 360838663}
   offset: {x: 0, y: 0, z: -10}
+  smoothSpeed: 0.05
 --- !u!1001 &900053779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6762,6 +6762,11 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 7521746647412296937, guid: 9d5a4c89a7d34da45a02a59b7b23b282, type: 3}
   m_PrefabInstance: {fileID: 2419233200638798003}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1268217919 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 935513835867443324, guid: 9d5a4c89a7d34da45a02a59b7b23b282, type: 3}
+  m_PrefabInstance: {fileID: 2419233200638798003}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1268656409
 GameObject:
   m_ObjectHideFlags: 0
@@ -8145,6 +8150,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1864655308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1637152740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1637152742}
+  - component: {fileID: 1637152741}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1637152741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637152740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362aec61eb5f3354e83de1ab5d0383fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimplePool
+  pools:
+  - tag: Pipeestrello 1
+    prefab: {fileID: 7060775958896916355, guid: 97317fed6d50f12429413b897618f811, type: 3}
+    size: 200
+  - tag: Pipeestrello 2
+    prefab: {fileID: 7060775958896916355, guid: 7321ee70d7dd28042987b976c37c4de7, type: 3}
+    size: 200
+  - tag: Silver Bat
+    prefab: {fileID: 7060775958896916355, guid: 08260edbceb66474995646c02e59bf88, type: 3}
+    size: 20
+  - tag: Glowing Bat
+    prefab: {fileID: 7060775958896916355, guid: 9897fdddccd28b3468ed4ebd7d874196, type: 3}
+    size: 50
+  - tag: Bat Swarm
+    prefab: {fileID: 7482861473054071616, guid: c57f6ab12da14174ba73526d51215b6f, type: 3}
+    size: 200
+  - tag: Zombie
+    prefab: {fileID: 7060775958896916355, guid: abe2e0f0b439171498df258492005403, type: 3}
+    size: 200
+--- !u!4 &1637152742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637152740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.79681, y: 1.64131, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1639487251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9134,7 +9202,6 @@ MonoBehaviour:
   threshold: 0.05
   cooldownBetweenBeats: 0.3
   timingWindow: 0.5
-  currentRmsView: 0
 --- !u!1001 &1780963875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10227,6 +10294,89 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 948322649637901133, guid: 9f85133037db38a45a84f1a7f1dcad2d, type: 3}
   m_PrefabInstance: {fileID: 1865596570}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1878107682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1878107683}
+  - component: {fileID: 1878107685}
+  - component: {fileID: 1878107684}
+  m_Layer: 5
+  m_Name: DamagePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1878107683
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878107682}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1268217919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1280, y: 720}
+  m_SizeDelta: {x: 2560, y: 1440}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1878107684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878107682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1878107685
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878107682}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1001 &1881926401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13318,7 +13468,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 935513835867443324, guid: 9d5a4c89a7d34da45a02a59b7b23b282, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1878107683}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d5a4c89a7d34da45a02a59b7b23b282, type: 3}
 --- !u!114 &2419233200638798005 stripped
@@ -13362,3 +13515,4 @@ SceneRoots:
   - {fileID: 1846176485}
   - {fileID: 298497132}
   - {fileID: 1825005786}
+  - {fileID: 1637152742}

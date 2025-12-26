@@ -4,10 +4,10 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Base Movement")]
-    public float baseMoveSpeed = 3f;
+    public float baseMoveSpeed = 5f;
 
-    [Header("Beat Dash (Shift)")]
-    public float dashDistance = 4f;
+    [Header("Beat Dash")]
+    public float dashForce = 20f; // Перешли на силу для плавности
     public float dashDuration = 0.15f;
     public float dashCooldown = 0.2f;
 
@@ -16,35 +16,35 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private PlayerStats player;
+    private SpriteRenderer sr;
 
     [HideInInspector] public Vector2 moveDir;
     [HideInInspector] public Vector2 lastMovedVector;
-    [HideInInspector] public float lastHorizontalDirection = 1f;
-
-    public System.Action OnDashStarted;
-    public System.Action OnDashFinished;
-
-    [Header("VFX")]
-    public GameObject ghostPrefab;
-    public float ghostSpawnInterval = 0.03f;
-
-    // Добавьте эти переменные, которые запрашивают ваши другие скрипты
     [HideInInspector] public float lastHorizontalVector;
     [HideInInspector] public float lastVerticalVector;
+    [HideInInspector] public float lastHorizontalDirection = 1f; // Добавьте эту строку
+
+
+    [Header("VFX (Object Pooling Recommended)")]
+    public GameObject ghostPrefab;
+    public float ghostSpawnInterval = 0.05f; // Увеличили интервал для экономии ресурсов
 
     void Start()
     {
         player = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         lastMovedVector = Vector2.right;
 
-        if (BeatConductor.Instance != null)
-            BeatConductor.Instance.OnBeat -= PerformDash;
+        // ВАЖНО: Убедитесь, что в Rigidbody2D включена Interpolation!
     }
 
     void Update()
     {
+        if (GameManager.instance.isGameOver || GameManager.instance.isPaused) return;
+
         InputManagement();
+
         if (_moveTimer > 0) _moveTimer -= Time.deltaTime;
         if (_dashCooldownTimer > 0) _dashCooldownTimer -= Time.deltaTime;
     }
@@ -54,61 +54,40 @@ public class PlayerMovement : MonoBehaviour
         if (_moveTimer <= 0) ApplyBaseMovement();
     }
 
-    // Добавьте это свойство для спавна снарядов (ошибки в ProjectileWeapon и SwordSlashWeapon)
-    public Vector3 ProjectileSpawnPoint
-    {
-        get
-        {
-            SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                return spriteRenderer.bounds.center;
-            }
-            return transform.position;
-        }
-    }
-
     void InputManagement()
     {
-        if (GameManager.instance.isGameOver || GameManager.instance.isPaused) return;
-
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
         moveDir = new Vector2(moveX, moveY).normalized;
 
-        // ОБНОВЛЕНИЕ: Заполняем данные для аниматора и оружия
         if (moveX != 0)
         {
-            lastHorizontalDirection = moveX;
-            lastHorizontalVector = moveX; // Для PlayerAnimator
-        }
-        if (moveY != 0)
-        {
-            lastVerticalVector = moveY; // Для PlayerAnimator
+            lastHorizontalVector = moveX;
+            lastHorizontalDirection = moveX; // Добавьте эту строку здесь
         }
 
+        if (moveY != 0) lastVerticalVector = moveY;
         if (moveDir.sqrMagnitude > 0) lastMovedVector = moveDir;
 
+        // Рывок на Пробел (в бит)
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            bool alreadyAttempted = BeatConductor.Instance.HasAttemptedThisBeat;
-            BeatConductor.Instance.RegisterPlayerTap();
-
-            if (!alreadyAttempted)
+            if (BeatConductor.Instance != null)
             {
-                TryDash();
+                bool alreadyAttempted = BeatConductor.Instance.HasAttemptedThisBeat;
+                BeatConductor.Instance.RegisterPlayerTap();
+
+                if (!alreadyAttempted) TryDash();
             }
         }
     }
 
     void TryDash()
     {
-        // Теперь рывок срабатывает только если кондуктор подтвердил окно
         if (BeatConductor.Instance.WasPressedThisWindow && _moveTimer <= 0 && _dashCooldownTimer <= 0)
         {
             RhythmManager.Instance?.AddHit();
-            OnDashStarted?.Invoke();
-            StartCoroutine(DashRoutine(moveDir.sqrMagnitude > 0 ? moveDir : lastMovedVector, dashDuration, dashDistance));
+            StartCoroutine(DashRoutine(moveDir.sqrMagnitude > 0 ? moveDir : lastMovedVector));
             _dashCooldownTimer = dashCooldown;
         }
         else if (!BeatConductor.Instance.IsInBeatWindow)
@@ -119,43 +98,39 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyBaseMovement()
     {
-        if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
         rb.linearVelocity = moveDir * baseMoveSpeed;
     }
 
-    private IEnumerator DashRoutine(Vector2 direction, float duration, float distance)
+    private IEnumerator DashRoutine(Vector2 direction)
     {
-        _moveTimer = duration;
-        Vector2 startPos = rb.position;
-        Vector2 endPos = startPos + direction.normalized * distance;
+        _moveTimer = dashDuration;
         float elapsed = 0f;
         float lastGhostTime = 0f;
-        SpriteRenderer playerSR = GetComponentInChildren<SpriteRenderer>();
 
-        rb.linearVelocity = Vector2.zero;
+        // Используем физическую скорость вместо MovePosition для плавности
+        rb.linearVelocity = direction.normalized * (dashForce);
 
-        while (elapsed < duration)
+        while (elapsed < dashDuration)
         {
             elapsed += Time.deltaTime;
-            rb.MovePosition(Vector2.Lerp(startPos, endPos, elapsed / duration));
 
-            if (elapsed - lastGhostTime >= ghostSpawnInterval)
+            // Спавн призраков (ВНИМАНИЕ: тут все еще Instantiate, нужно будет заменить на пул!)
+            if (elapsed - lastGhostTime >= ghostSpawnInterval && ghostPrefab != null)
             {
-                GameObject ghost = Instantiate(ghostPrefab);
-                ghost.GetComponent<DashGhost>().Init(playerSR.sprite, transform.position, transform.rotation, playerSR.transform.localScale, playerSR.flipX);
+                GameObject ghost = Instantiate(ghostPrefab, transform.position, transform.rotation);
+                if (ghost.TryGetComponent(out DashGhost dg))
+                {
+                    dg.Init(sr.sprite, transform.position, transform.rotation, sr.transform.localScale, sr.flipX);
+                }
                 lastGhostTime = elapsed;
             }
             yield return null;
         }
 
-        rb.MovePosition(endPos);
+        rb.linearVelocity = Vector2.zero; // Резкая остановка после рывка
         _moveTimer = 0;
-        OnDashFinished?.Invoke();
     }
 
-    void PerformDash() { }
+    // Точка спавна снарядов для оружия
+    public Vector3 ProjectileSpawnPoint => sr != null ? sr.bounds.center : transform.position;
 }

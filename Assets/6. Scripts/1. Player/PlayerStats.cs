@@ -303,6 +303,17 @@ public class PlayerStats : EntityStats
     {
         if (!GameManager.instance.isGameOver)
         {
+            // 1. Находим сборщик и переносим алмазы из "сумки" в "сейф" (в памяти)
+            PlayerCollector collector = GetComponentInChildren<PlayerCollector>();
+            if (collector != null)
+            {
+                collector.SaveDiamondsToStash();
+            }
+
+            // 2. Вызываем финальную запись на диск (через ваш SaveManager)
+            SaveManager.Save();
+
+            // 3. Показываем UI и останавливаем игру
             GameManager.instance.AssignLevelReachedUI(level);
             GameManager.instance.GameOver();
         }

@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-
-    //References
+    // Ссылки
     Animator am;
     PlayerMovement pm;
     SpriteRenderer sr;
+
+    // Кэшируем ID параметра (это работает быстрее, чем текст "Move")
+    static readonly int MoveParam = Animator.StringToHash("Move");
 
     void Start()
     {
@@ -15,43 +17,35 @@ public class PlayerAnimator : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-    
     void Update()
     {
-        // Игнорируем анимацию во время паузы или завершения игры
-        if (GameManager.instance.isGameOver || GameManager.instance.isPaused)
+        // Проверка состояния игры (оптимизировано)
+        if (GameManager.instance == null || GameManager.instance.isGameOver || GameManager.instance.isPaused)
         {
-            am.SetBool("Move", false);
+            am.SetBool(MoveParam, false);
             return;
         }
 
-        if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
+        // Проверяем, движется ли игрок
+        bool isMoving = pm.moveDir.sqrMagnitude > 0.01f;
+        am.SetBool(MoveParam, isMoving);
+
+        if (isMoving)
         {
-            am.SetBool ("Move", true);
             SpriteDirectionChecker();
-        }
-        else
-        {
-            am.SetBool("Move", false);
         }
     }
 
     void SpriteDirectionChecker()
     {
-        if (pm.lastHorizontalVector < 0)
-        {
-            sr.flipX = true;
-        }
-        else
-        {
-            sr.flipX = false;
-        }
+        // Упрощенная логика поворота спрайта
+        if (pm.lastHorizontalVector < 0) sr.flipX = true;
+        else if (pm.lastHorizontalVector > 0) sr.flipX = false;
     }
 
     public void SetAnimatorController(RuntimeAnimatorController c)
     {
-        if (!am) am = GetComponent<Animator>();
+        if (am == null) am = GetComponent<Animator>();
         am.runtimeAnimatorController = c;
     }
-
 }

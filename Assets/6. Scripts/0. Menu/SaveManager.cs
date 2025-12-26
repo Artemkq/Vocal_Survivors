@@ -1,22 +1,21 @@
 using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
 
-/// <summary>
-/// A simple SaveManager designed to save the total number of diamonds the player has. 
-/// In later parts, this will be used to store all the player's save data, but we are 
-/// keeping it simple for now.
-/// </summary>
- 
 public class SaveManager
 {
+    // Расширяем класс данных для вашей меты (Гараж, Персонажи)
+    [System.Serializable]
     public class GameData
     {
-        public float diamonds;
+        public float diamonds; // Валюта
+        public List<string> unlockedItems = new List<string>(); // Купленные апгрейды в Гараже
+        public int highscore; // Лучший счет
     }
 
     const string SAVE_FILE_NAME = "SaveData.json";
-
     static GameData lastLoadedGameData;
+
     public static GameData LastLoadedGameData
     {
         get
@@ -26,48 +25,46 @@ public class SaveManager
         }
     }
 
-    public static string GetSavePath()
-    {
+    public static string GetSavePath() => Path.Combine(Application.persistentDataPath, SAVE_FILE_NAME);
 
-        return string.Format("{0}/{1}", Application.persistentDataPath, SAVE_FILE_NAME);
-    }
-
-    // This function, when called without an argument, will save into the last loaded
-    // game file (this is how you should be calling Save() 99% of the time.
-    // But you can optionally also provide an argument to it to if you want to overwrite the save completely.
     public static void Save(GameData data = null)
     {
-        // Ensures that the save always works.
         if (data == null)
         {
-            // If there is no last loaded game, we load the game to populate
-            // lastLoadedGameData first, then we save.
             if (lastLoadedGameData == null) Load();
             data = lastLoadedGameData;
         }
-        File.WriteAllText(GetSavePath(), JsonUtility.ToJson(data));
+
+        try
+        {
+            string json = JsonUtility.ToJson(data, true); // true сделает файл читаемым для человека
+            File.WriteAllText(GetSavePath(), json);
+            // В идеале в 2025 году это стоит делать через File.WriteAllTextAsync, 
+            // но для начала хватит и этого, если вызывать Save() в конце уровня.
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Ошибка сохранения: " + e.Message);
+        }
     }
 
-    public static GameData Load(bool usePreviousLoadIfAvailable = false)
+    public static GameData Load()
     {
-        // usePreviousLoadIfAvailable is meant to speed up load calls,
-        // since we don't need to read the save file every time we want to access data.
-        if (usePreviousLoadIfAvailable && lastLoadedGameData != null)
-            return lastLoadedGameData;
-
-        // Retrieve the load in the hard drive.
         string path = GetSavePath();
         if (File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            lastLoadedGameData = JsonUtility.FromJson<GameData>(json);
-            if (lastLoadedGameData == null) lastLoadedGameData = new GameData();
+            try
+            {
+                string json = File.ReadAllText(path);
+                lastLoadedGameData = JsonUtility.FromJson<GameData>(json);
+            }
+            catch
+            {
+                lastLoadedGameData = new GameData();
+            }
         }
-        else
-        {
-            lastLoadedGameData = new GameData();
-        }
+
+        if (lastLoadedGameData == null) lastLoadedGameData = new GameData();
         return lastLoadedGameData;
     }
 }
-

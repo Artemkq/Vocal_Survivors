@@ -65,22 +65,22 @@ public class WaveManager : MonoBehaviour
             {
                 if (!CanSpawn()) continue;
 
+                // ОПТИМИЗАЦИЯ: Сначала проверяем, есть ли свободный объект в пуле, 
+                // чтобы не делать лишних расчетов позиций и NavMesh
                 Vector3 spawnPos = GeneratePosition();
-                spawnPos.z = 0; // Убеждаемся, что Z координата для 2D корректна
+                spawnPos.z = 0;
 
-                // Проверяем, запечен ли NavMesh в этой точке (радиус поиска 2 единицы)
                 UnityEngine.AI.NavMeshHit hit;
+                // Делаем SamplePosition только если точка действительно нужна
                 if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out hit, 2.0f, UnityEngine.AI.NavMesh.AllAreas))
                 {
-                    // Спавним строго в точку, которую одобрил NavMesh
-                    Instantiate(prefab, hit.position, Quaternion.identity);
-                    currentWaveSpawnCount++;
-                }
-                else
-                {
-                    // Если NavMesh еще не готов (MapController в процессе Bake), 
-                    // не спавним, чтобы не вызвать ошибку агента.
-                    // Debug.Log("Skipping spawn: NavMesh not ready yet."); 
+                    // ИСПОЛЬЗУЕМ ПУЛ ВМЕСТО INSTANTIATE
+                    GameObject enemy = ObjectPooler.Instance.GetFromPool(prefab, hit.position, Quaternion.identity);
+
+                    if (enemy != null)
+                    {
+                        currentWaveSpawnCount++;
+                    }
                 }
             }
 

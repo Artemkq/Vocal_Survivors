@@ -110,7 +110,10 @@ public class EnemySpawner : MonoBehaviour
                 if (enemyGroup.spawnCount < enemyGroup.enemyCount)
                 {
                     //Spawn the enemy at a random position close to the player
-                    Instantiate(enemyGroup.enemyPrefab, player.position + relativeSpawnPoints[Random.Range(0, relativeSpawnPoints.Count)].position, Quaternion.identity);
+                    Vector3 spawnPos = player.position + relativeSpawnPoints[Random.Range(0, relativeSpawnPoints.Count)].position;
+
+                    // Берем из пула вместо создания нового
+                    GameObject enemy = ObjectPooler.Instance.GetFromPool(enemyGroup.enemyPrefab, spawnPos, Quaternion.identity);
 
                     enemyGroup.spawnCount++;
                     waves[currentWaveCount].spawnCount++;

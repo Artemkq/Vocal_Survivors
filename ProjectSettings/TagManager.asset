@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Prop
   - Flying
+  - Diamonds
   layers:
   - Default
   - TransparentFX

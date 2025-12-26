@@ -83,7 +83,10 @@ public class EnemyMovement : MonoBehaviour
     protected virtual void ApplyBeatImpulse()
     {
         if (stats != null)
+        {
+            // Устанавливаем скорость сразу
             currentBeatSpeed = stats.Actual.moveSpeed * speedBoostMultiplier;
+        }
     }
 
     protected virtual void Update()
@@ -99,18 +102,26 @@ public class EnemyMovement : MonoBehaviour
             if (agent != null && !agent.enabled)
             {
                 agent.enabled = true;
-                // Warp — дорогая операция. Вызываем только если сдвинулись далеко.
                 if (Vector3.Distance(agent.nextPosition, transform.position) > 0.1f)
                     agent.Warp(transform.position);
             }
 
-            // Если рывок слишком слабый, уменьшите decelerationSpeed (например, до 4 или 5)
+            // ОПТИМИЗАЦИЯ: Вместо Lerp каждый кадр, делаем простое затухание 
+            // только если текущая скорость выше базовой
             float baseSpeed = (stats != null) ? stats.Actual.moveSpeed : 1f;
-            currentBeatSpeed = Mathf.Lerp(currentBeatSpeed, baseSpeed, Time.deltaTime * decelerationSpeed);
+
+            if (currentBeatSpeed > baseSpeed)
+            {
+                currentBeatSpeed -= decelerationSpeed * Time.deltaTime;
+                if (currentBeatSpeed < baseSpeed) currentBeatSpeed = baseSpeed;
+            }
+            else
+            {
+                currentBeatSpeed = baseSpeed;
+            }
 
             Move();
 
-            // ОПТИМИЗАЦИЯ: Проверяем границы не каждый кадр, а раз в 10 кадров
             if (Time.frameCount % 10 == 0) HandleOutOffFrameAction();
         }
     }
