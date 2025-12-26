@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
   - component: {fileID: 3561195810715900672}
+  - component: {fileID: -5702390131330635686}
   m_Layer: 8
   m_Name: Green Mudman
   m_TagString: Enemy
@@ -322,6 +323,8 @@ MonoBehaviour:
   outOffFrameAction: 1
   knockbackVariance: 2
   giveExperienceOnDeath: 1
+  speedBoostMultiplier: 4
+  decelerationSpeed: 8
 --- !u!114 &-8389116677048107095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,3 +382,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
+--- !u!114 &-5702390131330635686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10

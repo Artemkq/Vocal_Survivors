@@ -1,5 +1,3 @@
-// Отвечает за синхронизацию игровых событий с музыкой на основе битов.
-
 using UnityEngine;
 using System;
 
@@ -8,72 +6,89 @@ public class BeatConductor : MonoBehaviour
     public static BeatConductor Instance;
 
     [Header("Настройки музыки")]
-    public float bpm = 120f;
     public AudioSource musicSource;
 
+    [Header("Анализ барабанов")]
+    public AudioSource drumsSource;
+    [Range(0.01f, 1.0f)] public float threshold = 0.2f; // Порог громкости для удара
+    public float cooldownBetweenBeats = 0.2f; // Минимальное время между ударами, чтобы не частило
+
     [Header("Настройка сложности")]
-    [Tooltip("Размер окна (в секундах), когда нажатие засчитывается")]
     public float timingWindow = 0.15f;
 
-    public float BeatPosition { get; private set; }
+    [Header("Отладка (Debug)")]
+    [Tooltip("Текущая громкость барабанов (смотрите сюда при запуске)")]
+    public float currentRmsView;
+
     public bool IsInBeatWindow { get; private set; }
     public bool WasPressedThisWindow { get; private set; }
 
-    // Это "событие", на которое будут подписываться другие объекты
     public event Action OnBeat;
 
-    private float _secondsPerBeat;
-    private int _lastReportedBeat;
+    private float[] _samples = new float[256]; // Объявлено в начале класса
+    private float _lastBeatTime;
+    private float _beatTimer; // Сколько времени еще открыто окно после удара
 
     void Awake()
     {
         Instance = this;
-        _secondsPerBeat = 60f / bpm;
     }
 
     void Update()
     {
         if (!musicSource.isPlaying) return;
 
-        // Рассчитываем текущую позицию в битах
-        float currentBeatPosition = musicSource.time / _secondsPerBeat;
+        AnalyzeDrums();
+        HandleInput();
+    }
 
-        // ПРОВЕРКА НА ЛУП (LOOP):
-        // Если текущий бит стал меньше предыдущего зафиксированного, 
-        // значит музыка началась заново.
-        if (currentBeatPosition < _lastReportedBeat)
+    private void AnalyzeDrums()
+    {
+        // Анализируем работающую дорожку барабанов
+        drumsSource.GetOutputData(_samples, 0);
+
+        float sum = 0;
+        for (int i = 0; i < _samples.Length; i++)
         {
-            _lastReportedBeat = -1; // Сбрасываем счетчик для нового круга
+            sum += _samples[i] * _samples[i];
         }
 
-        BeatPosition = currentBeatPosition;
+        float rmsValue = Mathf.Sqrt(sum / _samples.Length);
+        currentRmsView = rmsValue;
 
-        // Проверяем: наступил ли новый целый бит?
-        if ((int)BeatPosition > _lastReportedBeat)
+        // Детектор удара
+        if (rmsValue > threshold && Time.time > _lastBeatTime + cooldownBetweenBeats)
         {
-            _lastReportedBeat = (int)BeatPosition;
-            OnBeat?.Invoke();
+            TriggerBeat();
         }
 
-        // Окно допуска
-        float distanceFromBeat = Mathf.Abs(BeatPosition - Mathf.Round(BeatPosition)) * _secondsPerBeat;
-        IsInBeatWindow = distanceFromBeat <= timingWindow;
-
-        // Если мы вышли из окна бита, сбрасываем флаг нажатия
-        if (!IsInBeatWindow)
+        // Окно нажатия
+        if (_beatTimer > 0)
         {
+            _beatTimer -= Time.deltaTime;
+            IsInBeatWindow = true;
+        }
+        else
+        {
+            IsInBeatWindow = false;
             WasPressedThisWindow = false;
-        }
-        // Если мы внутри окна и игрок нажал Пробел — запоминаем это
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            WasPressedThisWindow = true;
         }
     }
 
-    // Добавьте этот метод:
-    public float GetSecondsPerBeat()
+    private void TriggerBeat()
     {
-        return 60f / bpm;
+        _lastBeatTime = Time.time;
+        _beatTimer = timingWindow; // Открываем окно на заданное время
+
+        OnBeat?.Invoke(); // Вызываем атаку оружия
+        // Debug.Log("Drum Hit Detected!");
+    }
+
+    private void HandleInput()
+    {
+        if (IsInBeatWindow && Input.GetKeyDown(KeyCode.Space))
+        {
+            WasPressedThisWindow = true;
+        }
     }
 }

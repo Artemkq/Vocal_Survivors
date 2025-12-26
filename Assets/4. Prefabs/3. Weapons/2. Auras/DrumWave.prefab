@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3242460830692733772}
   - component: {fileID: 4903274624306423283}
-  - component: {fileID: 1805974403688204507}
   m_Layer: 0
   m_Name: DrumWave
   m_TagString: Untagged
@@ -46,45 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10c2c09495eb0d47a300ffdf12fea79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DrumWave
-  owner: {fileID: 0}
-  weapon: {fileID: 0}
   lifeTime: 0.3
---- !u!58 &1805974403688204507
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954297577649870085}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
 --- !u!1 &5632408321264821901
 GameObject:
   m_ObjectHideFlags: 0

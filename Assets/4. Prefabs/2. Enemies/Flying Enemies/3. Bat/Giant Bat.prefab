@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
   - component: {fileID: -7540180791332140694}
+  - component: {fileID: -400985323898465350}
   m_Layer: 9
   m_Name: Giant Bat
   m_TagString: Enemy
@@ -348,3 +349,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
+--- !u!114 &-400985323898465350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10

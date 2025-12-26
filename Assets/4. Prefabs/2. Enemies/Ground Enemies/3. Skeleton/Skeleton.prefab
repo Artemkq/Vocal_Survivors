@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
   - component: {fileID: 1948191551359531650}
+  - component: {fileID: -6108513541098084793}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Enemy
@@ -381,3 +382,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
   sortingActive: 1
+--- !u!114 &-6108513541098084793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060775958896916355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbc4ff8c16038c4ba7fa5d48258cd1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
+  pulseSize: 1.15
+  returnSpeed: 10

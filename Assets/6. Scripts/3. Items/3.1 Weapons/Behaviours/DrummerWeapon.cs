@@ -9,29 +9,57 @@ public class DrummerWeapon : Weapon
     {
         if (!CanAttack()) return false;
 
-        Aura waveObj = Instantiate(currentStats.auraPrefab, owner.transform.position, Quaternion.identity);
-        waveObj.weapon = this;
-        waveObj.owner = owner;
+        bool isPerfect = BeatConductor.Instance.WasPressedThisWindow;
+        float finalRadius = isPerfect ? GetArea() * perfectAreaMultiplier : GetArea();
+        Color waveColor = isPerfect ? Color.red : Color.white;
 
-        DrumWave drumWave = waveObj.GetComponent<DrumWave>();
-        if (drumWave != null)
+        // 1. УРОН
+        DealDamageInArea(finalRadius);
+
+        // 2. ВИЗУАЛ
+        // Берем данные из currentStats.auraPrefab, но работаем с ним как с GameObject
+        if (currentStats.auraPrefab != null)
         {
-            // Проверяем: либо кнопка нажата ПРЯМО СЕЙЧАС, 
-            // либо она была нажата чуть ранее в этом же окне бита.
-            bool isPerfect = BeatConductor.Instance.WasPressedThisWindow ||
-                             (BeatConductor.Instance.IsInBeatWindow && Input.GetKey(KeyCode.Space));
+            // Используем gameObject префаба напрямую
+            GameObject visualObj = Instantiate(currentStats.auraPrefab.gameObject, owner.transform.position, Quaternion.identity);
 
-            if (isPerfect)
+            // Сразу задаем масштаб, чтобы его было видно, даже если скрипт не сработает
+            visualObj.transform.localScale = new Vector3(finalRadius, finalRadius, 1);
+
+            // Проверяем наличие скрипта DrumWave для покраски
+            DrumWave dw = visualObj.GetComponent<DrumWave>();
+            if (dw != null)
             {
-                drumWave.SetupWave(GetArea() * perfectAreaMultiplier, Color.red);
+                dw.SetupWave(finalRadius, waveColor);
             }
             else
             {
-                drumWave.SetupWave(GetArea(), Color.white);
+                // Если скрипта нет, удалим объект сами через 0.5 сек, чтобы не засорять память
+                Destroy(visualObj, 0.5f);
             }
+        }
+        else
+        {
+            Debug.LogWarning("Aura Prefab не назначен в WeaponData!");
         }
 
         ActivateCooldown();
         return true;
+    }
+
+    private void DealDamageInArea(float radius)
+    {
+        // Physics2D.OverlapCircleAll — самый быстрый способ найти врагов в радиусе
+        Collider2D[] targets = Physics2D.OverlapCircleAll(owner.transform.position, radius);
+
+        foreach (Collider2D t in targets)
+        {
+            // Используем вашу логику урона
+            if (t.TryGetComponent(out EnemyStats es))
+            {
+                es.TakeDamage(GetDamage(), owner.transform.position);
+                ApplyBuffs(es);
+            }
+        }
     }
 }

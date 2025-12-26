@@ -6,53 +6,67 @@ public class RhythmUI : MonoBehaviour
     [Header("Ссылки на элементы UI")]
     public RectTransform leftFillBar;
     public RectTransform rightFillBar;
-    public Image centerTarget;    // Объект в центре (ваша уникальная иконка)
+    public Image centerTarget;
 
     [Header("Настройки")]
-    [Tooltip("Начальное смещение полос от центра (например, 200px)")]
-    public float startXOffset = 600f;
-    public Color hitColor = Color.green; // Цвет в "окне"
-    public Color missColor = Color.white; // Цвет вне "окна"
+    public float startXOffset = 200f; // На сколько разлетаются полоски
+    public float returnSpeed = 10f;   // Скорость возвращения к центру
+    public Color hitColor = Color.red;
+    public Color missColor = Color.white;
 
-    // Переменная для хранения текущей позиции в доле бита (от 0.0 до 1.0)
-    private float _currentFraction;
+    private float _currentOffset;
+
+    void Start()
+    {
+        // Подписываемся на событие удара барабана
+        if (BeatConductor.Instance != null)
+            BeatConductor.Instance.OnBeat += FlashUI;
+    }
+
+    void FlashUI()
+    {
+        // В момент удара выталкиваем полоски на максимум
+        _currentOffset = startXOffset;
+    }
 
     void Update()
     {
         if (BeatConductor.Instance == null) return;
 
-        // Расчет позиции в такте (от 0.0 до 1.0)
-        _currentFraction = BeatConductor.Instance.BeatPosition % 1f;
+        // 1. Плавно возвращаем полоски к центру (0)
+        _currentOffset = Mathf.Lerp(_currentOffset, 0f, Time.deltaTime * returnSpeed);
 
-        // 1. Движение полос от края к центру
-        // Lerp от начального смещения (startOffset) до 0 (центра)
-        float currentXPosition = Mathf.Lerp(startXOffset, 0f, _currentFraction);
+        // Устанавливаем позиции
+        leftFillBar.anchoredPosition = new Vector2(-_currentOffset, leftFillBar.anchoredPosition.y);
+        rightFillBar.anchoredPosition = new Vector2(_currentOffset, rightFillBar.anchoredPosition.y);
 
-        // Устанавливаем позиции. Левая полоса двигается в минус по X, правая в плюс по X.
-        // При _currentFraction = 0f, они на startXOffset. При _currentFraction = 1f, они в центре (0f).
-        leftFillBar.anchoredPosition = new Vector2(-currentXPosition, leftFillBar.anchoredPosition.y);
-        rightFillBar.anchoredPosition = new Vector2(currentXPosition, rightFillBar.anchoredPosition.y);
+        // 2. Прозрачность зависит от удаления (чем дальше от центра, тем прозрачнее)
+        float alpha = _currentOffset / startXOffset;
+        SetAlpha(leftFillBar.GetComponent<Image>(), alpha);
+        SetAlpha(rightFillBar.GetComponent<Image>(), alpha);
 
-        // 2. Плавное исчезание при приближении к центру
-        // Мы хотим, чтобы они исчезали в конце цикла (когда _currentFraction близко к 1.0)
-        // Используем степень (_currentFraction^2) для более резкого исчезания в самом конце
-        float alpha = Mathf.Lerp(1f, 0f, Mathf.Pow(_currentFraction, 2));
-
-        Color leftColor = leftFillBar.GetComponent<Image>().color;
-        leftColor.a = alpha;
-        leftFillBar.GetComponent<Image>().color = leftColor;
-
-        Color rightColor = rightFillBar.GetComponent<Image>().color;
-        rightColor.a = alpha;
-        rightFillBar.GetComponent<Image>().color = rightColor;
-
-        // 3. Подсветка центрального индикатора
-        if (BeatConductor.Instance.IsInBeatWindow)
+        // 3. Подсветка центра (попадание в бит)
+        // Если игрок нажал пробел в окне — красим в красный (hitColor)
+        if (BeatConductor.Instance.WasPressedThisWindow)
         {
-            centerTarget.color = hitColor;        }
+            centerTarget.color = hitColor;
+        }
         else
         {
             centerTarget.color = missColor;
         }
+    }
+
+    void SetAlpha(Image img, float a)
+    {
+        Color c = img.color;
+        c.a = a;
+        img.color = c;
+    }
+
+    private void OnDestroy()
+    {
+        if (BeatConductor.Instance != null)
+            BeatConductor.Instance.OnBeat -= FlashUI;
     }
 }

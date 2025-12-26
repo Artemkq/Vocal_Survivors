@@ -35,7 +35,7 @@ MonoBehaviour:
     amount: 0
     duration: 0
     pierce: 0
-    cooldown: 2
+    cooldown: 1
     projectileInterval: 0
     knockback: 2
     poolLimit: 0

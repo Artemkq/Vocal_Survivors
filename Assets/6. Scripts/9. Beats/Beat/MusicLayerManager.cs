@@ -24,8 +24,8 @@ public class MusicLayerManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        // Инициализируем целевые значения (по умолчанию всё тихо, кроме базы)
-        foreach (var p in _params) _targetVolumes[p] = -80f;
+        // Инициализируем целевые значения (по умолчанию всё на нуле)
+        foreach (var p in _params) _targetVolumes[p] = 0f;
     }
 
     void Start()
@@ -34,7 +34,7 @@ public class MusicLayerManager : MonoBehaviour
         SetLayer("vocalsVol", true);
         SetLayer("otherVol", true);
         SetLayer("bassVol", true);
-        SetLayer("drumsVol", false);
+        SetLayer("drumsVol", true); // ИЗМЕНЕНО: ставим true вместо false
         SetMasterVolume(0f);
     }
 
