@@ -10,59 +10,46 @@ public class BeatConductor : MonoBehaviour
 
     [Header("Анализ барабанов")]
     public AudioSource drumsSource;
-    [Range(0.01f, 1.0f)] public float threshold = 0.2f; // Порог громкости для удара
-    public float cooldownBetweenBeats = 0.2f; // Минимальное время между ударами, чтобы не частило
+    [Range(0.01f, 1.0f)] public float threshold = 0.2f;
+    public float cooldownBetweenBeats = 0.2f;
 
     [Header("Настройка сложности")]
-    public float timingWindow = 0.15f;
+    public float timingWindow = 0.5f;
 
     [Header("Отладка (Debug)")]
-    [Tooltip("Текущая громкость барабанов (смотрите сюда при запуске)")]
     public float currentRmsView;
 
     public bool IsInBeatWindow { get; private set; }
     public bool WasPressedThisWindow { get; private set; }
+    public bool HasAttemptedThisBeat { get; private set; } // Флаг блокировки спама
 
     public event Action OnBeat;
 
-    private float[] _samples = new float[256]; // Объявлено в начале класса
+    private float[] _samples = new float[256];
     private float _lastBeatTime;
-    private float _beatTimer; // Сколько времени еще открыто окно после удара
+    private float _beatTimer;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+    void Awake() => Instance = this;
 
     void Update()
     {
         if (!musicSource.isPlaying) return;
-
         AnalyzeDrums();
-        HandleInput();
     }
 
     private void AnalyzeDrums()
     {
-        // Анализируем работающую дорожку барабанов
         drumsSource.GetOutputData(_samples, 0);
-
         float sum = 0;
-        for (int i = 0; i < _samples.Length; i++)
-        {
-            sum += _samples[i] * _samples[i];
-        }
-
+        for (int i = 0; i < _samples.Length; i++) sum += _samples[i] * _samples[i];
         float rmsValue = Mathf.Sqrt(sum / _samples.Length);
         currentRmsView = rmsValue;
 
-        // Детектор удара
         if (rmsValue > threshold && Time.time > _lastBeatTime + cooldownBetweenBeats)
         {
             TriggerBeat();
         }
 
-        // Окно нажатия
         if (_beatTimer > 0)
         {
             _beatTimer -= Time.deltaTime;
@@ -71,22 +58,33 @@ public class BeatConductor : MonoBehaviour
         else
         {
             IsInBeatWindow = false;
+            // Сбрасываем всё, когда окно полностью закрылось
             WasPressedThisWindow = false;
+            HasAttemptedThisBeat = false;
         }
     }
 
     private void TriggerBeat()
     {
         _lastBeatTime = Time.time;
-        _beatTimer = timingWindow; // Открываем окно на заданное время
+        _beatTimer = timingWindow;
 
-        OnBeat?.Invoke(); // Вызываем атаку оружия
-        // Debug.Log("Drum Hit Detected!");
+        // Сброс состояния для нового удара
+        WasPressedThisWindow = false;
+        HasAttemptedThisBeat = false;
+
+        OnBeat?.Invoke();
     }
 
-    private void HandleInput()
+    // Централизованный метод регистрации нажатия
+    public void RegisterPlayerTap()
     {
-        if (IsInBeatWindow && Input.GetKeyDown(KeyCode.Space))
+        // Если уже была попытка в этом окне — игнорируем
+        if (HasAttemptedThisBeat) return;
+
+        HasAttemptedThisBeat = true; // Сжигаем попытку
+
+        if (IsInBeatWindow)
         {
             WasPressedThisWindow = true;
         }

@@ -40,6 +40,7 @@ MonoBehaviour:
     knockback: 1
     poolLimit: 50
     damageVariance: 3
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -95,6 +97,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -122,6 +125,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -149,6 +153,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -176,6 +181,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -203,6 +209,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0
@@ -230,6 +237,7 @@ MonoBehaviour:
     knockback: 0
     poolLimit: 0
     damageVariance: 0
+    blastBeatModifier: 1.5
     chance: 0
     criticalMultiplier: 0
     blockedByWalls: 0

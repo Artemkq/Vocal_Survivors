@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 6806826513969953154}
   - component: {fileID: 469592765507477016}
   - component: {fileID: -1544695834632213320}
+  - component: {fileID: -2716625716794535526}
   m_Layer: 0
   m_Name: 3 - Treasure Chest
   m_TagString: Untagged
@@ -261,3 +262,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BeatPulser
   pulseSize: 1.15
   returnSpeed: 10
+--- !u!114 &-2716625716794535526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906560445682621277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
+  sortingActive: 1

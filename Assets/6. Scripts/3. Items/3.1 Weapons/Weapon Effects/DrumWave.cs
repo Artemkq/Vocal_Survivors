@@ -1,34 +1,27 @@
 using UnityEngine;
 
-public class DrumWave : Aura
+public class DrumWave : MonoBehaviour
 {
-    public float lifeTime = 0.4f;
+    public float lifeTime = 0.5f;
     private ParticleSystem ps;
 
     void Awake()
     {
-        // Ищем систему частиц на объекте или в дочерних
         ps = GetComponent<ParticleSystem>();
         if (ps == null) ps = GetComponentInChildren<ParticleSystem>();
     }
 
-    public void SetupWave(float radius, Color color)
+    // Убрали параметр Color из метода
+    public void SetupWave(float radius)
     {
-        // Устанавливаем радиус коллайдера/ауры
         transform.localScale = new Vector3(radius, radius, 1);
 
         if (ps != null)
         {
-            var main = ps.main;
-            main.startColor = color; // Устанавливаем цвет частиц (красный или белый)
-            ps.Play(); // Запускаем воспроизведение
-        }
-        else
-        {
-            Debug.LogWarning("ParticleSystem не найдена на префабе DrumWave!");
+            // Больше не меняем main.startColor, частицы используют цвет из префаба
+            ps.Play();
         }
 
-        // Удаляем объект после завершения эффекта
         Destroy(gameObject, lifeTime);
     }
 }
