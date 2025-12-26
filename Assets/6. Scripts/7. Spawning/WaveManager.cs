@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; // Убедитесь, что эта строка есть вверху
 
 public class WaveManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class WaveManager : MonoBehaviour
     public bool boostedByCurse = true;
 
     public static WaveManager instance;
+
+    // !!! НОВОЕ: Публичный список активных врагов !!!
+    public List<EnemyStats> activeEnemies = new List<EnemyStats>();
 
     void Start()
     {
@@ -54,7 +58,7 @@ public class WaveManager : MonoBehaviour
             }
 
             //Get the array of enemies that we are spawning for this tick
-            GameObject[] spawns = data[currentWaveIndex].GetSpawns(EnemyStats.count);
+            GameObject[] spawns = data[currentWaveIndex].GetSpawns(activeEnemies.Count);
 
             // Loop through and spawn all the prefabs
             foreach (GameObject prefab in spawns)
@@ -84,6 +88,23 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    // !!! НОВЫЕ МЕТОДЫ: Для регистрации и дерегистрации врагов !!!
+    public void RegisterEnemy(EnemyStats enemy)
+    {
+        if (!activeEnemies.Contains(enemy))
+        {
+            activeEnemies.Add(enemy);
+        }
+    }
+
+    public void DeregisterEnemy(EnemyStats enemy)
+    {
+        if (activeEnemies.Contains(enemy))
+        {
+            activeEnemies.Remove(enemy);
+        }
+    }
+
     //Reset the spawn interval
     public void ActivateCooldown()
     {
@@ -110,7 +131,7 @@ public class WaveManager : MonoBehaviour
     public static bool HasExceededMaxEnemies()
     {
         if (!instance) return false; //If there is no spawn manager, dont limit max enemies
-        if (EnemyStats.count > instance.maximumEnemyCount) return true;
+        if (instance.activeEnemies.Count > instance.maximumEnemyCount) return true;
         return false;
     }
 
@@ -129,7 +150,7 @@ public class WaveManager : MonoBehaviour
             if (currentWaveSpawnCount < currentWave.totalSpawns) return false;
 
         //Otherwise, if kill all is checked, we have to make sure there are no more enemies first
-        if (currentWave.mustKillAll && EnemyStats.count > 0)
+        if (currentWave.mustKillAll && activeEnemies.Count > 0)
             return false;
 
         return true;

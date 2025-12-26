@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 3830733479883834844}
   - component: {fileID: -8389116677048107095}
   - component: {fileID: 7383762143165801561}
-  - component: {fileID: 1636927269441485158}
   - component: {fileID: -2133227608224346281}
   m_Layer: 8
   m_Name: Zombie
@@ -319,12 +318,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5256c4df537fb48a909ef95169c0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  sortingActive: 1
   outOffFrameAction: 1
-  knockbackVariance: 2
   giveExperienceOnDeath: 1
-  speedBoostMultiplier: 4
-  decelerationSpeed: 8
+  speedBoostMultiplier: 8
+  decelerationSpeed: 12
 --- !u!114 &-8389116677048107095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,19 +366,6 @@ MonoBehaviour:
   - name: 1 Exp
     itemPrefab: {fileID: 6572816827611164919, guid: ffa8ec76aaa96cd4491466f40fd51c18, type: 3}
     dropRate: 100
---- !u!114 &1636927269441485158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7060775958896916355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
-  sortingActive: 1
 --- !u!114 &-2133227608224346281
 MonoBehaviour:
   m_ObjectHideFlags: 0

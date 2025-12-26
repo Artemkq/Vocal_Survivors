@@ -8,20 +8,18 @@ public class BeatConductor : MonoBehaviour
     [Header("Настройки музыки")]
     public AudioSource musicSource;
 
-    [Header("Анализ барабанов")]
+    [Header("Анализ ритма (Kick/Bass)")]
     public AudioSource drumsSource;
-    [Range(0.01f, 1.0f)] public float threshold = 0.2f;
-    public float cooldownBetweenBeats = 0.2f;
+    [Range(0.01f, 1.0f)] public float threshold = 0.15f;
+    public float cooldownBetweenBeats = 0.25f;
 
-    [Header("Настройка сложности")]
-    public float timingWindow = 0.5f;
-
-    [Header("Отладка (Debug)")]
-    public float currentRmsView;
+    [Header("Настройка окна (секунды)")]
+    [Tooltip("Рекомендуется 0.15 - 0.2 для четкого ритма")]
+    public float timingWindow = 0.15f;
 
     public bool IsInBeatWindow { get; private set; }
     public bool WasPressedThisWindow { get; private set; }
-    public bool HasAttemptedThisBeat { get; private set; } // Флаг блокировки спама
+    public bool HasAttemptedThisBeat { get; private set; }
 
     public event Action OnBeat;
 
@@ -29,27 +27,40 @@ public class BeatConductor : MonoBehaviour
     private float _lastBeatTime;
     private float _beatTimer;
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Update()
     {
-        if (!musicSource.isPlaying) return;
+        if (musicSource == null || !musicSource.isPlaying) return;
+
         AnalyzeDrums();
+        UpdateWindows();
     }
 
     private void AnalyzeDrums()
     {
+        // Используем dspTime для идеальной синхронизации со звуком
+        float currentDspTime = (float)AudioSettings.dspTime;
+
         drumsSource.GetOutputData(_samples, 0);
         float sum = 0;
-        for (int i = 0; i < _samples.Length; i++) sum += _samples[i] * _samples[i];
-        float rmsValue = Mathf.Sqrt(sum / _samples.Length);
-        currentRmsView = rmsValue;
+        // Оптимизация: проверяем только первые 64 сэмпла (обычно там низкие частоты)
+        for (int i = 0; i < 64; i++) sum += _samples[i] * _samples[i];
+        float rmsValue = Mathf.Sqrt(sum / 64);
 
-        if (rmsValue > threshold && Time.time > _lastBeatTime + cooldownBetweenBeats)
+        if (rmsValue > threshold && currentDspTime > _lastBeatTime + cooldownBetweenBeats)
         {
+            _lastBeatTime = currentDspTime;
             TriggerBeat();
         }
+    }
 
+    private void UpdateWindows()
+    {
         if (_beatTimer > 0)
         {
             _beatTimer -= Time.deltaTime;
@@ -58,7 +69,6 @@ public class BeatConductor : MonoBehaviour
         else
         {
             IsInBeatWindow = false;
-            // Сбрасываем всё, когда окно полностью закрылось
             WasPressedThisWindow = false;
             HasAttemptedThisBeat = false;
         }
@@ -66,27 +76,23 @@ public class BeatConductor : MonoBehaviour
 
     private void TriggerBeat()
     {
-        _lastBeatTime = Time.time;
         _beatTimer = timingWindow;
-
-        // Сброс состояния для нового удара
         WasPressedThisWindow = false;
         HasAttemptedThisBeat = false;
 
+        // Рассылаем событие врагам
         OnBeat?.Invoke();
     }
 
-    // Централизованный метод регистрации нажатия
     public void RegisterPlayerTap()
     {
-        // Если уже была попытка в этом окне — игнорируем
         if (HasAttemptedThisBeat) return;
-
-        HasAttemptedThisBeat = true; // Сжигаем попытку
+        HasAttemptedThisBeat = true;
 
         if (IsInBeatWindow)
         {
             WasPressedThisWindow = true;
+            // Здесь можно добавить визуальный фидбек "Perfect!"
         }
     }
 }

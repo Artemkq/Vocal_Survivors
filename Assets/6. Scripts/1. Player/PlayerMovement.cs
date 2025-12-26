@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : Sortable
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Base Movement")]
     public float baseMoveSpeed = 3f;
@@ -32,9 +32,8 @@ public class PlayerMovement : Sortable
     [HideInInspector] public float lastHorizontalVector;
     [HideInInspector] public float lastVerticalVector;
 
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         player = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = Vector2.right;

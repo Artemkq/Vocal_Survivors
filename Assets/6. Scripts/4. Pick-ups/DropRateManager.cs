@@ -14,39 +14,31 @@ public class DropRateManager : MonoBehaviour
     public bool active = false;
     public List<Drops> drops;
 
-    void OnDestroy()
+    // ПЕРЕИМЕНОВАЛИ ИЗ OnDestroy В ПУБЛИЧНЫЙ МЕТОД
+    public void GenerateDrops()
     {
-        // *** КЛЮЧЕВАЯ ПРОВЕРКА: Если active == false, мы выходим и опыт не спавнится ***
+        // Если флаг active выключен (например, враг ушел за экран), ничего не спавним
+        if (!active) return;
 
-        if (!active) return; //Prevents spawns from happening if inactive
-        if (!gameObject.scene.isLoaded) //Stops the spawning error from appearing when stopping play mode
-        {
-            return;
-        }
+        float randomNumber = Random.Range(0f, 100f);
 
-        float randomNumber = UnityEngine.Random.Range(0f, 100f);
-        List<Drops> possibleDrops = new List<Drops>();
-
+        // Оптимизация: вместо создания нового списка просто ищем подходящий дроп
+        Drops selectedDrop = null;
         foreach (Drops rate in drops)
         {
             if (randomNumber <= rate.dropRate && rate.itemPrefab != null)
             {
-                possibleDrops.Add(rate);
+                selectedDrop = rate;
+                break; // Берем первый подошедший или уберите break, если логика сложнее
             }
         }
-        //Check if there are possible drops
-        if (possibleDrops.Count > 0)
-        {
-            Drops drops = possibleDrops[UnityEngine.Random.Range(0, possibleDrops.Count)];
 
-            if (drops.itemPrefab != null)
-            {
-                Instantiate(drops.itemPrefab, transform.position, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("Item prefab is missing for drop: " + drops.name);
-            }
+        if (selectedDrop != null && selectedDrop.itemPrefab != null)
+        {
+            Instantiate(selectedDrop.itemPrefab, transform.position, Quaternion.identity);
         }
     }
+
+    // Оставляем пустой OnDestroy на случай, если вы удалите объект вручную из редактора
+    void OnDestroy() { }
 }

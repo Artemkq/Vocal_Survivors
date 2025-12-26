@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic; // Нужно для работы очередей
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -17,6 +18,11 @@ public class GameManager : MonoBehaviour
         LevelUp,
         TreasureChest
     }
+
+    [Header("Damage Text Pool Settings")]
+    public GameObject damageTextPrefab; // Сюда перетащите ваш Префаб
+    public int poolSize = 30; // Лимит текстов на экране
+    private Queue<GameObject> textPool = new Queue<GameObject>();
 
     // Store the current state of the game
     public GameState currentState;
@@ -104,6 +110,19 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public Transform GetRandomPlayerTransform()
+    {
+        // Проверяем, есть ли игроки в массиве players (который уже есть в вашем GameManager)
+        if (players != null && players.Length > 0)
+        {
+            return players[Random.Range(0, players.Length)].transform;
+        }
+
+        // Если игроков нет (например, при загрузке), пробуем найти через тег
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        return p != null ? p.transform : null;
+    }
+
     void Awake()
     {
         players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
@@ -126,6 +145,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Инициализируем пул при старте игры
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject obj = Instantiate(damageTextPrefab, damageTextCanvas.transform);
+            obj.SetActive(false); // Скрываем
+            textPool.Enqueue(obj);
+        }
+
         // Ограничиваем игру 60 кадрами в секунду
         Application.targetFrameRate = 60;
 
@@ -166,63 +193,102 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 1f, float speed = 50f)
+    // IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 1f, float speed = 50f)
+    // {
+    //     //Start generating the floating text
+    //     GameObject textObj = new GameObject("Damage Floating Text");
+    //     RectTransform rect = textObj.AddComponent<RectTransform>();
+    //     TextMeshProUGUI tmPro = textObj.AddComponent<TextMeshProUGUI>();
+    //     tmPro.text = text;
+    //     tmPro.horizontalAlignment = HorizontalAlignmentOptions.Center;
+    //     tmPro.verticalAlignment = VerticalAlignmentOptions.Middle;
+    //     tmPro.fontSize = textFontSize;
+    //     if (textFont) tmPro.font = textFont;
+    //     rect.position = referenceCamera.WorldToScreenPoint(target.position);
+
+    //     //Makes sure this is destroyd after the duratin finishes
+    //     Destroy(textObj, duration);
+
+    //     //Parent the generated text object to the canvas
+    //     textObj.transform.SetParent(instance.damageTextCanvas.transform);
+    //     textObj.transform.SetSiblingIndex(0);
+
+    //     //Pan the text upwards and fade it away over time
+    //     WaitForEndOfFrame w = new WaitForEndOfFrame();
+    //     float t = 0;
+    //     float yOffset = 0;
+    //     Vector3 lastKnownPosition = target.position;
+
+    //     while (t < duration)
+    //     {
+    //         //If the rect object is missing for whatever reason, terminate this loop
+    //         if (!rect) break;
+
+    //         //Fade the text to the right alpha value
+    //         tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
+
+    //         //If target exitsts, then save its position
+    //         if (target)
+    //             lastKnownPosition = target.position;
+
+    //         //Pan the text upwards
+    //         yOffset += speed * Time.deltaTime;
+    //         rect.position = referenceCamera.WorldToScreenPoint(lastKnownPosition + new Vector3(0, yOffset));
+
+    //         //Wait for a frame and update the time
+    //         yield return w;
+    //         t += Time.deltaTime;
+    //     }
+    // }
+
+    public static void GenerateFloatingText(string text, Transform target)
     {
-        //Start generating the floating text
-        GameObject textObj = new GameObject("Damage Floating Text");
-        RectTransform rect = textObj.AddComponent<RectTransform>();
-        TextMeshProUGUI tmPro = textObj.AddComponent<TextMeshProUGUI>();
-        tmPro.text = text;
-        tmPro.horizontalAlignment = HorizontalAlignmentOptions.Center;
-        tmPro.verticalAlignment = VerticalAlignmentOptions.Middle;
-        tmPro.fontSize = textFontSize;
-        if (textFont) tmPro.font = textFont;
-        rect.position = referenceCamera.WorldToScreenPoint(target.position);
+        if (!instance.damageTextCanvas || instance.textPool.Count == 0) return;
 
-        //Makes sure this is destroyd after the duratin finishes
-        Destroy(textObj, duration);
+        GameObject textObj = instance.textPool.Dequeue();
 
-        //Parent the generated text object to the canvas
-        textObj.transform.SetParent(instance.damageTextCanvas.transform);
-        textObj.transform.SetSiblingIndex(0);
+        if (textObj.TryGetComponent(out DamageText damageScript))
+        {
+            // Сначала передаем данные и позицию, и только внутри Setup делаем SetActive(true)
+            damageScript.Setup(text, target.position, instance.referenceCamera);
+        }
 
-        //Pan the text upwards and fade it away over time
-        WaitForEndOfFrame w = new WaitForEndOfFrame();
+        instance.textPool.Enqueue(textObj);
+    }
+
+    IEnumerator AnimateText(GameObject obj, Transform target)
+    {
         float t = 0;
-        float yOffset = 0;
-        Vector3 lastKnownPosition = target.position;
+        float duration = 0.8f;
+
+        // 1. ЗАПОМИНАЕМ ТОЧКУ В МИРЕ (не в координатах экрана!)
+        // Добавляем небольшой случайный сдвиг (Random), чтобы цифры не слипались
+        Vector3 spawnWorldPos = target.position + new Vector3(Random.Range(-0.5f, 0.5f), 1f, 0f);
+
+        RectTransform rect = obj.GetComponent<RectTransform>();
+        TextMeshProUGUI tmPro = obj.GetComponent<TextMeshProUGUI>();
 
         while (t < duration)
         {
-            //If the rect object is missing for whatever reason, terminate this loop
-            if (!rect) break;
+            if (!obj.activeSelf) yield break;
 
-            //Fade the text to the right alpha value
-            tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
-
-            //If target exitsts, then save its position
-            if (target)
-                lastKnownPosition = target.position;
-
-            //Pan the text upwards
-            yOffset += speed * Time.deltaTime;
-            rect.position = referenceCamera.WorldToScreenPoint(lastKnownPosition + new Vector3(0, yOffset));
-
-            //Wait for a frame and update the time
-            yield return w;
             t += Time.deltaTime;
+            float alpha = 1 - (t / duration);
+            tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, alpha);
+
+            // 2. ПОДЪЕМ ТЕКСТА
+            // Кадр за кадром мы поднимаем виртуальную точку в мире
+            spawnWorldPos += Vector3.up * (Time.deltaTime * 1.5f); // 1.5f - скорость всплытия
+
+            // 3. КОНВЕРТАЦИЯ В ЭКРАННЫЕ КООРДИНАТЫ
+            // Каждый кадр мы пересчитываем, где эта точка МИРА находится относительно КАМЕРЫ.
+            // Теперь, если игрок идет, текст остается на месте в мире (улетает за край экрана).
+            rect.position = instance.referenceCamera.WorldToScreenPoint(spawnWorldPos);
+
+            yield return null;
         }
-    }
 
-    public static void GenerateFloatingText(string text, Transform target, float duration = 1f, float speed = 1f)
-    {
-        //If the canvas is not set, end the function so we dont generane any floationg text
-        if (!instance.damageTextCanvas) return;
-
-        //Find a relevant camera that we can use to convert the world positions to a screen position
-        if (!instance.referenceCamera) instance.referenceCamera = Camera.main;
-
-        instance.StartCoroutine(instance.GenerateFloatingTextCoroutine(text, target, duration, speed));
+        obj.SetActive(false);
     }
 
     // Define the method to change the state of the game
@@ -244,21 +310,12 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Paused)
         {
             ChangeState(GameState.Paused);
-            Time.timeScale = 0f; //Stop the game
-            if (MusicLayerManager.Instance != null)
-            {
-                MusicLayerManager.Instance.PauseMusic(); // Используем новый метод PauseMusic()
-            }
+            Time.timeScale = 0f;
+            MusicLayerManager.Instance?.PauseMusic();
             pauseScreen.SetActive(true);
-            // Debug.Log("Game is paused");
 
-            // !!! УСТАНОВКА ФОКУСА НА КНОПКУ RESUME !!!
-            // Сначала сбрасываем текущий выбор, затем устанавливаем новый
             EventSystem.current.SetSelectedGameObject(null);
-            if (resumeButton != null)
-            {
-                EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
-            }
+            if (resumeButton != null) EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
         }
     }
 
@@ -267,15 +324,9 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.Paused)
         {
             ChangeState(previousState);
-            Time.timeScale = 1f; //Resume the game
-            if (MusicLayerManager.Instance != null)
-            {
-                MusicLayerManager.Instance.UnPauseMusic(); // Используем новый метод UnPauseMusic()
-            }
+            Time.timeScale = 1f;
+            MusicLayerManager.Instance?.UnPauseMusic();
             pauseScreen.SetActive(false);
-            // Debug.Log("Game is resumed");
-
-            // !!! СБРОС ФОКУСА ПРИ ВОЗВРАЩЕНИИ К ГЕЙМПЛЕЮ !!!
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
@@ -303,26 +354,17 @@ public class GameManager : MonoBehaviour
         levelUpScreen.SetActive(false);
     }
 
+    // Метод GameOver оптимизирован: убраны дублирующиеся циклы
     public void GameOver()
     {
         timeSurvivedDisplay.text = stopwatchDisplay.text;
-
-        //Set the Game Over variables here
         ChangeState(GameState.GameOver);
-        Time.timeScale = 0f; //Stop the game entirely
-        if (MusicLayerManager.Instance != null)
-        {
-            MusicLayerManager.Instance.StopMusic(); // Используем новый метод StopMusic()
-        }
+        Time.timeScale = 0f;
+        MusicLayerManager.Instance?.StopMusic();
+
         DisplayResults();
 
-        // Save all the diamonds of all the players to the save file.
-        foreach (PlayerStats p in players)
-        {
-            p.GetComponentInChildren<PlayerCollector>().SaveDiamondsToStash();
-        }
-
-        // Add all players' coins to their save file, since the game has ended.
+        // Сохраняем данные одним циклом
         foreach (PlayerStats p in players)
         {
             if (p.TryGetComponent(out PlayerCollector c))

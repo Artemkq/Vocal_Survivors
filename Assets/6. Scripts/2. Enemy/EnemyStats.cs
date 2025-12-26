@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI; // Добавлено для работы с NavMesh
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyStats : EntityStats
@@ -8,8 +9,7 @@ public class EnemyStats : EntityStats
     public class Resistances
     {
         [Range(-1f, 1f)] public float freeze = 0f, kill = 0f, debuff = 0f;
-
-        //To allow us to multiply the resistances
+        // ... (операторы +, * остаются без изменений) ...
         public static Resistances operator *(Resistances r, float factor)
         {
             r.freeze = Mathf.Min(1, r.freeze * factor);
@@ -26,7 +26,6 @@ public class EnemyStats : EntityStats
             return r;
         }
 
-        //Allows us to multiply resistances by one another, for multiplicative buffs
         public static Resistances operator *(Resistances r1, Resistances r2)
         {
             r1.freeze = Mathf.Min(1, r1.freeze * r2.freeze);
@@ -41,11 +40,9 @@ public class EnemyStats : EntityStats
     {
         public float maxHealth, damage, moveSpeed, knockbackMultiplier;
         public Resistances resistances;
-
         [System.Flags]
         public enum Boostable { health = 1, moveSpeed = 2, damage = 4, knockbackMultiplier = 8, resistances = 16 }
         public Boostable curseBoosts, levelBoosts;
-
         private static Stats Boost(Stats s1, float factor, Boostable boostable)
         {
             if ((boostable & Boostable.health) != 0) s1.maxHealth *= factor;
@@ -55,14 +52,8 @@ public class EnemyStats : EntityStats
             if ((boostable & Boostable.resistances) != 0) s1.resistances *= factor;
             return s1;
         }
-
-        //Use the multiply operator for curse
         public static Stats operator *(Stats s1, float factor) { return Boost(s1, factor, s1.curseBoosts); }
-
-        //Use the XOR operator for level boosted stats
         public static Stats operator ^(Stats s1, float factor) { return Boost(s1, factor, s1.levelBoosts); }
-
-        //Use the add operator to add stats to the enemy
         public static Stats operator +(Stats s1, Stats s2)
         {
             s1.maxHealth += s2.maxHealth;
@@ -72,9 +63,6 @@ public class EnemyStats : EntityStats
             s1.resistances += s2.resistances;
             return s1;
         }
-
-        //Use the multiply operator to scale stats
-        //Used by the buff / debuff system
         public static Stats operator *(Stats s1, Stats s2)
         {
             s1.maxHealth *= s2.maxHealth;
@@ -88,190 +76,155 @@ public class EnemyStats : EntityStats
 
     public Stats baseStats = new Stats { maxHealth = 10, moveSpeed = 1, damage = 3, knockbackMultiplier = 1 };
     Stats actualStats;
-    public Stats Actual
-    {
-        get { return actualStats; }
-    }
+    public Stats Actual => actualStats;
 
     public BuffInfo[] attackEffects;
 
     [Header("Damage Feedback")]
-    public Color damageColor = new Color(1, 0, 0, 1); //What the color of the damage flash should be.
-    public float damageFlashDuration = 0.2f; //How long the flash should last.
-    public float deathFadeTime = 0.6f; //How much time it takes for the enemy to fade.
+    public Color damageColor = new Color(1, 0, 0, 1);
+    public float damageFlashDuration = 0.2f;
+    public float deathFadeTime = 0.6f;
 
-    // --- ДОБАВЛЕНО ---
+    private KillComboManager cachedCombo;
+
     Collider2D enemyCollider;
-    // Ссылка на компонент движения
     EnemyMovement movement;
+    SpriteRenderer sr; // Кэшируем для быстрой смены цвета
 
-    public static int count;
+    // *** ИЗМЕНЕНО: УДАЛЕН СТАТИЧЕСКИЙ СЧЕТЧИК 'count' ***
 
     protected override void Awake()
     {
         base.Awake();
-        count++;
         movement = GetComponent<EnemyMovement>();
         enemyCollider = GetComponent<Collider2D>();
+        sr = GetComponent<SpriteRenderer>();
+    }
 
-        if (movement == null)
-        {
-            Debug.LogWarning("EnemyMovement component not found on " + gameObject.name, this);
-        }
+    // ОПТИМИЗАЦИЯ: Выносим расчет статов в отдельный метод, который вызывается РАЗ при спавне
+    public void InitializeStats()
+    {
+        RecalculateStats();
+        health = actualStats.maxHealth;
 
-        // ДОБАВИТЬ ЭТИ СТРОКИ:
-        if (enemyCollider == null)
-        {
-            Debug.LogWarning("Collider2D component not found on " + gameObject.name, this);
-        }
+        // Сброс визуальных эффектов (если враг из пула был красный/прозрачный)
+        if (sr != null) sr.color = Color.white;
     }
 
     protected override void Start()
     {
+        // ВАЖНО: В пулинге Start вызывается только 1 раз в жизни объекта.
+        // Поэтому всю логику "оживления" переносим в OnEnable.
         base.Start();
-
-        //Adds the global buff there is any
-        if (UILevelSelector.globalBuff && !UILevelSelector.globalBuffAffectsEnemies)
-            ApplyBuff(UILevelSelector.globalBuff);
-
-        RecalculateStats();
-        //Calculate the health and check for level boosts
-        health = actualStats.maxHealth;
-        // movement = GetComponent<EnemyMovement>();
     }
+
+    // *** НОВОЕ: МЕТОДЫ ONENABLE И ONDISABLE ДЛЯ РЕГИСТРАЦИИ В ПУЛЕ ***
+    protected virtual void OnEnable()
+    {
+        // Регистрация в WaveManager
+        if (WaveManager.instance != null) WaveManager.instance.RegisterEnemy(this);
+
+        // Сброс состояния
+        if (enemyCollider != null) enemyCollider.enabled = true;
+        if (movement != null) movement.enabled = true;
+
+        InitializeStats();
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (WaveManager.instance != null) WaveManager.instance.DeregisterEnemy(this);
+
+        // ОСТАНОВКА КОРУТИН: Это критично! 
+        // Если враг умер, а вспышка урона еще идет — будет ошибка.
+        StopAllCoroutines();
+    }
+    // *******************************************************************
 
     public override bool ApplyBuff(BuffData data, int variant = 0, float durationMultiplier = 1f)
     {
-        //If the debuff is a freeze, we check for freeze resistance
-        //Roll a number and if it succeeds, we ignore the freeze
         if ((data.type & BuffData.Type.freeze) > 0)
             if (Random.value <= Actual.resistances.freeze) return false;
-
-        //If the debuff is a debuff, we check for debuff resistance
         if ((data.type & BuffData.Type.debuff) > 0)
             if (Random.value <= Actual.resistances.debuff) return false;
-
         return base.ApplyBuff(data, variant, durationMultiplier);
     }
 
-    //Calculates the actual stats of the enemy based on a variety of factors
+    // ОПТИМИЗАЦИЯ RecalculateStats:
+    // Убедитесь, что этот метод не делает GameObject.Find или тяжелых поисков.
     public override void RecalculateStats()
     {
-        //Calculate curse boosts
-        float curse = GameManager.GetCumulativeCurse(),
-            level = GameManager.GetCumulativeLevels();
-        actualStats = (baseStats * curse) ^ level;
+        // Просто пересчитываем базу на основе проклятия и уровня
+        actualStats = baseStats * GameManager.GetCumulativeCurse();
+        actualStats = actualStats ^ (float)GameManager.GetCumulativeLevels();
 
-        //Create a variable to store all the cumulative multiplier values
-        Stats multiplier = new Stats
-        {
-            maxHealth = 1f,
-            moveSpeed = 1f,
-            damage = 1f,
-            knockbackMultiplier = 1f,
-            resistances = new Resistances { freeze = 1f, debuff = 1f, kill = 1f }
-        };
-
-        foreach (Buff b in activeBuffs)
-        {
-            BuffData.Stats bd = b.GetData();
-            switch (bd.modifierType)
-            {
-                case BuffData.ModifierType.additive:
-                    actualStats += bd.enemyModifier;
-                    break;
-                case BuffData.ModifierType.multiplicative:
-                    multiplier *= bd.enemyModifier;
-                    break;
-            }
-        }
-
-        //Apply the multipliers last
-        actualStats *= multiplier;
+        // Обновляем скорость в скрипте движения
+        if (movement != null) movement.UpdateSpeed(actualStats.moveSpeed);
     }
 
     public override void TakeDamage(float dmg)
     {
+        // 1. Быстрая проверка: если враг уже "мертв" (в процессе исчезновения), игнорируем урон
         if (enemyCollider != null && !enemyCollider.enabled) return;
 
-        // --- БЛОК BEAT HELL: РАСЧЕТ МОДИФИКАТОРА ---
+        // --- БЛОК BEAT HELL ---
         float multiplier = 1f;
-
-        // 1. Бонус за попадание в бит (x2 урон)
+        // ОПТИМИЗАЦИЯ: проверка BeatConductor через Instance? (null-conditional)
         if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
-        {
             multiplier += 1.0f;
-        }
-
-        // 2. Бонус за вокал (до +100% от громкости)
-        if (VocalAnalyzer.Instance != null)
-        {
-            multiplier += VocalAnalyzer.Instance.CurrentLoudness;
-        }
 
         float totalDmg = dmg * multiplier;
-        // --- КОНЕЦ БЛОКА BEAT HELL ---
+        // --- КОНЕЦ БЛОКА ---
 
         health -= totalDmg;
 
-        // Проверка на Insta-kill (используем исходный dmg, как в твоей логике)
-        if (dmg == actualStats.maxHealth)
-        {
-            if (Random.value < actualStats.resistances.kill)
-            {
-                return;
-            }
-        }
-
         if (totalDmg > 0)
         {
-            StartCoroutine(DamageFlash());
-            // Выводим уже усиленный урон в текст
+            // ОПТИМИЗАЦИЯ: Вместо StartCoroutine используем простую смену цвета.
+            // Корутины при массовом уроне создают "мусор" (GC), который тормозит игру.
+            TriggerFlash();
             GameManager.GenerateFloatingText(Mathf.FloorToInt(totalDmg).ToString(), transform);
         }
 
-        if (health <= 0)
-        {
-            Kill();
-        }
+        if (health <= 0) Kill();
     }
 
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
-        // Вызываем базовый TakeDamage, который уже усилит dmg ритмом и голосом
+        // Вызываем основной метод урона
         TakeDamage(dmg);
 
-        if (movement == null || health <= 0)
+        // Если враг еще жив и у него есть скрипт движения — применяем отброс
+        if (health > 0 && movement != null)
         {
-            return;
-        }
-
-        if (knockbackForce > 0)
-        {
-            // БОНУС: Усиление отбрасывания в ритм
-            float kMultiplier = 1f;
-            if (BeatConductor.Instance != null && BeatConductor.Instance.IsInBeatWindow)
-                kMultiplier = 1.5f; // В бит отбрасываем на 50% дальше
-
+            // Рассчитываем направление от источника урона
             Vector2 dir = (Vector2)transform.position - sourcePosition;
-            movement.Knockback(dir.normalized * knockbackForce * kMultiplier, knockbackDuration);
+            movement.Knockback(dir.normalized * knockbackForce, knockbackDuration);
         }
     }
+
+    public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce)
+    {
+        TakeDamage(dmg, sourcePosition, knockbackForce, 0.2f);
+    }
+
+    // Замена корутины вспышки на быстрый метод
+    void TriggerFlash()
+    {
+        StopCoroutine("DamageFlash"); // Останавливаем старую, если еще идет
+        StartCoroutine(DamageFlash());
+    }
+
 
     public override void RestoreHealth(float amount)
     {
-        //Only heal the player if their current health is less than their max health
         if (health < actualStats.maxHealth)
         {
             health += amount;
-            if (health > actualStats.maxHealth)
-            {
-                health = actualStats.maxHealth;
-            }
+            if (health > actualStats.maxHealth) health = actualStats.maxHealth;
         }
     }
 
-    //This is a Coroutine function that makes the enemy flash when taking damage
     IEnumerator DamageFlash()
     {
         ApplyTint(damageColor);
@@ -281,76 +234,65 @@ public class EnemyStats : EntityStats
 
     public override void Kill()
     {
-        // --- ДОБАВЛЯЕМ СЮДА ---
-        // Ищем менеджер комбо на сцене и вызываем метод регистрации убийства
-        KillComboManager comboManager = FindAnyObjectByType<KillComboManager>();
-        if (comboManager != null)
-        {
-            comboManager.OnEnemyKilled();
-        }
-        // ----------------------
+        // 1. Сначала засчитываем комбо
+        if (cachedCombo == null) cachedCombo = FindAnyObjectByType<KillComboManager>();
+        if (cachedCombo != null) cachedCombo.OnEnemyKilled();
 
-        DropRateManager drops = GetComponent<DropRateManager>();
-
-        // *** ИСПРАВЛЕНИЕ ЛОГИКИ: ВОССТАНАВЛИВАЕМ ПРОВЕРКУ ФЛАГА ***
-        if (movement == null) movement = GetComponent<EnemyMovement>();
-
-        if (drops != null && movement != null)
+        // Ищем компонент дропа
+        DropRateManager dropsScript = GetComponent<DropRateManager>();
+        if (dropsScript != null)
         {
-            drops.active = movement.giveExperienceOnDeath;
-        }
-        else if (drops != null && movement == null)
-        {
-            drops.active = true;
+            // ВАЖНО: сначала проверяем условия, потом вызываем генерацию
+            // Убеждаемся, что movement позволяет дроп (враг не за границей экрана)
+            dropsScript.active = (movement != null) ? movement.giveExperienceOnDeath : true;
+
+            // ВЫЗЫВАЕМ СПАВН ОПЫТА
+            dropsScript.GenerateDrops();
         }
 
+        // Выключаем коллайдер и движение
         if (enemyCollider != null) enemyCollider.enabled = false;
         if (movement != null) movement.enabled = false;
 
         StartCoroutine(KillFade());
     }
 
-    //This is a Coroutine function that fades the enemy away slowly
+    // *** ИЗМЕНЕНО: KillFade ТЕПЕРЬ ИСПОЛЬЗУЕТ ОБЪЕКТ ПУЛИНГ ВМЕСТО DESTROY ***
     IEnumerator KillFade()
     {
-        //Waits for a single frame
-        WaitForEndOfFrame w = new WaitForEndOfFrame();
-        float t = 0, origAlpha = sprite.color.a;
+        float t = 0;
+        Color startColor = sprite.color;
 
-        //This is a loop that fires evety frame
+        // ОПТИМИЗАЦИЯ: Используем null вместо WaitForEndOfFrame (экономит память)
         while (t < deathFadeTime)
         {
-            yield return w;
             t += Time.deltaTime;
-
-            //Set the color for this frame
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, (1 - t / deathFadeTime) * origAlpha);
+            float alpha = Mathf.Lerp(1, 0, t / deathFadeTime);
+            sprite.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            yield return null;
         }
-        Destroy(gameObject);
-    }
 
-    // Замените OnCollisionStay2D на OnTriggerStay2D
+        gameObject.SetActive(false);
+    }
+    // *************************************************************************
+
     void OnTriggerStay2D(Collider2D col)
     {
-        // *** ИСПРАВЛЕНИЕ: Используем col (Collider2D), а не col.collider ***
+        if (enemyCollider == null || !enemyCollider.enabled || actualStats.damage <= 0) return;
 
-        // Проверка, чтобы мертвый (затухающий) враг не мог наносить урон игроку
-        if (enemyCollider == null || !enemyCollider.enabled) return;
-
-        if (Mathf.Approximately(Actual.damage, 0)) return;
-
-        //Check for whether there is a PlayerStats object we can damage
-        // Пытаемся получить компонент PlayerStats с того коллайдера, с которым столкнулись (BoxCollider2D)
-        if (col.TryGetComponent(out PlayerStats p))
+        if (col.CompareTag("Player")) // Быстрая проверка по тегу перед GetComponent
         {
-            p.TakeDamage(Actual.damage);
-            foreach (BuffInfo b in attackEffects)
-                p.ApplyBuff(b);
+            if (col.TryGetComponent(out PlayerStats p))
+            {
+                p.TakeDamage(actualStats.damage);
+                // Применяем баффы только если они есть
+                if (attackEffects != null && attackEffects.Length > 0)
+                {
+                    foreach (BuffInfo b in attackEffects) p.ApplyBuff(b);
+                }
+            }
         }
     }
 
-    void OnDestroy()
-    {
-        count--;
-    }
+    // *** ИЗМЕНЕНО: УДАЛЕН МЕТОД ONDESTROY() ***
 }

@@ -6,9 +6,8 @@ public class ChargingEnemyMovement : EnemyMovement
 
     //We calculate the direction where the enemy charges towards firds
     //i.e. where the player is when the enemy spawns
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         chargeDirection = (player.transform.position - transform.position).normalized;
     }
 

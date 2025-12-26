@@ -2199,7 +2199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4773229b2c0129746a375c90718f1a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  sortingActive: 1
   baseMoveSpeed: 3
   dashDistance: 1.5
   dashDuration: 0.15
@@ -2458,7 +2457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2c0fcda20590640ae10c78599efe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SortingHelper
-  sortingActive: 1
 --- !u!1 &407441927
 GameObject:
   m_ObjectHideFlags: 0
@@ -7889,6 +7887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb22a7ae837b224eaba17b89277dac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  damageTextPrefab: {fileID: 7652825021623628547, guid: 90095b3c60c5f1d42a640a56d4760a71, type: 3}
+  poolSize: 30
   currentState: 0
   previousState: 0
   damageTextCanvas: {fileID: 1268217918}
@@ -10093,6 +10093,7 @@ MonoBehaviour:
   referenceCamera: {fileID: 519420031}
   maximumEnemyCount: 300
   boostedByCurse: 1
+  activeEnemies: []
 --- !u!114 &1864655310
 MonoBehaviour:
   m_ObjectHideFlags: 0

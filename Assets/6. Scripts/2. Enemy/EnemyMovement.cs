@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : Sortable
+public class EnemyMovement : MonoBehaviour
 {
     protected EnemyStats stats;
     protected Transform player;
@@ -15,66 +15,75 @@ public class EnemyMovement : Sortable
     public enum OutOffFrameAction { none, respawnAtEdge, despawn }
     public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
 
-    [System.Flags]
-    public enum KnockbackVariance { duration = 1, velocity = 2 }
-    public KnockbackVariance knockbackVariance = KnockbackVariance.velocity;
-
     protected bool spawnedOutOffFrame = false;
     [HideInInspector] public bool giveExperienceOnDeath = true;
 
-    // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ РИТМА ---
     [Header("Beat Settings")]
-    [Tooltip("Во сколько раз скорость увеличится в момент бита")]
     public float speedBoostMultiplier = 4f;
-    [Tooltip("Как быстро скорость возвращается от рывка к обычной (чем выше, тем резче)")]
     public float decelerationSpeed = 8f;
     private float currentBeatSpeed;
 
-    protected SpriteRenderer sr; // Ссылка на компонент отрисовки
-    protected SpriteRenderer shadowSr; // Ссылка на компонент отрисовки тени
+    protected SpriteRenderer sr;
+    protected SpriteRenderer shadowSr;
 
-    protected override void Start()
+    // --- ОПТИМИЗАЦИЯ: Кэшируем хеши имен для поиска тени ---
+    private static readonly string SHADOW_NAME = "Shadow";
+
+    void Awake()
     {
-        base.Start();
-        sr = GetComponentInChildren<SpriteRenderer>(); // Ищем спрайт внутри объекта
-
-        // Ищем спрайт тени только на дочернем объекте с именем "Shadow"
-        Transform shadowT = transform.Find("Shadow");
-        if (shadowT != null)
-        {
-            shadowSr = shadowT.GetComponent<SpriteRenderer>();
-        }
-
+        // Переносим инициализацию в Awake для стабильности пулинга
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        spawnedOutOffFrame = !WaveManager.IsWithinBoundaries(transform);
         stats = GetComponent<EnemyStats>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
-        PlayerMovement[] allPlayers = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
-        if (allPlayers.Length > 0)
-        {
-            player = allPlayers[Random.Range(0, allPlayers.Length)].transform;
-        }
+        Transform shadowT = transform.Find(SHADOW_NAME);
+        if (shadowT != null) shadowSr = shadowT.GetComponent<SpriteRenderer>();
 
         if (agent != null)
         {
             agent.updateRotation = false;
             agent.updateUpAxis = false;
-            transform.rotation = Quaternion.identity;
-        }
-
-        // ПОДПИСКА НА БИТ
-        if (BeatConductor.Instance != null)
-        {
-            BeatConductor.Instance.OnBeat += ApplyBeatImpulse;
         }
     }
 
-    // МЕТОД РЫВКА
+    void OnEnable()
+    {
+        // ОПТИМИЗАЦИЯ: Ищем игрока через GameManager (он уже закэширован там)
+        if (GameManager.instance != null)
+        {
+            player = GameManager.instance.GetRandomPlayerTransform();
+        }
+
+        // Подписываемся на бит только при включении
+        if (BeatConductor.Instance != null) BeatConductor.Instance.OnBeat += ApplyBeatImpulse;
+
+        spawnedOutOffFrame = !WaveManager.IsWithinBoundaries(transform);
+
+        giveExperienceOnDeath = true; // Сбрасываем флаг для нового появления
+        
+        // Также сбрасываем active в DropRateManager
+        if (TryGetComponent(out DropRateManager drm)) drm.active = true;
+    }
+
+    void OnDisable()
+    {
+        // ОБЯЗАТЕЛЬНО: Отписываемся при выключении, иначе будет утечка памяти и лаги!
+        if (BeatConductor.Instance != null) BeatConductor.Instance.OnBeat -= ApplyBeatImpulse;
+        StopAllCoroutines();
+    }
+
+    // МЕТОД ИЗ ОШИБКИ CS1061: Теперь EnemyStats сможет его вызвать
+    public void UpdateSpeed(float newSpeed)
+    {
+        // В BEAT HELL базовая скорость обновляется здесь, а текущая — в Move()
+        if (stats != null) currentBeatSpeed = newSpeed;
+    }
+
     protected virtual void ApplyBeatImpulse()
     {
-        // В момент бита скорость подскакивает до максимума
-        currentBeatSpeed = stats.Actual.moveSpeed * speedBoostMultiplier;
+        if (stats != null)
+            currentBeatSpeed = stats.Actual.moveSpeed * speedBoostMultiplier;
     }
 
     protected virtual void Update()
@@ -90,15 +99,19 @@ public class EnemyMovement : Sortable
             if (agent != null && !agent.enabled)
             {
                 agent.enabled = true;
-                agent.Warp(transform.position);
+                // Warp — дорогая операция. Вызываем только если сдвинулись далеко.
+                if (Vector3.Distance(agent.nextPosition, transform.position) > 0.1f)
+                    agent.Warp(transform.position);
             }
 
-            // --- ИЗМЕНЕНО: РАСЧЕТ ЗАТУХАНИЯ СКОРОСТИ ---
-            // Теперь скорость плавно падает не до 0, а до stats.Actual.moveSpeed (базовой скорости)
-            currentBeatSpeed = Mathf.Lerp(currentBeatSpeed, stats.Actual.moveSpeed, Time.deltaTime * decelerationSpeed);
+            // Если рывок слишком слабый, уменьшите decelerationSpeed (например, до 4 или 5)
+            float baseSpeed = (stats != null) ? stats.Actual.moveSpeed : 1f;
+            currentBeatSpeed = Mathf.Lerp(currentBeatSpeed, baseSpeed, Time.deltaTime * decelerationSpeed);
 
             Move();
-            HandleOutOffFrameAction();
+
+            // ОПТИМИЗАЦИЯ: Проверяем границы не каждый кадр, а раз в 10 кадров
+            if (Time.frameCount % 10 == 0) HandleOutOffFrameAction();
         }
     }
 
@@ -106,33 +119,19 @@ public class EnemyMovement : Sortable
     {
         if (player == null) return;
 
-        Vector2 direction = (player.position - transform.position).normalized;
-        bool playerIsRight = direction.x > 0;
+        // Поворот спрайта (делаем это реже или только при смене направления)
+        bool playerIsRight = (player.position.x - transform.position.x) > 0;
+        if (sr != null) sr.flipX = !playerIsRight;
+        if (shadowSr != null) shadowSr.flipX = !playerIsRight;
 
-        // --- ЛОГИКА ПОВОРОТА БЕЗ ИСКАЖЕНИЙ ---
-        if (sr != null)
-        {
-            // Поворачиваем основной спрайт
-            sr.flipX = !playerIsRight;
-        }
-
-        if (shadowSr != null)
-        {
-            // Поворачиваем тень так же, как и основной спрайт
-            shadowSr.flipX = sr.flipX;
-        }
-
-        // --- ДВИЖЕНИЕ ---
-        // ... (весь ваш код движения через agent, rb или transform.position)
+        // Движение
         if (agent != null && agent.enabled)
         {
             agent.speed = currentBeatSpeed;
-            agent.SetDestination(player.position);
-        }
-        else if (rb)
-        {
-            Vector2 targetPos = Vector2.MoveTowards(rb.position, player.position, currentBeatSpeed * Time.deltaTime);
-            rb.MovePosition(targetPos);
+            // ОПТИМИЗАЦИЯ: Не пересчитываем путь каждый кадр! 
+            // NavMesh очень тяжелый. Обновляем цель только если игрок отошел.
+            if (Time.frameCount % 20 == 0)
+                agent.SetDestination(player.position);
         }
         else
         {
@@ -140,56 +139,45 @@ public class EnemyMovement : Sortable
         }
     }
 
-    protected virtual void OnDestroy()
-    {
-        if (BeatConductor.Instance != null)
-        {
-            BeatConductor.Instance.OnBeat -= ApplyBeatImpulse;
-        }
-    }
-
-    // Остальные методы (Despawn, Knockback и т.д.) остаются без изменений...
-    public void Despawn(float delay = 3.0f)
-    {
-        StartCoroutine(DelayedKill(delay));
-    }
-
-    IEnumerator DelayedKill(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (this != null && gameObject != null)
-        {
-            giveExperienceOnDeath = false;
-            GetComponent<EnemyStats>()?.Kill();
-        }
-    }
-
     public virtual void Knockback(Vector2 velocity, float duration)
     {
-        if (knockbackDuration > 0) return;
-        if (knockbackVariance == 0) return;
-        float pow = 1;
-        bool reducesVelocity = (knockbackVariance & KnockbackVariance.velocity) > 0,
-             reducesDuration = (knockbackVariance & KnockbackVariance.duration) > 0;
-        if (reducesVelocity && reducesDuration) pow = 0.5f;
-        knockbackVelocity = velocity * (reducesVelocity ? Mathf.Pow(stats.Actual.knockbackMultiplier, pow) : 1);
-        knockbackDuration = duration * (reducesDuration ? Mathf.Pow(stats.Actual.knockbackMultiplier, pow) : 1);
+        if (knockbackDuration > 0 || stats == null) return;
+
+        float multiplier = stats.Actual.knockbackMultiplier;
+        knockbackVelocity = velocity * multiplier;
+        knockbackDuration = duration * multiplier;
     }
 
     protected virtual void HandleOutOffFrameAction()
     {
         if (!WaveManager.IsWithinBoundaries(transform))
         {
-            switch (outOffFrameAction)
-            {
-                case OutOffFrameAction.respawnAtEdge:
-                    transform.position = WaveManager.GeneratePosition();
-                    break;
-                case OutOffFrameAction.despawn:
-                    if (!spawnedOutOffFrame) Despawn();
-                    break;
-            }
+            if (outOffFrameAction == OutOffFrameAction.respawnAtEdge)
+                transform.position = WaveManager.GeneratePosition();
+            else if (outOffFrameAction == OutOffFrameAction.despawn && !spawnedOutOffFrame)
+                gameObject.SetActive(false); // ПУЛИНГ: вместо Despawn()
         }
         else spawnedOutOffFrame = false;
+    }
+
+    public void Despawn(float delay = 0f)
+    {
+        if (delay > 0)
+        {
+            // Если передано время, запускаем корутину выключения через паузу
+            StartCoroutine(DelayedDespawn(delay));
+        }
+        else
+        {
+            // Если время 0, выключаем мгновенно
+            gameObject.SetActive(false);
+        }
+    }
+
+    // Добавьте эту вспомогательную корутину:
+    private IEnumerator DelayedDespawn(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
     }
 }

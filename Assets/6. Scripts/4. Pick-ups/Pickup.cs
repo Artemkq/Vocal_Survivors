@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Pickup : Sortable
+public class Pickup : MonoBehaviour
 {
     public float lifespan = 0.5f;
     protected PlayerStats target; // Если у подбираемого предмета есть цель, он летит к ней
@@ -9,12 +9,6 @@ public class Pickup : Sortable
     [Header("Bonuses")]
     public int experience;
     public int health;
-
-    protected override void Start()
-    {
-        base.Start();
-        // Логика инициализации позиции удалена, так как предмет теперь статичен до подбора
-    }
 
     protected virtual void Update()
     {

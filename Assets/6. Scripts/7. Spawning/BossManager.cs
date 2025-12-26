@@ -94,7 +94,7 @@ public class BossManager : MonoBehaviour
     public static bool HasExceededMaxEnemies()
     {
         if (!instance) return false; //If there is no spawn manager, dont limit max enemies
-        if (EnemyStats.count > instance.maximumEnemyCount) return true;
+        if (WaveManager.instance.activeEnemies.Count > instance.maximumEnemyCount) return true;
         return false;
     }
 
@@ -105,7 +105,7 @@ public class BossManager : MonoBehaviour
         // Если mustKillAll включен, волна не заканчивается, пока есть враги.
         if (currentBoss.mustKillAll)
         {
-            if (EnemyStats.count > 0)
+            if (WaveManager.instance.activeEnemies.Count > 0)
             {
                 return false; // Еще не закончилась, враги живы
             }
